@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import "./LandingPage.css";
 import logo from "../assets/SOCSLogo.png";
 import ParticlesBackground from "./ParticlesBackground"
@@ -12,7 +11,6 @@ function LandingPage() {
             <a href={"#0"}> 
                 <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
             </a>
-            <Button variant="primary">Primary</Button>{' '}
         </header>
 
         <div className="MiddleContent">
@@ -21,9 +19,7 @@ function LandingPage() {
             Welcome!
             </h1>
             <p>McGill School of Computer Science Communication Platform</p>
-        </div>
-
-        <div className="SignIn">
+            <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '}
         </div>
     </div>
     )

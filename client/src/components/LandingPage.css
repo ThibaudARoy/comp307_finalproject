@@ -19,12 +19,40 @@
     min-height: 80vh;
 }
 .MiddleContent h1 {
-    font-size:10vw;
     font-weight: 700;
 }
 
 .MiddleContent p {
-    font-size:1.5vw;
     font-weight: 600;
 }
 
+.SignInBtn {
+    background-color: black !important;
+    border-color:black !important; 
+}
+
+.SignInBtn:hover {
+    color: #ec1c2e !important;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .MiddleContent h1 {
+        font-size:85px;
+    }
+    
+    .MiddleContent p {
+        font-size:14px;
+    }
+  }
+
+  @media only screen and (min-width: 601px) {
+    .MiddleContent h1 {
+        font-size:110px;
+    }
+    
+    .MiddleContent p {
+        font-size:17px;
+    }
+}
+  

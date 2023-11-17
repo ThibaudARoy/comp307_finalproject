@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import LandingPage from './LandingPage.js'
+
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -22,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <LandingPage></LandingPage>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>

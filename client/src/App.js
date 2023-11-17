@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import 'bootstrap/dist/css/bootstrap.min.css'  //
-import LandingPage from './components/LandingPage.jsx'  //
 
 
 function App() {
@@ -24,7 +22,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <LandingPage />
         {/* Display the message from the server */}
         {serverMessage && <p>Server says: {serverMessage}</p>}
         

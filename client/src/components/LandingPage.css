@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@600;700&display=swap');
+
+.LandingPage {
+    min-height: 100vh;
+    color: white;
+    font-family:Cabin, sans-serif;
+}
+
+.SOCSlogo{
+    margin-left:5px;
+    margin-top:5px;
+}
+
+.MiddleContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+.MiddleContent h1 {
+    font-size:10vw;
+    font-weight: 700;
+}
+
+.MiddleContent p {
+    font-size:1.5vw;
+    font-weight: 600;
+}
+

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import LandingPage from './LandingPage.js'
+import 'bootstrap/dist/css/bootstrap.min.css'  //
+import LandingPage from './components/LandingPage.jsx'  //
 
 
 function App() {
@@ -24,20 +24,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <LandingPage></LandingPage>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <LandingPage />
         {/* Display the message from the server */}
         {serverMessage && <p>Server says: {serverMessage}</p>}
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        
       </header>
     </div>
   );

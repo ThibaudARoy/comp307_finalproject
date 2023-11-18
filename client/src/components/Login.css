@@ -1,0 +1,38 @@
+.back {
+    background-color: #DB4642;
+    height: 100%;
+}
+
+/*TODO: background-colour, implement ParticlesBackground?*/
+
+.LoginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 70vh;
+    height: 600px;
+    padding-top: 70px;
+    background-color: white;
+    margin-top: 90px;
+    margin-left: 350px;
+    margin-right: 350px;
+    border-radius: 20px;
+   
+}
+
+.inputs {
+    margin-top: 70px;
+}
+
+.inputs input{
+    width: 380px;
+}
+
+.required {
+    color: red;
+}
+
+.login-button {
+    width: 380px;
+    margin-top: 30px;
+}

@@ -3,6 +3,8 @@ import logo from "../assets/SOCSLogo.png";
 import ParticlesBackground from "./ParticlesBackground"
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./Login";
+import {Link} from "react-router-dom";
 
 function LandingPage() {
     return(
@@ -19,7 +21,8 @@ function LandingPage() {
             Welcome!
             </h1>
             <p>McGill School of Computer Science Communication Platform</p>
-            <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '}
+           
+            <Link to="/login">  <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '} </Link>
         </div>
     </div>
     )

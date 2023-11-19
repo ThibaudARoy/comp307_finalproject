@@ -1,7 +1,7 @@
 import "./Login.css";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ParticlesBackground from "./ParticlesBackground";
+import {Link} from "react-router-dom";
 
 function Login() {
     return (
@@ -19,6 +19,8 @@ function Login() {
                 </div>
                 
                 <Button variant="danger" className="login-button" size="lg">Login</Button>{' '}
+                <p></p>
+                <p>Need an account? <Link to="/register">Register</Link> </p>
             </div>
         </div>  
     )

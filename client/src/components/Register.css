@@ -1,4 +1,4 @@
-.back {
+.background {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -6,7 +6,7 @@
     background-color: #DB4642;
 }
 
-.LoginPage {
+.RegisterPage {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,27 +15,27 @@
     border-radius: 20px;
 }
 
-.inputs {
-    margin-top: 70px;
+.inputs-register {
+    margin-top: 40px;
 }
 
-.inputs h5 {
-    color: #616161;
-}
-
-.inputs input{
+.inputs-register input {
     width: 380px;
+}
+
+.inputs-register h5{
+    color: #616161;
 }
 
 .required {
     color: red;
 }
 
-.login-button {
+.register-button {
     width: 380px;
     margin-top: 30px;
 }
 
-h1 {
+h2 {
     font-weight: bold;
 }

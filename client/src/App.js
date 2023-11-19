@@ -3,9 +3,8 @@ import "./App.css";
 import axios from "axios";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
-import ReactDOM from "react-dom";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-
+import Register from "./components/Register";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -32,7 +31,8 @@ if (serverMessage) {
     <BrowserRouter>
         <Routes>
             <Route path="/" Component={LandingPage}/>
-            <Route path="/login" Component={Login}/>  
+            <Route path="/login" Component={Login}/>
+            <Route path="/register" Component={Register}/>
         </Routes>
     </BrowserRouter>
   );

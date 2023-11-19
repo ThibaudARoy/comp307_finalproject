@@ -1,0 +1,50 @@
+.back {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #DB4642;
+}
+
+.LoginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 70px;
+    border-radius: 20px;
+}
+
+.inputs {
+    margin-top: 70px;
+}
+
+.inputs h5 {
+    color: #616161;
+}
+
+.inputs input{
+    width: 380px;
+}
+
+.required {
+    color: red;
+}
+
+.login-button {
+    width: 380px;
+    margin-top: 30px;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .LoginPage {
+        width: 100%; 
+        padding: 20px;
+        height: 100%;
+        border-radius: 0%;
+    }
+}

@@ -1,0 +1,50 @@
+.background {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #DB4642;
+}
+
+.RegisterPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 70px;
+    border-radius: 20px;
+}
+
+.inputs-register {
+    margin-top: 40px;
+}
+
+.inputs-register input {
+    width: 380px;
+}
+
+.inputs-register h5{
+    color: #616161;
+}
+
+.required {
+    color: red;
+}
+
+.register-button {
+    width: 380px;
+    margin-top: 30px;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .RegisterPage {
+        width: 100%; 
+        padding: 20px;
+        height: 100%;
+        border-radius: 0%;
+    }
+}

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-
+import LandingPage from "./components/LandingPage";
+import Login from "./components/Login";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Register from "./components/Register";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -19,14 +22,19 @@ function App() {
       });
   }, []);
 
+  // Log the server message
+if (serverMessage) {
+  console.log("Server says: " + serverMessage);
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* Display the message from the server */}
-        {serverMessage && <p>Server says: {serverMessage}</p>}
-        
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" Component={LandingPage}/>
+            <Route path="/login" Component={Login}/>
+            <Route path="/register" Component={Register}/>
+        </Routes>
+    </BrowserRouter>
   );
 }
 

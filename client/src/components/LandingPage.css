@@ -35,6 +35,19 @@
     color: #ec1c2e !important;
 }
 
+.BottomRegister{
+    text-align: center;
+}
+
+.SignUpLink{
+    text-decoration: none;
+    color: #750506;
+}
+
+.SignUpLink:hover{
+    color: #Fba1a1;
+}
+
 
 @media only screen and (max-width: 600px) {
     .MiddleContent h1 {

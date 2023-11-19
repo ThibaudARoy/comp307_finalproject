@@ -9,7 +9,7 @@ function LandingPage() {
     return(
     <div className="LandingPage">
         <header>
-            <a href={"#0"}> 
+            <a href={"localhost:3000"}> 
                 <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
             </a>
         </header>
@@ -22,6 +22,9 @@ function LandingPage() {
             <p>McGill School of Computer Science Communication Platform</p>
            
             <Link to="/login">  <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '} </Link>
+        </div>
+        <div className="BottomRegister">
+            <p>Don't have an account?  <a href={"test"} className="SignUpLink">Register</a></p>
         </div>
     </div>
     )

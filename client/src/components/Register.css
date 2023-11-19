@@ -39,3 +39,12 @@
 h2 {
     font-weight: bold;
 }
+
+@media only screen and (max-width: 600px) {
+    .RegisterPage {
+        width: 100%; 
+        padding: 20px;
+        height: 100%;
+        border-radius: 0%;
+    }
+}

@@ -24,7 +24,7 @@ function LandingPage() {
             <Link to="/login">  <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '} </Link>
         </div>
         <div className="BottomRegister">
-            <p>Don't have an account?  <a href={"test"} className="SignUpLink">Register</a></p>
+            <p>Don't have an account?  <Link to="/register" className="SignUpLink">Register</Link></p>
         </div>
     </div>
     )

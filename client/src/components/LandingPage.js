@@ -15,7 +15,7 @@ function LandingPage() {
         </header>
 
         <div className="MiddleContent">
-            <ParticlesBackground/>
+        <ParticlesBackground/>
             <h1>
             Welcome!
             </h1>

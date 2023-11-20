@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
 
 .background {
     height: 100vh;
@@ -33,6 +34,9 @@ h5{
 .inputs-register {
     margin-top: 40px;
 }
+input {
+    font-family: Noto Sans JP, sans-serif;
+}
 
 .inputs-register input {
     width: 380px;
@@ -64,6 +68,13 @@ h2 {
 
 .LoginLink:hover{
     text-decoration: underline solid !important;
+}
+.invalid {
+    color: red !important;
+}
+
+.error-message{
+    color:#ec1c2e;
 }
 
 @media only screen and (max-width: 600px) {

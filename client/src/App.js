@@ -28,6 +28,7 @@ if (serverMessage) {
 }
 
   return (
+    <div>
     <BrowserRouter>
         <Routes>
             <Route path="/" Component={LandingPage}/>
@@ -35,6 +36,7 @@ if (serverMessage) {
             <Route path="/register" Component={Register}/>
         </Routes>
     </BrowserRouter>
+    </div>
   );
 }
 

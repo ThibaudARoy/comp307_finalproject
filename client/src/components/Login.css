@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .back {
     display: flex;
     flex-direction: column;
@@ -19,6 +21,9 @@ header{
     padding: 70px;
     border-radius: 20px;
     align-self: center;
+}
+input {
+    font-family: Noto Sans JP, sans-serif;
 }
 
 .inputs {

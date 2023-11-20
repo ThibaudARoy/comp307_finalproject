@@ -102,6 +102,7 @@ function Register() {
                     </div>
                     <Button variant="danger" type="submit" className="register-button" size="lg">Register</Button>{' '}
                 </form>
+                <p></p>
                 <p>Already have an account? <Link className="LoginLink" to="/login">Sign in</Link></p>
             </div>
         </div>

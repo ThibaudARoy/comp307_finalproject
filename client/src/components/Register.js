@@ -53,7 +53,7 @@ function Register() {
             setPasswordError('');
         }
 
-        if (!isEmailValid || !isPasswordValid) {
+        if (!firstNameValid || !lastNameValid || !isEmailValid || !isPasswordValid) {
             return;
         }
 

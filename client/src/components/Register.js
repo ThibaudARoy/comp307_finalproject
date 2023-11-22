@@ -20,7 +20,9 @@ function Register() {
     const [passwordValid, setPasswordValid] = useState(true);
 
     const validateEmail = (email) => {
-        return email.includes("@");
+        const atPosition = email.indexOf('@');
+        const dotPosition = email.lastIndexOf('.');
+        return (atPosition > 0 && dotPosition > atPosition + 1 && dotPosition < email.length - 1);
     };
 
     const validatePassword = (password) => {
@@ -30,8 +32,8 @@ function Register() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setFirstNameValid(!!firstName);
-        setLastNameValid(!!lastName);
+        setFirstNameValid(firstName.trim() !== '');
+        setLastNameValid(lastName.trim() !== '');
 
         const isEmailNotEmpty = !!email;
         const isPasswordNotEmpty = !!password;

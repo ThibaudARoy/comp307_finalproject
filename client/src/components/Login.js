@@ -17,7 +17,7 @@ function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setEmailValid(!!email);
+        setEmailValid(email.trim() !== '');
         setPasswordValid(!!password);
 
         if (! emailValid || ! passwordValid){

@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap');
+
+.LandingPage {
+    min-height: 100vh;
+    color: white;
+    font-family:Cabin, sans-serif;
+}
+
+header{
+    margin-left:5px;
+    padding-top:5px;
+
+}
+
+.MiddleContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+
+}
+.MiddleContent h1 {
+    font-weight: 700;
+}
+
+.MiddleContent p {
+    font-weight: 600;
+}
+
+.SignInBtn {
+    background-color: black !important;
+    border-color:black !important; 
+    font-weight:600 !important;
+}
+
+.SignInBtn:hover {
+    color: #ec1c2e !important;
+}
+
+.BottomRegister{
+    text-align: center;
+}
+
+.SignUpLink{
+    text-decoration: none;
+    color: #750506;
+}
+
+.SignUpLink:hover{
+    color: #Fba1a1;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .MiddleContent h1 {
+        font-size:85px;
+    }
+    
+    .MiddleContent p {
+        font-size:14px;
+    }
+  }
+
+  @media only screen and (min-width: 601px) {
+    .MiddleContent h1 {
+        font-size:110px;
+    }
+    
+    .MiddleContent p {
+        font-size:17px;
+    }
+}
+  

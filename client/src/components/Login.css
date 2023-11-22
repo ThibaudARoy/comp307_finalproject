@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
+.back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+header{
+    margin-left:5px;
+    padding-top:px;
+}
+
+.LoginPage {
+    font-family:Cabin, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 70px;
+    border-radius: 20px;
+    align-self: center;
+}
+input {
+    font-family: Noto Sans JP, sans-serif;
+}
+
+.inputs {
+    margin-top: 30px;
+}
+
+.inputs h5 {
+    color: #616161;
+    font-weight:600;
+}
+
+.inputs input{
+    width: 380px;
+}
+
+.required {
+    color: red;
+}
+
+.login-button {
+    width: 380px;
+    margin-top: 30px;
+    background-color: #ec1c2e;
+}
+
+h1 {
+    font-weight: bold;
+}
+.RegisterLink{
+    text-decoration: none;
+    color:#ec1c2e;
+}
+
+.RegisterLink:hover{
+    text-decoration: underline solid !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .LoginPage {
+        width: 100%; 
+        padding: 20px;
+        height: 100%;
+        border-bottom-left-radius: 5%;
+        border-bottom-right-radius: 5%;
+        border-top-left-radius:0;
+        border-top-right-radius:0;
+    }
+}

@@ -24,8 +24,8 @@ const connectDB = require("./config/db");
 connectDB();
 
 // Routes
-// Example: const usersRouter = require('./routes/users');
-// app.use('/users', usersRouter);
+const usersRouter = require('./routes/users');
+app.use('/users', usersRouter);
 
 const PORT = process.env.PORT || 5000;
 

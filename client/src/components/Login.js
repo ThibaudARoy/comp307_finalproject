@@ -32,9 +32,9 @@ function Login() {
     return ( 
         <div className="back">
         <header>
-            <a href={"localhost:3000"}> 
+            <Link to="/"> 
                 <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
-            </a>
+            </Link>
         </header>
             <ParticlesBackground/>
             <div className="LoginPage">

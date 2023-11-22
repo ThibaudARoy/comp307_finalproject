@@ -69,9 +69,9 @@ function Register() {
     return (
         <div className="background">
             <header>
-                <a href={"localhost:3000"}>
+                <Link to="/">
                     <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
-                </a>
+                </Link>
             </header>
             <ParticlesBackground />
             <div className="RegisterPage">

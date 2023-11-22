@@ -9,9 +9,9 @@ function LandingPage() {
     return(
     <div className="LandingPage">
         <header>
-            <a href={"localhost:3000"}> 
+            <Link to="/"> 
                 <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
-            </a>
+            </Link>
         </header>
 
         <div className="MiddleContent">

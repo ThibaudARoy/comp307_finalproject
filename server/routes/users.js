@@ -34,7 +34,6 @@ router.post('/register', function(req, res) {
         if (!user) {
             res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
-            console.log("found user");
             // check if password matches
             user.comparePassword(req.body.password, function (err, isMatch) {
               if (isMatch && !err) {

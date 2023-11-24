@@ -25,7 +25,8 @@ connectDB();
 
 // Routes
 const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
+//const channelRouter = require('./routes/channels');
+app.use('/api/auth/', usersRouter);
 
 const PORT = process.env.PORT || 5000;
 

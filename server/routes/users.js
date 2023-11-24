@@ -10,7 +10,7 @@ const key = process.env.JWT_SECRET;
 
 router.post('/register', function(req, res) {
     if (!req.body.email|| !req.body.password || !req.body.firstName || !req.body.lastName) {
-      res.json({success: false, msg: 'Please pass email, password, first name, and last name.'});
+      res.status(401).json({success: false, msg: 'Please pass email, password, first name, and last name.'});
     } else {
       var newUser = new User({
         email: req.body.email,
@@ -19,9 +19,9 @@ router.post('/register', function(req, res) {
         lastName: req.body.lastName
       });
       newUser.save().then(() =>{
-        res.json({success: true, msg: 'Created new user.'});
+        res.status(200).json({success: true, msg: 'Created new user.'});
       }).catch((err) => {
-        return res.json({success: false, msg: 'User with that email already exists.'});
+        return res.status(401).json({success: false, msg: 'User with that email already exists.'});
       });
     }
   });
@@ -41,7 +41,7 @@ router.post('/register', function(req, res) {
                 // if user is found and password is right create a token
                 var token = jwt.sign({ email: user.email }, key,  {expiresIn: "1h"});
                 // return the information including token as JSON
-                res.json({success: true, token: 'JWT ' + token});
+                res.json({success: true, token: token});
               } else {
                 res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
               }

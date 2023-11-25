@@ -24,9 +24,15 @@ const connectDB = require("./config/db");
 connectDB();
 
 // Routes
-const usersRouter = require('./routes/users');
+const usersRouter = require("./routes/users");
+const boardsRouter = require("./routes/boards");
+const membersRouter = require("./routes/members");
+const messagesRouter = require("./routes/messages");
 //const channelRouter = require('./routes/channels');
-app.use('/api/auth/', usersRouter);
+app.use("/api/auth/", usersRouter);
+app.use("/api/", boardsRouter);
+app.use("/api/", membersRouter);
+app.use("/api/", messagesRouter);
 
 const PORT = process.env.PORT || 5000;
 

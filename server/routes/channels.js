@@ -1,59 +1,78 @@
-var mongoose = require('mongoose');
-var passport = require('passport');
-var config = require('../config/db');
-require('../config/passport')(passport);
 var express = require('express');
 var router = express.Router();
-var User = require("../models/Channel");
-var User = require("../models/Board");
+var Board = require("../models/Board");
 const Channel = require('../models/Channel');
+const { isAuthenticated } = require("../middleware/auth");
 
-router.post('/', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-
-    if (token) {
-      var boardId = req.params.boardId;
+router.post('/boards/:boardId/channels',
+  isAuthenticated(),
+  async (req, res) => {
+    try {
+      const boardId = req.params.boardId;
+      const name = req.body.name;
+      const members = req.body.members;
       var newChannel = new Channel({
-        name: req.body.name,
+        name: name,
         board: boardId,
-        members: req.body.members,
+        members: members,
         //messages: req.body.messages
       });
-  
-      newChannel.save().then(() => {
-        res.status(200).json({success: true, msg: 'Successful created new channel.'});
-      }).catch((err)=> {
-        return res.status(401).json({success: false, msg: 'Create channel failed.'});
+
+      await newChannel.save();
+      res.status(200).json({ newChannel });
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+
+  });
+
+router.get('/board/:boardId/channels',
+  isAuthenticated(),
+  async (req, res) => {
+    try {
+      const boardId = req.params.boardId;
+      const board = await Board.findOne({
+        _id: boardId,
+        members: req.user._id
       });
 
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+      if (board) {
+        const channels = await Channel.find({ board: boardId });
+        res.status(200).json(channels);
+      } else {
+        return res
+          .status(403)
+          .json({ message: "You are not a member of the board." });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
     }
+
   });
 
-  router.get('/', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
+router.delete('/boards/:boardId/channels/:channelId',
+  isAuthenticated(),
+  async (req, res) => {
+    try {
+      const channelId = req.params.channelId;
 
-    if (token) {
-        const board = Board.findById(req.params.boardId);
-        if (board) {
-            res.status(200).json({success: true, channels: board.channels});
-        } else {
-            return res.status(401).json({success: false, msg: "Board does not exist. Id : " + req.params.boardId});
-        }
-    } else {
-        return res.status(403).send({success: false, msg: 'Unauthorized.'});
+      const channel = Channel.findById(channelId);
 
+      if (!channel) {
+        return res.status(404).json({message: "Channel not found"});
+      } 
+
+      if (!(channel.board.admin == req.user._id)) {
+        return res
+          .status(403)
+          .json({ message: "You are not the owner of this board." });
+      }
+
+      await channel.remove();
+      res.status(200).json({message: "Channel removed successfully"});
+
+    } catch (error) {
+      return res.status(500).json({message: error.message});
     }
+
   });
-
-  router.delete('/', passport.authenticate('jwt', { session: false}), function(req, res) {});
-
-
-  getToken = function (headers) {
-    if (headers && headers.authorization) {
-      return headers.authorization;
-    } else {
-      return null;
-    }
-  };

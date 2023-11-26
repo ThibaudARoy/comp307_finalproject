@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Register from "./pages/Register";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -29,6 +30,7 @@ if (serverMessage) {
 
   return (
     <div>
+      <Sidebar/>
     <BrowserRouter>
         <Routes>
             <Route path="/" Component={LandingPage}/>

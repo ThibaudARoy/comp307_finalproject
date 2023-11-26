@@ -1,16 +1,23 @@
 import "./Register.css"
+import axios from 'axios';
 import logo from "../assets/SOCSLogo.png";
 import ParticlesBackground from "./ParticlesBackground";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 
 function Register() {
+    const [notification, setNotification] = useState('');
+    const navigate = useNavigate();
+    const [registrationError, setRegistrationError] = useState(null);
+
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    //Input Validation
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
@@ -29,7 +36,8 @@ function Register() {
         return password.length >= 8;
     };
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         setFirstNameValid(firstName.trim() !== '');
@@ -58,8 +66,35 @@ function Register() {
         if (!firstNameValid || !lastNameValid || !isEmailValid || !isPasswordValid) {
             return;
         }
+        //Input Validation Ends
 
-        // Handle successful registration here
+        const userData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+        };
+        try {
+            const response = await axios.post('/register', userData);
+    
+            if (response.data.success) {
+                setNotification('Registration was successful');
+                setTimeout(() => {
+                    setNotification('');
+                    navigate('/');
+                }, 3000); 
+            } 
+            else if (response.status === 409){
+                setRegistrationError("An account with the specified email address already exists. Are you sure you don't already have an account?");
+            }
+            else {
+                setRegistrationError("Error while registering new user. Please try again later.");
+            }
+        } catch (error) {
+            // Handle any network or server errors here
+            console.error('Registration failed:', error);
+        }
+
     };
 
     const getH5ClassName = (isValid) => {
@@ -72,11 +107,17 @@ function Register() {
                 <Link to="/">
                     <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
                 </Link>
+                {notification && (
+                <div className="notification">
+                    {notification}
+                </div>
+            )}
             </header>
             <ParticlesBackground />
             <div className="RegisterPage">
                 <h1>Create an account</h1>
                 <p>We suggest using your McGill email.</p>
+                {registrationError && <p className="error-message">{registrationError}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="inputs-register">
                         {/* First Name */}

@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Register from "./components/Register";
+import SelectBoard from "./components/SelectBoard"
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -34,6 +35,7 @@ if (serverMessage) {
             <Route path="/" Component={LandingPage}/>
             <Route path="/login" Component={Login}/>
             <Route path="/register" Component={Register}/>
+            <Route path="/select" Component={SelectBoard}/>
         </Routes>
     </BrowserRouter>
     </div>

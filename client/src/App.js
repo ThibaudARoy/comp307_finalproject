@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Register from "./pages/Register";
 import Sidebar from "./components/Sidebar";
+import SelectBoard from "./components/SelectBoard"
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -36,6 +37,7 @@ if (serverMessage) {
             <Route path="/" Component={LandingPage}/>
             <Route path="/login" Component={Login}/>
             <Route path="/register" Component={Register}/>
+            <Route path="/select" Component={SelectBoard}/>
         </Routes>
     </BrowserRouter>
     </div>

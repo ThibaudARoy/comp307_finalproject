@@ -35,11 +35,9 @@ function Login() {
     
             if (response.data.success) {
                 navigate('/select'); 
-            } else {
-                setLoginError("User not found. There may be an error with the email/password entered.")
             }
         } catch (error) {
-            console.error('Login failed:', error);
+            setLoginError("User not found. There may be an error with the email/password entered.")
         }
 
     }

@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 function Register() {
     const [notification, setNotification] = useState('');
     const navigate = useNavigate();
-    const [registrationError, setRegistrationError] = useState(null);
+    const [registrationError, setRegistrationError] = useState('');
 
 
     const [firstName, setFirstName] = useState('');
@@ -78,23 +78,20 @@ function Register() {
             const response = await axios.post('/api/auth/register', userData);
     
             if (response.data.success) {
-                setNotification('Registration was successful');
+                setNotification('✓ Successful registration!');
                 setTimeout(() => {
                     setNotification('');
                     navigate('/');
                 }, 3000); 
             } 
-            else if (response.status === 409){
+        } catch (error) {
+            if (error.response?.status === 409){
                 setRegistrationError("An account with the specified email address already exists. Are you sure you don't already have an account?");
             }
             else {
                 setRegistrationError("Error while registering new user. Please try again later.");
             }
-        } catch (error) {
-            // Handle any network or server errors here
-            console.error('Registration failed:', error);
         }
-
     };
 
     const getH5ClassName = (isValid) => {
@@ -107,12 +104,12 @@ function Register() {
                 <Link to="/">
                     <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
                 </Link>
-                {notification && (
+            </header>
+            {notification && (
                 <div className="notification">
                     {notification}
                 </div>
             )}
-            </header>
             <ParticlesBackground />
             <div className="RegisterPage">
                 <h1>Create an account</h1>

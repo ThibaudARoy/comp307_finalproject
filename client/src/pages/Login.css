@@ -21,6 +21,7 @@ header{
     padding: 70px;
     border-radius: 20px;
     align-self: center;
+    width:545px;
 }
 input {
     font-family: Noto Sans JP, sans-serif;

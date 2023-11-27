@@ -75,7 +75,7 @@ function Register() {
             password: password,
         };
         try {
-            const response = await axios.post('/register', userData);
+            const response = await axios.post('/api/auth/register', userData);
     
             if (response.data.success) {
                 setNotification('Registration was successful');

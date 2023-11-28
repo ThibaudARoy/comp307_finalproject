@@ -1,0 +1,22 @@
+.UserBoardButton{
+    color:black;
+}
+
+.userBoard{
+    width:200px;
+    height:100px;
+    background-color: #E8E8E8;
+    border:1px solid lightgrey;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.userBoard:hover{
+    background-color: lightgrey;
+    border:1px solid grey;
+}
+.userBoard:active{
+    background-color: grey !important;
+    border:1px solid grey !important;
+}

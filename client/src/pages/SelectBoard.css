@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
+.SelectBoard{
+    background-color: #ec1c2e;
+    font-family:Cabin, sans-serif;
+}
+
+.Boards{
+    background-color: white;
+}
+
+.BoardsContent{
+    margin-left:100px;
+    padding-top:50px;
+    margin-right:100px;
+}
+.BoardsContent h1{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+ul{
+    list-style-type: none;
+    margin-left:0;
+    padding-left:0;
+}
+
+li{
+    display:inline-block;
+    margin-right:20px;
+    vertical-align:top;
+    margin-bottom:20px;
+}

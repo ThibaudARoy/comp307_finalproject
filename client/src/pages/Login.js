@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
     const navigate = useNavigate();
-    const [loginError, setLoginError] = useState(null);
+    const [loginError, setLoginError] = useState("");
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,7 +21,7 @@ function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        setEmailValid(email.trim() !== '');
+        setEmailValid(!!email && email.trim() !== '' && email.includes("@"));
         setPasswordValid(!!password);
 
         if (! emailValid || ! passwordValid){

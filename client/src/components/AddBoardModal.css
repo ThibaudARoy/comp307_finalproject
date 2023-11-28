@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
+.headerModal{
+    background-color: #ec1c2e;
+    color:white;
+    font-family:Cabin, sans-serif;
+}
+
+.titleModal{
+    font-weight:700 !important;
+}
+
+label{    
+    color: #616161;
+    font-family:Cabin, sans-serif;
+    font-weight:600 !important;
+    font-size:20px;
+}
+
+input{
+    font-family: Noto Sans JP, sans-serif;
+    margin-bottom:15px;
+    
+
+}
+
+.adminName{
+    background-color:#dee2e6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: Noto Sans JP, sans-serif;
+    border:1px solid #dee2e6;
+    border-radius:5px;
+    height:40px;
+    margin-bottom:15px;
+}
+
+.adminName p{
+    margin-bottom:0;
+    margin-left:10px;
+    font-size:16.5px;
+}
+
+.footerModal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submitBoard{
+    width:300px;
+    height:50px;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    font-size:25px;
+    background-color:#ec1c2e;
+}
+

@@ -5,6 +5,16 @@
     font-family:Cabin, sans-serif;
 }
 
+header{
+    display: flex;
+    flex-direction:row;
+
+}
+.child2{
+    margin-left:auto;
+    margin-right:5px;
+
+}
 .Boards{
     background-color: white;
 }
@@ -31,3 +41,33 @@ li{
     vertical-align:top;
     margin-bottom:20px;
 }
+ .userButton{
+    width:55px;
+    height:45px;
+    background-color:#ec1c2e  !important;
+    border:1px solid #d4192a  !important;
+}
+
+.userButton:hover{
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.userButton:active{
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
+.userButton img{
+    height:auto;
+    width:25px;
+}
+
+.userButton::after {
+    display: none !important; 
+  }
+
+  .LogoutOption:active{
+    background-color:#ec1c2e !important;
+  }
+

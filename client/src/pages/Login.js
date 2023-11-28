@@ -48,7 +48,7 @@ function Login() {
     return ( 
         <div className="back">
         <header>
-            <Link to="/"> 
+            <Link to="/login"> 
                 <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
             </Link>
         </header>

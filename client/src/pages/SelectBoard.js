@@ -2,7 +2,7 @@ import "./SelectBoard.css";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import logo from "../assets/SOCSLogo.png";
-import usericon from "../assets/user.png"
+import usericon from "../assets/user.png";
 import Dropdown from 'react-bootstrap/Dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";

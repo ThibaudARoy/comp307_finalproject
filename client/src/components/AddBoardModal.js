@@ -31,10 +31,12 @@ function AddBoardModal({ show, onHide, onSubmit }) {
           </div>
           <div className="form-group">
             <label>Admin</label>
-            <div className="adminName"><p>thomas.savage.dug@outlook.com</p></div>
+            {/* Need current user's name/email to specify they are the admin */}
+            <div className="adminName"><p>CURRENT USER EMAIL/NAME</p></div>
           </div>
           <div className="form-group">
             <label>Members</label>
+            {/* User inputs Members' Names/Emails. Then added to board's list in backend*/}
             <input
               type="text"
               className="form-control"

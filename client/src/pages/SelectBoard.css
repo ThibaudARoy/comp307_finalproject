@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
+.SelectBoard{
+    background-color: #ec1c2e;
+    font-family:Cabin, sans-serif;
+}
+
+header{
+    display: flex;
+    flex-direction:row;
+
+}
+.child2{
+    margin-left:auto;
+    margin-right:5px;
+
+}
+.Boards{
+    background-color: white;
+}
+
+.BoardsContent{
+    margin-left:100px;
+    padding-top:50px;
+    margin-right:100px;
+}
+.BoardsContent h1{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+ul{
+    list-style-type: none;
+    margin-left:0;
+    padding-left:0;
+}
+
+li{
+    display:inline-block;
+    margin-right:20px;
+    vertical-align:top;
+    margin-bottom:20px;
+}
+ .userButton{
+    width:55px;
+    height:45px;
+    background-color:#ec1c2e  !important;
+    border:1px solid #d4192a  !important;
+}
+
+.userButton:hover{
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.userButton:active{
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
+.userButton img{
+    height:auto;
+    width:25px;
+}
+
+.userButton::after {
+    display: none !important; 
+  }
+
+  .LogoutOption:active{
+    background-color:#ec1c2e !important;
+  }
+

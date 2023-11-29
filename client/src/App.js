@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
-import LandingPage from "./components/LandingPage";
-import Login from "./components/Login";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Register from "./components/Register";
+import Register from "./pages/Register";
+import SelectBoard from "./pages/SelectBoard"
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -34,6 +35,7 @@ if (serverMessage) {
             <Route path="/" Component={LandingPage}/>
             <Route path="/login" Component={Login}/>
             <Route path="/register" Component={Register}/>
+            <Route path="/select" Component={SelectBoard}/>
         </Routes>
     </BrowserRouter>
     </div>

@@ -1,18 +1,13 @@
 .sidebar {
-    width: 240px;
+    width: 200px;
+    height: 100vh;
     background-color: #2c2f33;
     color: #ffffff;
     padding: 20px;
-    flex-grow: 1;
 }
 
 .sidebar h2 {
     color: #ffffff;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 23px;
 }
 
 .sidebar ul {
@@ -29,19 +24,43 @@
     text-decoration: none;
 }
 
+.arrow {
+    display: inline-block;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+    font-size: 0.5em;
+    vertical-align: middle;
+}
+
+.arrow.open {
+    transform: rotate(90deg);
+}
+
+.group-name {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    margin-top: 30px;
+    color: gray;
+    cursor: pointer;
+}
+
+.group {
+    margin-bottom: 20px; 
+}
+
 .channel {
+    margin-bottom: -15px;
     text-transform: lowercase;
 }
 
 .channel:first-child {
-    margin-top: 30px;
+    margin-top: -15px;
 }
 
-.channel:hover a {
+.channel a:hover {
     background-color: #898989;
     color: white;
     border-radius: 5px;
-    width: 150px;
 }
 
 .channel a {
@@ -56,26 +75,4 @@ a.read {
 .unread {
     color: white;
     font-weight: bold;
-}
-
-.channel-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 15px;
-}
-
-.delete-button {
-    background-color: #2c2f33; 
-    color: #ffffff; 
-    border: none;
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.delete-button:hover {
-    background-color: #898989; 
 }

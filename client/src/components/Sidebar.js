@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import './Sidebar.css';
+import icon from "../assets/x_icon.png";
 
-function Sidebar() {
+function Sidebar(props) {
     const [channels, setChannels] = useState(['General', 'Random', 'React', 'JavaScript']);
     const [notifications, setNotifications] = useState({General: 3, Random: 0, React: 1, JavaScript: 0});
     const [newChannel, setNewChannel] = useState('');
@@ -35,11 +36,10 @@ function Sidebar() {
             <h2>COMP307 Project</h2>
             <ul>
                 {channels.map(channel => (
-                    <li className="channel" key={channel}>
-                        <div className="channel-row">
-                            {/*Fix link so right channel dynamically appears*/}
-                            <Link to={`/${channel}`} className={notifications[channel] > 0 ? 'unread' : 'read'}># {channel}</Link>
-                            <button className='delete-button' onClick={() => handleConfirmDelete(channel)}>-</button>
+                    <li className={`channel ${props.selectedChannel === channel ? 'selected-channel' : ''}`}  key={channel}>
+                        <div className="channel-row" onClick={() => props.onChannelClick(channel)}>
+                            <div className={notifications[channel] > 0 ? 'unread' : 'read'}># {channel}</div>
+                            <button className='delete-button' onClick={() => handleConfirmDelete(channel)}><img className='x-logo' src={icon}></img></button>
                         </div>
                     </li>
                 ))}

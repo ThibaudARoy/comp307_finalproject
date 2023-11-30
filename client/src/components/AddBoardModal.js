@@ -2,6 +2,7 @@ import "./AddBoardModal.css"
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 
 function AddBoardModal({ show, onHide, onSubmit }) {
   const [name, setName] = useState('');
@@ -47,9 +48,11 @@ function AddBoardModal({ show, onHide, onSubmit }) {
         </form>
       </Modal.Body>
       <Modal.Footer className="footerModal">
+        <Link to="/board">
         <Button variant="danger" onClick={handleSubmit} className="submitBoard">
           Create Board
         </Button>
+        </Link>
       </Modal.Footer>
     </Modal>
   );

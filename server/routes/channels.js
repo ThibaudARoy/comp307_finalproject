@@ -1,10 +1,11 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 var Board = require("../models/Board");
-const Channel = require('../models/Channel');
+const Channel = require("../models/Channel");
 const { isAuthenticated } = require("../middleware/auth");
 
-router.post('/boards/:boardId/channels',
+router.post(
+  "/boards/:boardId/channels",
   isAuthenticated(),
   async (req, res) => {
     try {
@@ -23,34 +24,32 @@ router.post('/boards/:boardId/channels',
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
+  }
+);
 
-  });
+router.get("/board/:boardId/channels", isAuthenticated(), async (req, res) => {
+  try {
+    const boardId = req.params.boardId;
+    const board = await Board.findOne({
+      _id: boardId,
+      members: req.user._id,
+    });
 
-router.get('/board/:boardId/channels',
-  isAuthenticated(),
-  async (req, res) => {
-    try {
-      const boardId = req.params.boardId;
-      const board = await Board.findOne({
-        _id: boardId,
-        members: req.user._id
-      });
-
-      if (board) {
-        const channels = await Channel.find({ board: boardId });
-        res.status(200).json(channels);
-      } else {
-        return res
-          .status(403)
-          .json({ message: "You are not a member of the board." });
-      }
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
+    if (board) {
+      const channels = await Channel.find({ board: boardId });
+      res.status(200).json(channels);
+    } else {
+      return res
+        .status(403)
+        .json({ message: "You are not a member of the board." });
     }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
 
-  });
-
-router.delete('/boards/:boardId/channels/:channelId',
+router.delete(
+  "/boards/:boardId/channels/:channelId",
   isAuthenticated(),
   async (req, res) => {
     try {
@@ -59,8 +58,8 @@ router.delete('/boards/:boardId/channels/:channelId',
       const channel = Channel.findById(channelId);
 
       if (!channel) {
-        return res.status(404).json({message: "Channel not found"});
-      } 
+        return res.status(404).json({ message: "Channel not found" });
+      }
 
       if (!(channel.board.admin == req.user._id)) {
         return res
@@ -69,10 +68,11 @@ router.delete('/boards/:boardId/channels/:channelId',
       }
 
       await channel.remove();
-      res.status(200).json({message: "Channel removed successfully"});
-
+      res.status(200).json({ message: "Channel removed successfully" });
     } catch (error) {
-      return res.status(500).json({message: error.message});
+      return res.status(500).json({ message: error.message });
     }
+  }
+);
 
-  });
+module.exports = router;

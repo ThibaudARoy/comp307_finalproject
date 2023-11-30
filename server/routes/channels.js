@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var Board = require("../models/Board");
+const express = require('express');
+const router = express.Router();
+const Board = require("../models/Board");
 const Channel = require('../models/Channel');
 const { isAuthenticated } = require("../middleware/auth");
 
@@ -76,3 +76,4 @@ router.delete('/boards/:boardId/channels/:channelId',
     }
 
   });
+  module.exports = router;

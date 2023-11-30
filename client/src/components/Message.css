@@ -1,3 +1,9 @@
 .message {
     width: 1200px;
+    position: absolute;
+    top: 120px;
+    left: 240px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
 }

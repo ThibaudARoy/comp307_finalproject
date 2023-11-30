@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Register from "./pages/Register";
 import SelectBoard from "./pages/SelectBoard"
+import Board from "./pages/Board"
 
 function App() {
   const [serverMessage, setServerMessage] = useState("");
@@ -37,6 +38,7 @@ if (serverMessage) {
             <Route path="/register" Component={Register}/>
             {/* Check if the user is logged in. If so, able to access SelectBoard. Else, Redirect to Login Page. (Same for other private pages) */}
             <Route path="/select" Component={SelectBoard}/>
+            <Route path="/board" Component={Board}/>
         </Routes>
     </BrowserRouter>
     </div>

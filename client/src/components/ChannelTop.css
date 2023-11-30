@@ -1,0 +1,15 @@
+.top {
+    height: 60px;
+    width: 1200px;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.top p {
+    font-weight: bold;
+    padding-left: 40px;
+    margin-top: 15px;
+    font-size: 30px;
+}

@@ -23,7 +23,7 @@ function Board(){
                 <Sidebar onChannelClick={handleChannelClick}  selectedChannel={selectedChannel}/>
                 <div className="channel">
                     <ChannelTop channel={selectedChannel}/>
-                    <Message channel={selectedChannel}/>
+                    <Message chatData={[{ content: "Hello", timestamp: Date.now(), creator: "User1" }, { content: "Hi", timestamp: Date.now(), creator: "User2" }]}/>
                     <Input/>
                 </div>
                 

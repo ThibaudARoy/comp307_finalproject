@@ -28,7 +28,7 @@ function SelectBoard() {
     };
     //Get the user's boards (Currently can't make it work, not sure why. (New user = Not initialized?))
     useEffect(() => {
-        axios.get('/api/boards')
+        axios.get('/api/boards', {headers: {Authorization: `${localStorage.getItem("token")}`}})
           .then((response) => {
             setUserBoards(response.data);
           })

@@ -34,6 +34,7 @@ function Login() {
             });
     
             if (response.data.success) {
+                localStorage.setItem('token', response.data.token);
                 navigate('/select'); 
             }
         } catch (error) {

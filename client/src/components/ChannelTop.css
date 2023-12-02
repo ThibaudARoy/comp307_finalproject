@@ -1,10 +1,13 @@
 .top {
     height: 60px;
-    width: 1200px;
+    width: 83.25%;
     border-bottom: 1px solid #000;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    position: fixed;
+    top: 60px;
+    left: 240px;
 }
 
 .top p {

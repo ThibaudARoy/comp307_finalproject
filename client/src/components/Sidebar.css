@@ -21,11 +21,11 @@
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
+    padding: 1px;
 }
 
 .sidebar li {
-    padding: 5px 0;
+    padding: 0px;
 }
 
 .channel {

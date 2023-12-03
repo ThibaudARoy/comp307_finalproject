@@ -15,12 +15,10 @@ router.post("/register", function (req, res) {
     !req.body.firstName ||
     !req.body.lastName
   ) {
-    res
-      .status(400)
-      .json({
-        success: false,
-        msg: "Please pass email, password, first name, and last name.",
-      });
+    res.status(400).json({
+      success: false,
+      msg: "Please pass email, password, first name, and last name.",
+    });
   } else {
     var newUser = new User({
       email: req.body.email,
@@ -37,12 +35,10 @@ router.post("/register", function (req, res) {
       .catch((err) => {
         if (err.code === 11000) {
           // MongoDB duplicate key error code
-          res
-            .status(409)
-            .json({
-              success: false,
-              msg: "User with that email already exists.",
-            });
+          res.status(409).json({
+            success: false,
+            msg: "User with that email already exists.",
+          });
         } else {
           res
             .status(500)
@@ -58,7 +54,7 @@ router.post("/login", function (req, res) {
   })
     .then((user) => {
       if (!user) {
-        res.status(400).send({
+        res.status(401).send({
           success: false,
           msg: "Authentication failed. User not found.",
         });

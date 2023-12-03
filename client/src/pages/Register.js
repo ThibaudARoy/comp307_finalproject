@@ -1,63 +1,50 @@
 import "./Register.css"
-import axios from 'axios';
 import logo from "../assets/SOCSLogo.png";
 import ParticlesBackground from "./ParticlesBackground";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
+import { validateEmail, validatePassword, isNonEmpty } from "../inputValidation/Validation";
+import { registerUser } from '../backendConnection/AuthService';
 
 function Register() {
-    const [notification, setNotification] = useState('');
     const navigate = useNavigate();
+    const [notification, setNotification] = useState('');
     const [registrationError, setRegistrationError] = useState('');
-
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    //Input Validation
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
 
     const [firstNameValid, setFirstNameValid] = useState(true);
     const [lastNameValid, setLastNameValid] = useState(true);
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
 
-    const validateEmail = (email) => {
-        const atPosition = email.indexOf('@');
-        const dotPosition = email.lastIndexOf('.');
-        return (atPosition > 0 && dotPosition > atPosition + 1 && dotPosition < email.length - 1);
-    };
-
-    const validatePassword = (password) => {
-        return password.length >= 8;
-    };
-
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        setFirstNameValid(firstName.trim() !== '');
-        setLastNameValid(lastName.trim() !== '');
+        setFirstNameValid(isNonEmpty(firstName));
+        setLastNameValid(isNonEmpty(lastName));
 
-        const isEmailNotEmpty = !!email;
-        const isPasswordNotEmpty = !!password;
-        const isEmailValid = isEmailNotEmpty && validateEmail(email);
-        const isPasswordValid = isPasswordNotEmpty && validatePassword(password);
+        const isEmailValid = validateEmail(email);
+        const isPasswordValid = validatePassword(password);
 
         setEmailValid(isEmailValid);
         setPasswordValid(isPasswordValid);
 
-        if (isEmailNotEmpty && !isEmailValid) {
+        if (!isEmailValid) {
             setEmailError('Invalid email format');
         } else {
             setEmailError('');
         }
 
-        if (isPasswordNotEmpty && !isPasswordValid) {
+        if (!isPasswordValid) {
             setPasswordError('Password must be at least 8 characters long');
         } else {
             setPasswordError('');
@@ -66,29 +53,23 @@ function Register() {
         if (!firstNameValid || !lastNameValid || !isEmailValid || !isPasswordValid) {
             return;
         }
-        //Input Validation Ends
 
-        const userData = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-        };
+        const userData = { firstName, lastName, email, password };
+
         try {
-            const response = await axios.post('/api/auth/register', userData);
+            const response = await registerUser(userData);
     
-            if (response.data.success) {
+            if (response.success) {
                 setNotification('✓ Successful registration!');
                 setTimeout(() => {
                     setNotification('');
                     navigate('/');
                 }, 3000); 
-            } 
+            }
         } catch (error) {
             if (error.response?.status === 409){
                 setRegistrationError("An account with the specified email address already exists. Are you sure you don't already have an account?");
-            }
-            else {
+            } else {
                 setRegistrationError("Error while registering new user. Please try again later.");
             }
         }

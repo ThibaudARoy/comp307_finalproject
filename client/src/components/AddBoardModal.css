@@ -20,8 +20,6 @@ label{
 input{
     font-family: Noto Sans JP, sans-serif;
     margin-bottom:15px;
-    
-
 }
 
 .adminName{
@@ -56,4 +54,90 @@ input{
     font-size:25px;
     background-color:#ec1c2e;
 }
+.userRed{
+    height:30px;
+    width:auto;
+    margin-right:10px;
+}
+
+.memberInput{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.member-suggestion-button{
+    margin-top:-17px;
+    height:40px;
+    width:466px;
+    text-align:left;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border:1px solid #dee2e6;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    color:#616161;
+}
+
+.member-suggestion-button:hover{
+    background-color: #f7a4ab;
+    border:1px solid #ec1c2e;
+}
+
+.member-suggestion-button:active{
+    background-color: #ee3343 !important;
+    border:1px solid #ee3343 !important;
+}
+
+.member-suggestion-button:disabled{
+    color:black;
+    background-color: #dee2e6 !important;
+    border:1px solid #dee2e6 !important;
+}
+
+.member-error{
+    display:grid;
+    align-items: center;
+    margin-top:-16px;
+    height:40px;
+    width:466px;
+    text-align:left;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border:1px solid #dee2e6;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    color:#616161;
+}
+.member-error span{
+    margin-left:13px;
+}
+
+.added-member{
+    margin-top:10px;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    color:#616161;
+}
+
+.remove-member-button{
+    margin-left:10px;
+    width:30px;
+    height:30px;
+}
+.remove-member-button:hover{
+    background-color:#ec1c2e;
+}
+
+
+@media only screen and (max-width: 576px) {
+
+    .member-suggestion-button{
+        width:100%;
+        text-align:left;
+    }
+    .member-error{
+        width:100%
+    }
+  }
+
 

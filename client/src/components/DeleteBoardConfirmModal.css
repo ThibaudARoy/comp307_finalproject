@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
+.headerModal{
+    background-color: #ec1c2e;
+    color:white;
+    font-family:Cabin, sans-serif;
+}
+
+.titleModal{
+    font-weight:700 !important;
+}
+
+.bodyModal{
+    font-family:Cabin, sans-serif;
+    text-align: center;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:-15px;
+}
+
+.footerModal2{
+    border:none;
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+}
+
+.DeleteButton{
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    background-color:#ec1c2e !important;
+    border:1px solid #d4192a !important;
+
+}
+
+.DeleteButton:hover{
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.DeleteButton:active{
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
+.CancelButton{
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    border:1px solid dimgray;
+}

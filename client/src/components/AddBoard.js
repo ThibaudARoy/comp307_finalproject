@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import AddBoardModal from './AddBoardModal';
 import plus from '../assets/plus.png';
+import { createBoard } from '../backendConnection/BoardsService';
 
-function AddBoard(){
+function AddBoard({userInfo}){
     const [showModal, setShowModal] = useState(false);
 
     const handleAddBoardClick = () => {
@@ -14,14 +15,18 @@ function AddBoard(){
     const handleModalClose = () => {
       setShowModal(false);
     };
-    const handleBoardCreation = (formData) => {
-        // Handle board creation here by making an API request to your backend
-        // with the formData (name, admins, members)
-        console.log(formData);
-    
-        // Close the modal after handling board creation
+    const handleBoardCreation = async (formData) => {
+      try {
+        const newBoard = await createBoard(formData);
+        console.log('Board created:', newBoard);
+        window.location.reload();
         setShowModal(false);
-      };
+        // Additional actions on success (e.g., redirect or state update)
+      } catch (error) {
+        console.error('Failed to create board:', error);
+        // Handle error (e.g., showing error message to user)
+      }
+    };
     return (
         <div className="AddBoardButton">
             <Button className="addBoard" onClick={handleAddBoardClick} alt="Plus">
@@ -34,6 +39,7 @@ function AddBoard(){
                 show={showModal}
                 onHide={handleModalClose}
                 onSubmit={handleBoardCreation}
+                userInfo={userInfo}
       />
         </div>
     );

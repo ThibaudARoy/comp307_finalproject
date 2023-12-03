@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import "./Login.css";
 import logo from "../assets/SOCSLogo.png";
 import bird from "../assets/SOCSBird.png";
@@ -7,6 +6,8 @@ import ParticlesBackground from "./ParticlesBackground";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from "react-router-dom";
+import { isEmailValidForLogin, isPasswordValidForLogin } from "../inputValidation/Validation";
+import { loginUser } from '../backendConnection/AuthService';
 
 function Login() {
     const navigate = useNavigate();
@@ -21,27 +22,27 @@ function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        setEmailValid(!!email && email.trim() !== '' && email.includes("@"));
-        setPasswordValid(!!password);
+        const isEmailFieldValid = isEmailValidForLogin(email);
+        const isPasswordFieldValid = isPasswordValidForLogin(password);
 
-        if (! emailValid || ! passwordValid){
+        setEmailValid(isEmailFieldValid);
+        setPasswordValid(isPasswordFieldValid);
+
+        if (!isEmailFieldValid || !isPasswordFieldValid) {
             return;
         }
+
         try {
-            const response = await axios.post('/api/auth/login', {
-                email: email,
-                password: password,
-            });
-    
-            if (response.data.success) {
-                localStorage.setItem('token', response.data.token);
-                navigate('/select'); 
+            const response = await loginUser(email, password);
+            if (response.success) {
+                localStorage.setItem('token', response.token);
+                navigate('/select');
             }
         } catch (error) {
             setLoginError("User not found. There may be an error with the email/password entered.")
         }
+    };
 
-    }
     const getH5ClassName = (isValid) => {
         return isValid ? "" : "invalid";
     };

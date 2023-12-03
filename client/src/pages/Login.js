@@ -24,24 +24,23 @@ function Login() {
     setEmailValid(!!email && email.trim() !== "" && email.includes("@"));
     setPasswordValid(!!password);
 
-    if (!emailValid || !passwordValid) {
-      return;
-    }
-    try {
-      const response = await axios.post("/api/auth/login", {
-        email: email,
-        password: password,
-      });
+        if (! emailValid || ! passwordValid){
+            return;
+        }
+        try {
+            const response = await axios.post('/api/auth/login', {
+                email: email,
+                password: password,
+            });
+    
+            if (response.data.success) {
+                localStorage.setItem('token', response.data.token);
+                navigate('/select'); 
+            }
+        } catch (error) {
+            setLoginError("User not found. There may be an error with the email/password entered.")
+        }
 
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
-
-        navigate("/select");
-      }
-    } catch (error) {
-      setLoginError(
-        "User not found. There may be an error with the email/password entered."
-      );
     }
   };
   const getH5ClassName = (isValid) => {

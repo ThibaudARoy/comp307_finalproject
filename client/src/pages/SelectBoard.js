@@ -28,17 +28,12 @@ function SelectBoard() {
   };
   //Get the user's boards (Currently can't make it work, not sure why. (New user = Not initialized?))
   useEffect(() => {
-    const token = localStorage.getItem("token"); // Retrieve the token from local storage
-    console.log(token);
-
     axios
-      .get("http://localhost:5000/api/boards", {
-        headers: {
-          Authorization: `${token}`, // Include the token in the Authorization header
-        },
+      .get("/api/boards", {
+        headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((response) => {
-        setUserBoards(response.data); // Set the user boards to the state
+        setUserBoards(response.data);
       })
       .catch((error) => {
         console.error("Error fetching user boards:", error);

@@ -7,8 +7,9 @@ var jwt = require("jsonwebtoken");
 var router = express.Router();
 var User = require("../models/User");
 const key = process.env.JWT_SECRET;
+const { isAuthenticated } = require("../middleware/auth");
 
-router.post("/register", function (req, res) {
+router.post("/auth/register", function (req, res) {
   if (
     !req.body.email ||
     !req.body.password ||
@@ -48,7 +49,7 @@ router.post("/register", function (req, res) {
   }
 });
 
-router.post("/login", function (req, res) {
+router.post("/auth/login", function (req, res) {
   User.findOne({
     email: req.body.email,
   })
@@ -76,5 +77,31 @@ router.post("/login", function (req, res) {
       throw err;
     });
 });
+
+router.post("/auth/logout/", isAuthenticated(), async (req, res) => {
+  res.json({success: true});
+});
+
+router.get("/auth/user/", isAuthenticated(), async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+})
+
+router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
+  try {
+    const user = await User.find({email: req.params.email});
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/*router.get("/users/:email/user/online", isAuthenticated(), async (req, res) => {
+
+});*/
 
 module.exports = router;

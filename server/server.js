@@ -55,15 +55,23 @@ const io = require("socket.io")(httpServer, {
   pingTimeout: 60 * 1000,
 })
 
-const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, {}, next);
-/*io.use(wrapMiddlewareForSocketIo(passport.initialize()));
-//io.use(wrapMiddlewareForSocketIo(passport.session()));
-io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));*/
+const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, socket.request.res, next);
+io.use(wrapMiddlewareForSocketIo(passport.initialize()));
+
+io.use((socket, next) => {
+
+  passport.authenticate('jwt', { session: false }, (err, user) => {
+      if (err || !user) {
+          return next(new Error('Authentication error: Invalid token'));
+      }
+
+      socket.user = user;
+      return next();
+  })(socket.handshake, {}, next);
+});
 
 
 io.on('connection', (socket) => {
-  io.use(wrapMiddlewareForSocketIo(passport.initialize()));
-  io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));
   console.log(`User connected ${socket.id}`);
   socket.on("setup", (message) => {
     socket.emit("connected");

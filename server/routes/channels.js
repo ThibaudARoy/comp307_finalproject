@@ -20,6 +20,11 @@ router.post(
       });
 
       await newChannel.save();
+
+      await Board.findByIdAndUpdate(boardId, {
+        $push: { channels: newChannel._id },
+      });
+
       res.status(200).json({ newChannel });
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -53,21 +58,30 @@ router.delete(
   isAuthenticated(),
   async (req, res) => {
     try {
-      const channelId = req.params.channelId;
+      const { channelId } = req.params;
 
-      const channel = Channel.findById(channelId);
-
+      const channel = await Channel.findById(channelId);
       if (!channel) {
         return res.status(404).json({ message: "Channel not found" });
       }
 
-      if (!(channel.board.admin == req.user._id)) {
+      const board = await Board.findById(channel.board);
+      if (!board) {
+        return res.status(404).json({ message: "Board not found" });
+      }
+
+      if (board.admin.toString() !== req.user._id.toString()) {
         return res
           .status(403)
           .json({ message: "You are not the owner of this board." });
       }
 
       await channel.remove();
+
+      await Board.findByIdAndUpdate(board._id, {
+        $pull: { channels: channelId },
+      });
+
       res.status(200).json({ message: "Channel removed successfully" });
     } catch (error) {
       return res.status(500).json({ message: error.message });

@@ -79,7 +79,7 @@ router.post("/auth/login", function (req, res) {
 });
 
 router.post("/auth/logout/", isAuthenticated(), async (req, res) => {
-  res.json({success: true});
+  res.json({ success: true });
 });
 
 router.get("/auth/user/", isAuthenticated(), async (req, res) => {
@@ -89,11 +89,11 @@ router.get("/auth/user/", isAuthenticated(), async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-})
+});
 
 router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
   try {
-    const user = await User.find({email: req.params.email});
+    const user = await User.find({ email: req.params.email });
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });

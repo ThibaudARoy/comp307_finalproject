@@ -10,7 +10,7 @@
     flex: 1; 
 }
 
-.channel {
+.channel-content {
     display: flex;
     flex-direction: column;
 }

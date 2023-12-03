@@ -21,9 +21,9 @@ function Board(){
             <Topbar boardName="COMP307 Project"/>
             <div className="content">
                 <Sidebar onChannelClick={handleChannelClick}  selectedChannel={selectedChannel}/>
-                <div className="channel">
+                <div className="channel-content">
                     <ChannelTop channel={selectedChannel}/>
-                    <Message chatData={[{ content: "Hello", timestamp: Date.now(), creator: "User1" }, { content: "Hi", timestamp: Date.now(), creator: "User2" }]}/>
+                    <Message chatData={[{ content: "Hello", timestamp: Date.now(), creator: "Bob" }, { content: "Hi", timestamp: Date.now(), creator: "Eve" }]}/>
                     <Input/>
                 </div>
                 

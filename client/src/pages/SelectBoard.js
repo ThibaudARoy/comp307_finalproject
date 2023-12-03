@@ -9,10 +9,15 @@ import {Link} from "react-router-dom";
 import AddBoard from '../components/AddBoard'
 import UserBoard from '../components/UserBoard'
 import LogoutConfirmModal from "../components/LogoutConfirmModal";
+import io from 'socket.io-client'; 
+
+const ENDPOINT = "http://localhost:5000"; // If you are deploying the app, replace the value with "https://YOUR_DEPLOYED_APPLICATION_URL" 
+let socket;
 
 function SelectBoard() {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [userBoards, setUserBoards] = useState([]);
+    const [socketConnected, setSocketConnected] = useState(false);
 
     const handleLogout = () => {
       setShowLogoutModal(true);
@@ -35,6 +40,25 @@ function SelectBoard() {
           .catch((error) => {
             console.error('Error fetching user boards:', error);
           });
+      }, []);
+
+      useEffect(() => {
+        const socket = io.connect(ENDPOINT, 
+            {
+                withCredentials: true,
+                extraHeaders: {
+                    Authorization: `${localStorage.getItem("token")}`,
+                },
+                
+            },
+        );
+        socket.emit("setup", "hello");
+        socket.on("connected", () => {
+            console.log("authenticated");
+            setSocketConnected(true);
+        });
+
+        // eslint-disable-next-line
       }, []);
 
     return(

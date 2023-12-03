@@ -2,12 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
-
+const session = require("express-session");
 require("dotenv").config();
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
+
 const app = express();
+const httpServer = require('http').createServer(app);
 
 // Middleware
 app.use(cors());
@@ -41,6 +43,33 @@ app.get("/test", (req, res) => {
   res.json({ message: "Server is connected test" });
 });
 
-app.listen(PORT, () => {
+
+
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Authorization"],
+    credentials: true
+  },
+  pingTimeout: 60 * 1000,
+})
+
+const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, {}, next);
+io.use(wrapMiddlewareForSocketIo(passport.initialize()));
+//io.use(wrapMiddlewareForSocketIo(passport.session()));
+io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));
+
+
+io.on('connection', (socket) => {
+  console.log(`User connected ${socket.id}`);
+  socket.on("setup", (message) => {
+    socket.emit("connected");
+  });
+
+  // We can write our socket event listeners in here...
+});
+
+httpServer.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

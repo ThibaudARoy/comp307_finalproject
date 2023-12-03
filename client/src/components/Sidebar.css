@@ -7,6 +7,7 @@
     top: 65px;
     left: 0;
     height: calc(100vh - 65px);
+    text-decoration: none;
 }
 
 .sidebar h2 {
@@ -25,11 +26,6 @@
 
 .sidebar li {
     padding: 5px 0;
-}
-
-.sidebar {
-    color: #ffffff;
-    text-decoration: none;
 }
 
 .channel {
@@ -60,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 200px;
+    width: 100%;
     font-size: 15px;
     padding: 1px 10px; 
 }
@@ -98,7 +94,7 @@
     color: white;
     border-radius: 8px;
     padding: 1px 10px; 
-    width: 200px;
+    width: 100%;
 }
 
 .selected-channel .delete-button {

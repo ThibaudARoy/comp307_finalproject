@@ -36,7 +36,7 @@ function Sidebar(props) {
             <h2>COMP307 Project</h2>
             <ul>
                 {channels.map(channel => (
-                    <li className={`channel ${props.selectedChannel === channel ? 'selected-channel' : ''}`}  key={channel}>
+                    <li className={`channel ${props.selectedChannel === channel ? 'selected-channel' : 'channel-row'}`}  key={channel}>
                         <div className="channel-row" onClick={() => props.onChannelClick(channel)}>
                             <div className={notifications[channel] > 0 ? 'unread' : 'read'}># {channel}</div>
                             <button className='delete-button' onClick={() => handleConfirmDelete(channel)}><img className='x-logo' src={icon}></img></button>

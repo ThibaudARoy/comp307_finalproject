@@ -56,12 +56,14 @@ const io = require("socket.io")(httpServer, {
 })
 
 const wrapMiddlewareForSocketIo = middleware => (socket, next) => middleware(socket.request, {}, next);
-io.use(wrapMiddlewareForSocketIo(passport.initialize()));
+/*io.use(wrapMiddlewareForSocketIo(passport.initialize()));
 //io.use(wrapMiddlewareForSocketIo(passport.session()));
-io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));
+io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));*/
 
 
 io.on('connection', (socket) => {
+  io.use(wrapMiddlewareForSocketIo(passport.initialize()));
+  io.use(wrapMiddlewareForSocketIo(passport.authenticate("jwt", { session: false })));
   console.log(`User connected ${socket.id}`);
   socket.on("setup", (message) => {
     socket.emit("connected");

@@ -76,7 +76,8 @@ router.delete(
           .json({ message: "You are not the owner of this board." });
       }
 
-      await channel.remove();
+      //await channel.remove();
+      await channel.deleteOne({_id: channel._id})
 
       await Board.findByIdAndUpdate(board._id, {
         $pull: { channels: channelId },

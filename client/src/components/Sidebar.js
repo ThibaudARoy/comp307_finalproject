@@ -62,8 +62,8 @@ function Sidebar(props) {
             <h2>{props.boardName}</h2>
             <ul>
                 {channels.map(channel => (
-                    <li className={`channel ${props.selectedChannel === channel.name ? 'selected-channel' : 'channel-row'}`}  key={channel.name}>
-                        <div className="channel-row" onClick={() => props.onChannelClick(channel.name)}>
+                    <li className={`channel ${props.selectedChannel && props.selectedChannel.name === channel.name ? 'selected-channel' : 'channel-row'}`}  key={channel.name}>                        
+                        <div className="channel-row" onClick={() => props.onChannelClick(channel)}>
                             <div className={notifications[channel.name] > 0 ? 'unread' : 'read'}># {channel.name}</div>
                             <button className='delete-button' onClick={() => {console.log(channel); handleConfirmDelete(channel)}}><img className='x-logo' src={icon}></img></button>
                         </div>

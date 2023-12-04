@@ -62,7 +62,7 @@ router.post("/auth/login", function (req, res) {
       } else {
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
-            var token = jwt.sign({ id: user._id }, key, { expiresIn: "1h" });
+            var token = jwt.sign({ id: user._id }, key, { expiresIn: "22h" });
             res.json({ success: true, token: "Bearer " + token });
           } else {
             res.status(401).send({
@@ -91,17 +91,23 @@ router.get("/auth/user/", isAuthenticated(), async (req, res) => {
   }
 });
 
+router.get("/auth/users/", isAuthenticated(), async (req, res) => {
+  try {
+    const users = await User.find({ _id: { $ne: req.user._id } });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
   try {
+    console.log(req.params.email);
     const user = await User.find({ email: req.params.email });
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
-/*router.get("/users/:email/user/online", isAuthenticated(), async (req, res) => {
-
-});*/
 
 module.exports = router;

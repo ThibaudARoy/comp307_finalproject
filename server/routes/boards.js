@@ -36,6 +36,7 @@ router.delete("/boards/:boardId", isAuthenticated(), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
     if (!board) {
+      console.log("board not found");
       return res.status(404).json({ message: "Board not found" });
     }
     if (board.admin.toString() !== req.user._id.toString()) {
@@ -49,7 +50,8 @@ router.delete("/boards/:boardId", isAuthenticated(), async (req, res) => {
       { $pull: { boards: board._id } }
     );
 
-    await board.remove();
+    await Board.deleteOne({ _id: board._id });
+
     res.status(200).json({ message: "Board deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

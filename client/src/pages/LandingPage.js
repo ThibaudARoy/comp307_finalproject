@@ -6,6 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";
 
 function LandingPage() {
+    const token = localStorage.getItem('token');
+    const isAuthenticated = token != null;
+
     return(
     <div className="LandingPage">
         <header>
@@ -21,7 +24,9 @@ function LandingPage() {
             </h1>
             <p>McGill School of Computer Science Communication Platform</p>
            
-            <Link to="/login">  <Button variant="primary" className="SignInBtn" size="lg">Login</Button>{' '} </Link>
+            <Link to="/login">  <Button variant="primary" className="SignInBtn" size="lg">
+                {isAuthenticated ? "Access Your Boards" : "Login"}
+                </Button>{' '} </Link>
         </div>
         <div className="BottomRegister">
             <p>Don't have an account?  <Link to="/register" className="SignUpLink">Register</Link></p>

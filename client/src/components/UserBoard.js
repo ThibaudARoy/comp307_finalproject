@@ -1,44 +1,38 @@
-import './UserBoard.css';
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import DeleteBoardButton from './DeleteBoardButton';
-import DeleteBoardConfirmModal from './DeleteBoardConfirmModal';
-import { deleteBoard } from '../backendConnection/BoardsService';
+import "./UserBoard.css";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import DeleteBoardButton from "./DeleteBoardButton";
+import DeleteBoardConfirmModal from "./DeleteBoardConfirmModal";
+import { deleteBoard } from "../backendConnection/BoardsService";
 import bird from "../assets/SOCSBird.png";
 import crown from "../assets/crown.png";
 import { useNavigate } from 'react-router-dom';
 
-
 //Takes a board as input. Creates a UserBoard component for that board.
-function UserBoard({ userInfo, board}){
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const isAdmin = userInfo._id === board.admin;
-    const boardId = board._id;
+function UserBoard({ userInfo, board }) {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const isAdmin = userInfo._id === board.admin;
+  const boardId = board._id;
 
-    const navigate = useNavigate();
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
 
-    const handleBoardClick = (boardId) => {
-      navigate(`/board/${boardId}`);
-    };
-  
-    const handleDeleteClick = () => {
-      setShowDeleteModal(true);
-    };
+  const handleConfirmDelete = async () => {
+    try {
+      console.log(boardId);
+      await deleteBoard(boardId);
+      console.log("Board deleted");
+      window.location.reload();
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.log("Error Deleting Board");
+    }
+  };
 
-    const handleConfirmDelete = async (boardId) => {
-        try {
-            await deleteBoard(boardId);
-            console.log('Board deleted');
-            window.location.reload();
-            setShowDeleteModal(false);
-          } catch (error) {
-            console.log("Error Deleting Board")
-          }
-      };
-    
-      const handleCloseModal = () => {
-        setShowDeleteModal(false);
-      };
+  const handleCloseModal = () => {
+    setShowDeleteModal(false);
+  };
 
     return (
         <div className="UserBoardButton">
@@ -57,7 +51,7 @@ function UserBoard({ userInfo, board}){
                 onConfirm={handleConfirmDelete}
                 onClose={handleCloseModal}
             />
-        </div>
-    );
+    </div>
+  );
 }
 export default UserBoard;

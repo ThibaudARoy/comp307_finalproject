@@ -16,12 +16,10 @@ router.post("/auth/register", function (req, res) {
     !req.body.firstName ||
     !req.body.lastName
   ) {
-    res
-      .status(400)
-      .json({
-        success: false,
-        msg: "Please pass email, password, first name, and last name.",
-      });
+    res.status(400).json({
+      success: false,
+      msg: "Please pass email, password, first name, and last name.",
+    });
   } else {
     var newUser = new User({
       email: req.body.email,
@@ -38,12 +36,10 @@ router.post("/auth/register", function (req, res) {
       .catch((err) => {
         if (err.code === 11000) {
           // MongoDB duplicate key error code
-          res
-            .status(409)
-            .json({
-              success: false,
-              msg: "User with that email already exists.",
-            });
+          res.status(409).json({
+            success: false,
+            msg: "User with that email already exists.",
+          });
         } else {
           res
             .status(500)
@@ -59,14 +55,14 @@ router.post("/auth/login", function (req, res) {
   })
     .then((user) => {
       if (!user) {
-        res.status(400).send({
+        res.status(401).send({
           success: false,
           msg: "Authentication failed. User not found.",
         });
       } else {
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
-            var token = jwt.sign({ id: user._id }, key, { expiresIn: "1h" });
+            var token = jwt.sign({ id: user._id }, key, { expiresIn: "22h" });
             res.json({ success: true, token: "Bearer " + token });
           } else {
             res.status(401).send({
@@ -83,7 +79,7 @@ router.post("/auth/login", function (req, res) {
 });
 
 router.post("/auth/logout/", isAuthenticated(), async (req, res) => {
-  res.json({success: true});
+  res.json({ success: true });
 });
 
 router.get("/auth/user/", isAuthenticated(), async (req, res) => {
@@ -93,19 +89,25 @@ router.get("/auth/user/", isAuthenticated(), async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-})
+});
 
-router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
+router.get("/auth/users/", isAuthenticated(), async (req, res) => {
   try {
-    const user = await User.find({email: req.params.email});
-    res.json(user);
+    const users = await User.find({ _id: { $ne: req.user._id } });
+    res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-/*router.get("/users/:email/user/online", isAuthenticated(), async (req, res) => {
-
-});*/
+router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
+  try {
+    console.log(req.params.email);
+    const user = await User.find({ email: req.params.email });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;

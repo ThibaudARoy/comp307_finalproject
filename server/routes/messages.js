@@ -31,6 +31,10 @@ router.post(
 
       await newMessage.save();
 
+      await Channel.findByIdAndUpdate(channelId, {
+        $push: { messages: newMessage._id },
+      });
+
       res.status(201).json(newMessage);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -87,6 +91,9 @@ router.delete(
           .json({ message: "You are not authorized to delete this message" });
       }
 
+      await Channel.findByIdAndUpdate(channelId, {
+        $pull: { messages: message._id },
+      });
       await message.remove();
 
       res.status(200).json({ message: "Message deleted successfully" });

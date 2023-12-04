@@ -34,6 +34,12 @@ function UserBoard({ userInfo, board }) {
     setShowDeleteModal(false);
   };
 
+  const navigate = useNavigate();
+
+  const handleBoardClick = (boardId) => {
+    navigate(`/board/${boardId}`);
+  };
+
     return (
         <div className="UserBoardButton">
             <Button className="userBoard" onClick={() => handleBoardClick(board._id)}>

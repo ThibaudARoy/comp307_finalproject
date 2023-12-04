@@ -6,6 +6,7 @@ import DeleteBoardConfirmModal from './DeleteBoardConfirmModal';
 import { deleteBoard } from '../backendConnection/BoardsService';
 import bird from "../assets/SOCSBird.png";
 import crown from "../assets/crown.png";
+import { useNavigate } from 'react-router-dom';
 
 
 //Takes a board as input. Creates a UserBoard component for that board.
@@ -13,6 +14,12 @@ function UserBoard({ userInfo, board}){
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const isAdmin = userInfo._id === board.admin;
     const boardId = board._id;
+
+    const navigate = useNavigate();
+
+    const handleBoardClick = (boardId) => {
+      navigate(`/board/${boardId}`);
+    };
   
     const handleDeleteClick = () => {
       setShowDeleteModal(true);
@@ -35,7 +42,7 @@ function UserBoard({ userInfo, board}){
 
     return (
         <div className="UserBoardButton">
-            <Button className="userBoard">
+            <Button className="userBoard" onClick={() => handleBoardClick(board._id)}>
             {isAdmin && (
                         <img src={crown} className="crownIcon" alt="Admin" />
                 )}

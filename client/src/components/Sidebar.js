@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import './Sidebar.css';
 import icon from "../assets/x_icon.png";
+import axios from 'axios';
 
 function Sidebar(props) {
-    const [channels, setChannels] = useState(['General', 'Random', 'React', 'JavaScript']);
+    const [channels, setChannels] = useState(props.channels);
     const [notifications, setNotifications] = useState({General: 3, Random: 0, React: 1, JavaScript: 0});
     const [newChannel, setNewChannel] = useState('');
     const [show, setShow] = useState(false);
@@ -16,30 +17,55 @@ function Sidebar(props) {
 
     const handleAddChannel = () => {
         if (newChannel.trim() !== '') {
-            setChannels([...channels, newChannel]);
-            setNewChannel('');
-            handleClose();
+            axios.post(`/api/boards/${props.boardId}/channels`, {
+                name: newChannel,
+                members: [/* array of member IDs */]
+              }, {
+                headers: { Authorization: `${localStorage.getItem("token")}` }
+              })
+              .then(response => {
+                setChannels([...channels, response.data.newChannel]);
+                setNewChannel('');
+                handleClose();
+              })
+              .catch(error => console.error(error));
         }
-    };
+      };
 
     const handleDeleteChannel = () => {
-        setChannels(channels.filter(channel => channel !== channelToDelete));
-        setChannelToDelete(null);
+        axios.delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
+          headers: { Authorization: `${localStorage.getItem("token")}` }
+        })
+        .then(response => {
+          setChannels(channels.filter(channel => channel.name !== channelToDelete.name));
+          setChannelToDelete(null);
+        })
+        .catch(error => console.error(error));
     };
 
     const handleConfirmDelete = (channel) => {
         setChannelToDelete(channel);
     };
 
+    useEffect(() => {
+        axios.get(`/api/board/${props.boardId}/channels`, {
+          headers: { Authorization: `${localStorage.getItem("token")}` }
+        })
+        .then(response => {
+          setChannels(response.data);
+        })
+        .catch(error => console.error(error));
+      }, [props.boardId]);
+
     return (
         <div className="sidebar">
-            <h2>COMP307 Project</h2>
+            <h2>{props.boardName}</h2>
             <ul>
                 {channels.map(channel => (
-                    <li className={`channel ${props.selectedChannel === channel ? 'selected-channel' : 'channel-row'}`}  key={channel}>
+                    <li className={`channel ${props.selectedChannel && props.selectedChannel.name === channel.name ? 'selected-channel' : 'channel-row'}`}  key={channel.name}>                        
                         <div className="channel-row" onClick={() => props.onChannelClick(channel)}>
-                            <div className={notifications[channel] > 0 ? 'unread' : 'read'}># {channel}</div>
-                            <button className='delete-button' onClick={() => handleConfirmDelete(channel)}><img className='x-logo' src={icon}></img></button>
+                            <div className={notifications[channel.name] > 0 ? 'unread' : 'read'}># {channel.name}</div>
+                            <button className='delete-button' onClick={() => {console.log(channel); handleConfirmDelete(channel)}}><img className='x-logo' src={icon}></img></button>
                         </div>
                     </li>
                 ))}
@@ -70,7 +96,7 @@ function Sidebar(props) {
                     <Modal.Title>Confirm Delete</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to delete <strong>#{channelToDelete}</strong>?
+                    Are you sure you want to delete <strong>#{channelToDelete ? channelToDelete.name : ''}</strong>?
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setChannelToDelete(null)}>

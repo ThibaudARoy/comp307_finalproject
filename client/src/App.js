@@ -49,7 +49,7 @@ if (serverMessage) {
                             <SelectBoard/>
                         </PrivateRoute>
                     }/>
-                    <Route path="/board" element={
+                    <Route path="/board/:boardId" element={
                         <PrivateRoute>
                             <Board/>
                         </PrivateRoute>

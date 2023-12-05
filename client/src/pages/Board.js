@@ -38,7 +38,7 @@ function Board(){
                 <Sidebar boardName={board ? board.name : ''} channels={board ? board.channels : []} onChannelClick={handleChannelClick}  selectedChannel={selectedChannel} boardId={boardId} members={board ? board.members : []}/>
                 <div className="channel-content">
                     <ChannelTop channel={selectedChannel ? selectedChannel.name : ''}/>
-                    <Message chatData={[{ content: "Hello", timestamp: Date.now(), creator: "Bob" }, { content: "Hi", timestamp: Date.now(), creator: "Eve" }]}/>
+                    <Message boardId={boardId} channelId={selectedChannel ? selectedChannel._id : null}/>
                     <Input boardId={boardId} selectedChannel={selectedChannel}/>
                 </div>
                 

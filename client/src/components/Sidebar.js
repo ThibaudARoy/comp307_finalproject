@@ -19,7 +19,7 @@ function Sidebar(props) {
         if (newChannel.trim() !== '') {
             axios.post(`/api/boards/${props.boardId}/channels`, {
                 name: newChannel,
-                members: [/* array of member IDs */]
+                members: props.members
               }, {
                 headers: { Authorization: `${localStorage.getItem("token")}` }
               })

@@ -1,0 +1,10 @@
+.deleteBoardButton{
+    border-radius:100%;
+    width:35px;
+    height:35px;
+    border:1px solid grey;
+    position:absolute;
+    margin-top:-70px;
+    margin-left:80px;
+    background-color:#ec1c2e;
+}

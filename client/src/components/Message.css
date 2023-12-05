@@ -1,3 +1,30 @@
 .message {
-    width: 1200px;
+    width: calc(83.25% - 60px);
+    position: absolute;
+    top: 120px;
+    left: 16.75%;
+    right: 0;
+    bottom: 110px;
+    overflow: auto;
+    margin-left: 60px;
+    padding-right: 60px;
+}
+
+.sender-name {
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.time-stamp {
+    font-size: 0.9em;
+    padding-left: 5px;
+    color: rgb(104, 104, 104);
+}
+
+.message-content {
+    margin-top: 0;
+}
+
+.name-time {
+    margin-bottom: 0;
 }

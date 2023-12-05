@@ -9,3 +9,8 @@
     display: flex;
     flex: 1; 
 }
+
+.channel-content {
+    display: flex;
+    flex-direction: column;
+}

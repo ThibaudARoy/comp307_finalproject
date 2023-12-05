@@ -1,15 +1,14 @@
-.UserBoardButton{
-    color:black;
-}
-
 .userBoard{
     width:200px;
     height:100px;
     background-color: #E8E8E8;
     border:1px solid lightgrey;
+    color:black;
     display: flex;
     flex-direction: column;
     align-items:center;
+    justify-content: center;
+    font-size:100%;
 }
 
 .userBoard:hover{
@@ -20,3 +19,30 @@
     background-color: grey !important;
     border:1px solid grey !important;
 }
+
+.birdBoard{
+    height:auto;
+    width:60px;
+}
+
+.crownIcon{
+    height:auto;
+    width:25px;
+    float:left;
+    position:absolute;
+    margin-left:-145px;
+    margin-top:-50px;
+
+}
+
+.DeleteBoardButton{
+    position:absolute;
+    margin-top:-50px;
+    margin-left:100px;
+    opacity:0;
+}
+
+.UserBoardButton:hover .DeleteBoardButton{
+    opacity:1;
+}
+

@@ -6,6 +6,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
 }
 
 .topbar input[type="search"] {
@@ -15,6 +20,7 @@
     border: 1px solid;
     border-radius: 5px;
     background-color: #696969;
+    margin-top: 10px;
   }
 
 .topbar input[type="search"]::placeholder {
@@ -25,6 +31,10 @@
 
 .search-bar input[type="search"]:focus {
     background-color: #f0f0f0; 
+    color: #000000; 
+}
+
+.search-bar input[type="search"]:focus::placeholder {
     color: #000000; 
 }
 

@@ -76,22 +76,31 @@ function Board() {
     <div className="board">
       <Topbar boardName={board ? board.name : ""} />
       <div className="content">
-        <Sidebar
-          boardName={board ? board.name : ""}
-          channels={board ? board.channels : []}
-          onChannelClick={handleChannelClick}
-          selectedChannel={selectedChannel}
-          boardId={boardId}
-        />
-        <div className="channel-content">
-          <ChannelTop channel={selectedChannel} />
-          <Message
-            chatData={[
-              { content: "ooo yea", timestamp: Date.now(), creator: "Bob" },
-              { content: "Hi", timestamp: Date.now(), creator: "Eve" },
-            ]}
+        <div className="sidebar">
+          <Sidebar
+            boardName={board ? board.name : ""}
+            channels={board ? board.channels : []}
+            onChannelClick={handleChannelClick}
+            selectedChannel={selectedChannel}
+            boardId={boardId}
+            members={board ? board.members : []}
           />
-          <Input />
+        </div>
+        <div className="channel-content">
+          <ChannelTop
+            className="top"
+            channel={selectedChannel ? selectedChannel.name : ""}
+          />
+          <Message
+            className="message"
+            boardId={boardId}
+            channelId={selectedChannel ? selectedChannel._id : null}
+          />
+          <Input
+            className="inputBottom"
+            boardId={boardId}
+            selectedChannel={selectedChannel}
+          />
         </div>
       </div>
     </div>

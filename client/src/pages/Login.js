@@ -53,7 +53,7 @@ function Login() {
   };
 
   return (
-    <div className="back">
+    <div className="backLogin">
       <header>
         <Link to="/login">
           <img

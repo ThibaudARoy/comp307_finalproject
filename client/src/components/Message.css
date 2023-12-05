@@ -1,7 +1,7 @@
 .message {
-    width: calc(83.25% - 60px);
+    width:calc(83.25%-60px);
     position: absolute;
-    top: 120px;
+    top: 124px;
     left: 16.75%;
     right: 0;
     bottom: 110px;
@@ -28,3 +28,48 @@
 .name-time {
     margin-bottom: 0;
 }
+
+.date-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.date-separator hr {
+    flex-grow: 1;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.date-separator span {
+    margin: 0 10px;
+    color: #888;
+}
+
+.date-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.date-separator hr {
+    flex-grow: 1;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.date-separator span {
+    margin: 0 10px;
+    color: #888;
+}
+
+@media only screen and (max-width: 653px) {
+    .message{
+        left:110px;
+        padding-right:0;
+    }
+}
+
+

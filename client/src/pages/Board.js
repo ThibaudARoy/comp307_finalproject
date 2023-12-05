@@ -9,8 +9,6 @@ import Input from "../components/Input";
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
-const channels = ['General', 'Random', 'React', 'JavaScript']
-
 function Board(){
     const { boardId } = useParams();
     const [board, setBoard] = useState(null);

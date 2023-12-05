@@ -21,6 +21,11 @@ function Message({boardId, channelId}) {
 
     useEffect(() => {
         const fetchMessages = async () => {
+            if (!channelId) {
+                console.error('No channel selected');
+                return;
+            }
+
             try {
                 const response = await axios.get(`/api/boards/${boardId}/channels/${channelId}/messages`, {
                     headers: { Authorization: `${localStorage.getItem("token")}` }

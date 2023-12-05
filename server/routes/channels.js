@@ -11,11 +11,15 @@ router.post(
     try {
       const boardId = req.params.boardId;
       const name = req.body.name;
-      const members = req.body.members;
+
+      const board = await Board.findById(boardId);
+      if (!board) {
+        return res.status(404).send("Board not found");
+      }
       var newChannel = new Channel({
         name: name,
         board: boardId,
-        members: members,
+        members: board.members,
         //messages: req.body.messages
       });
 
@@ -25,6 +29,11 @@ router.post(
         $push: { channels: newChannel._id },
       });
 
+      // await Channel.updateMany(
+      //    { _id: { $in: newChannel._id } },
+      //   { $push: { members: req.body.members } }
+      // );
+
       res.status(200).json({ newChannel });
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -32,7 +41,7 @@ router.post(
   }
 );
 
-router.get("/board/:boardId/channels", isAuthenticated(), async (req, res) => {
+router.get("/boards/:boardId/channels", isAuthenticated(), async (req, res) => {
   try {
     const boardId = req.params.boardId;
     const board = await Board.findOne({

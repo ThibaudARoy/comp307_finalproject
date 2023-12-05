@@ -1,19 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .top {
     height: 60px;
     width: 83.25%;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #cccccc;
+    border-top: 1px solid #bd1626 ;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     position: fixed;
     top: 60px;
     left: 16.75%;
+    background-color: #e6e6e6;
+    margin-top:5px;
 }
 
 .top p {
-    font-weight: bold;
+    font-family:Cabin, sans-serif;
+    font-weight: 700;
     padding-left: 40px;
     margin-top: 15px;
     font-size: 30px;
     text-transform: lowercase;
 }
+
+.hashmark{
+    font-family:'Gill Sans', sans-serif;
+    font-weight:700;
+}
+
+@media only screen and (max-width: 850px) {
+    .top {
+        width:100vw;
+        left:0;
+        right:0;
+    }
+}
+

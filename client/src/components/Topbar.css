@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .topbar {
-    background-color: rgb(35, 35, 35);
+    background-color: #ec1c2e;
     color: #ffffff;
-    padding: 10px;
-    text-align: center;
+    padding-left:10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,32 +15,35 @@
 }
 
 .topbar input[type="search"] {
+    font-family: Noto Sans JP, sans-serif;
     width: 600px; 
     height: 30px; 
     padding: 5px;
-    border: 1px solid;
-    border-radius: 5px;
-    background-color: #696969;
+    border:1px solid #bd1625;
+    border-radius: 10px;
+    background-color:#bd1625;
     margin-top: 10px;
   }
 
 .topbar input[type="search"]::placeholder {
-    color: white;
+    font-family: Cabin, sans-serif;
+    color: #a8777b;
     font-weight:bolder;
     text-align: center;
 }
 
 .search-bar input[type="search"]:focus {
-    background-color: #f0f0f0; 
-    color: #000000; 
+    color:#e6d8d9;
 }
 
-.search-bar input[type="search"]:focus::placeholder {
-    color: #000000; 
+.btnContainer{
+    width: 16.75%;
 }
 
 .switch-button {
+    font-family:Cabin, sans-serif;
     font-weight: bold;
+    background-color: #ec1c2e;
 }
 
 .switch-button, .search-bar {
@@ -47,4 +51,56 @@
     justify-content: center;
     align-items: center;
     flex: 1;
+    border:none;
 }
+
+.switchbtntext{
+    display:none;
+}
+
+.bird{
+    height:auto;
+    width:50px;
+}
+.back{
+    height:auto;
+    width:25px;
+    display:none;
+}
+
+.switch-button:hover{
+    background-color:#d4192a  !important;
+}
+
+.switch-button:hover .switchbtntext{
+    display:block
+}
+
+.switch-button:active{
+    background-color:#bd1626 !important;
+}
+
+@media only screen and (max-width: 850px) {
+    .topbar input[type="search"] {
+        width: 400px; 
+      }
+
+}
+
+@media only screen and (max-width: 1100px) {
+    .switch-button:hover .switchbtntext{
+        display:none;
+    }
+    .switch-button:hover .bird{
+        display:none;
+    }
+    .switch-button:hover .back{
+        display:block;
+    }
+    .switch-button {
+        width:76px;
+        height:55px;
+    }
+
+
+  }

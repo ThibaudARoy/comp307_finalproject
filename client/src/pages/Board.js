@@ -8,12 +8,17 @@ import ChannelTop from "../components/ChannelTop";
 import Input from "../components/Input";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import io from "socket.io-client";
 
 const channels = ["General", "Random", "React", "JavaScript"];
 
+const ENDPOINT = "http://localhost:5000"; // If you are deploying the app, replace the value with "https://YOUR_DEPLOYED_APPLICATION_URL"
+let socket;
 function Board() {
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     axios
@@ -25,6 +30,41 @@ function Board() {
       })
       .catch((error) => console.error(error));
   }, [boardId]);
+
+  useEffect(() => {
+    const socket = io.connect(ENDPOINT, {
+      withCredentials: true,
+      extraHeaders: {
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+      // transports: ["websocket"],
+    });
+    socket.emit("setup", "hello");
+    socket.on("connected", () => {
+      console.log("authenticated");
+      setSocketConnected(true);
+    });
+
+    setSocket(socket);
+    // eslint-disable-next-line
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (board && board.channels && socketConnected) {
+      board.channels.forEach((channel) => {
+        socket.emit("joinChannel", channel);
+      });
+
+      return () => {
+        board.channels.forEach((channel) => {
+          socket.emit("leaveChannel", channel);
+        });
+      };
+    }
+  }, [board, boardId, socketConnected, socket]);
 
   const [selectedChannel, setSelectedChannel] = useState(null);
 

@@ -66,12 +66,40 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-  console.log(`User connected ${socket.user.id}`);
+  console.log(`User connected ${socket.user._id}`);
   socket.on("setup", (message) => {
     socket.emit("connected");
   });
 
-  // We can write our socket event listeners in here...
+  socket.on("joinChannel", (channelId) => {
+    socket.join(channelId);
+    console.log(`User joined channel ${channelId}`);
+  });
+
+  socket.on(
+    "newMessage",
+    async ({ channelId, content, timestamp, creator }) => {
+      try {
+        const newMessage = await new Message({
+          content,
+          timestamp,
+          creator,
+          channel: channelId,
+        });
+        const savedMessage = newMessage.save();
+        io.to(channelId).emit("newMessage", savedMessage);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  );
+  socket.on("leaveChannel", (channelId) => {
+    socket.leave(channelId);
+    console.log(`User left channel ${channelId}`);
+  });
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
 });
 
 httpServer.listen(PORT, () => {

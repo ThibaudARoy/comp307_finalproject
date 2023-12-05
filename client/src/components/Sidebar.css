@@ -1,13 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .sidebar {
+    font-family:Cabin, sans-serif;
     width: 16.75%;
     background-color: #2c2f33;
     color: #ffffff;
-    padding: 20px;
     position: fixed;
+    display:flex;
+    flex-direction: column;
+    border-top: 1px solid #bd1626 ;
     top: 65px;
     left: 0;
     height: calc(100vh - 65px);
     text-decoration: none;
+}
+.hash{
+    font-family:'Gill Sans', sans-serif;
+}
+.mobileBtn{
+    display:none;
 }
 
 .sidebar h2 {
@@ -17,6 +28,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 23px;
+    margin-bottom:0;
+    margin-left:10px;
 }
 
 .sidebar ul {
@@ -33,11 +46,11 @@
 }
 
 .channel:first-child {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .channel:not(.selected-channel) .channel-row:hover {
-    background-color: #898989;
+    background-color: #232629;
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -82,15 +95,22 @@
 }
 
 .channel:not(.selected-channel) .channel-row:hover .delete-button {
-    background-color: #898989;
+    background-color: #232629;
 }
 
 .channel:not(.selected-channel) .channel-row:hover .read {
     color: white;
 }
+.boardName{
+    height:59px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom:1px solid #1a1c1f;
+}
 
 .selected-channel {
-    background-color: rgb(48, 97, 222);
+    background-color: #ec1c2e;
     color: white;
     border-radius: 8px;
     padding: 1px 10px; 
@@ -98,10 +118,108 @@
 }
 
 .selected-channel .delete-button {
-    background-color: rgb(48, 97, 222);
+    background-color: #ec1c2e;
 }
 
 .selected-channel .read {
     color: white;
 }
+
+.add-button {
+    align-self: center;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    background-color:#ec1c2e !important;
+    border:1px solid #d4192a !important;
+}
+
+.add-button:hover {
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.add-button:active {
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
+.channelModal{
+    padding-bottom:5px;
+}
+.headerModal{
+    background-color: #ec1c2e;
+    color:white;
+    font-family:Cabin, sans-serif;
+}
+
+.titleModal{
+    font-weight:700 !important;
+}
+
+label{    
+    color: #616161;
+    font-family:Cabin, sans-serif;
+    font-weight:600 !important;
+    font-size:20px;
+}
+
+.modalInput{
+    margin-top:10px;
+
+}
+
+.submitChannel{
+    width:300px;
+    height:50px;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    font-size:25px;
+    background-color:#ec1c2e;
+}
+
+@media only screen and (max-width: 850px) {
+    .boardName {
+        display:None
+    }
+
+    .channel{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-radius: 0px;
+    }
+
+
+    .wideScreenBtn{
+        display:none
+    }
+    .mobileBtn{
+        display:block;
+        position:absolute;
+        margin-left:2.5px;
+        margin-top:-17.5px;
+        
+    }
+
+    .add-button {
+        display:flex;
+        align-self: center;
+        font-family:Cabin, sans-serif;
+        font-weight:600;
+        font-size:40px;
+        width: 40px;
+        height:40px;
+        border-radius:100px;
+        background-color:#ec1c2e !important;
+        border:1px solid #d4192a !important;
+    }
+
+}
+@media only screen and (max-width: 653px) {
+    .sidebar{
+        width:110px;
+    }
+}
+
+
 

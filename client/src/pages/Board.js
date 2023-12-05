@@ -9,11 +9,9 @@ import Input from "../components/Input";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const channels = ["General", "Random", "React", "JavaScript"];
-
-function Board() {
-  const { boardId } = useParams();
-  const [board, setBoard] = useState(null);
+function Board(){
+    const { boardId } = useParams();
+    const [board, setBoard] = useState(null);
 
   useEffect(() => {
     axios
@@ -32,29 +30,21 @@ function Board() {
     setSelectedChannel(channel);
   };
 
-  return (
-    <div className="board">
-      <Topbar boardName={board ? board.name : ""} />
-      <div className="content">
-        <Sidebar
-          boardName={board ? board.name : ""}
-          channels={board ? board.channels : []}
-          onChannelClick={handleChannelClick}
-          selectedChannel={selectedChannel}
-          boardId={boardId}
-        />
-        <div className="channel-content">
-          <ChannelTop channel={selectedChannel} />
-          <Message
-            chatData={[
-              { content: "ooo yea", timestamp: Date.now(), creator: "Bob" },
-              { content: "Hi", timestamp: Date.now(), creator: "Eve" },
-            ]}
-          />
-          <Input />
-        </div>
-      </div>
-    </div>
-  );
+    return(
+        <div className="board">
+            <Topbar boardName={board ? board.name : ''}/>
+            <div className="content">
+                <div className="sidebar">
+                <Sidebar boardName={board ? board.name : ''} channels={board ? board.channels : []} onChannelClick={handleChannelClick}  selectedChannel={selectedChannel} boardId={boardId} members={board ? board.members : []}/>
+                </div>
+                <div className="channel-content">
+                    <ChannelTop className="top" channel={selectedChannel ? selectedChannel.name : ''}/>
+                    <Message className="message" boardId={boardId} channelId={selectedChannel ? selectedChannel._id : null}/>
+                    <Input className="inputBottom" boardId={boardId} selectedChannel={selectedChannel}/>
+                </div>
+                
+            </div>
+        </div>  
+    )
 }
 export default Board;

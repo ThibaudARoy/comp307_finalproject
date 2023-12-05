@@ -14,7 +14,6 @@ router.post(
 
       const channel = await Channel.findOne({
         _id: channelId,
-        members: req.user._id,
       });
 
       if (!channel) {

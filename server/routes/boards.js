@@ -9,13 +9,19 @@ router.post("/boards", isAuthenticated(), async (req, res) => {
     const newBoard = new Board({
       name: req.body.name,
       admin: req.user._id,
-      members: [req.user._id],
+      members: req.body.members,
     });
     await newBoard.save();
 
     await User.findByIdAndUpdate(req.user._id, {
       $push: { boards: newBoard._id },
     });
+
+    for (const member of req.body.members) {
+      await User.findByIdAndUpdate(member, {
+        $push: { boards: newBoard._id },
+      });
+    }
 
     res.status(201).json(newBoard);
   } catch (error) {

@@ -30,7 +30,7 @@ export const deleteBoard = async (boardId) => {
     const response = await axios.delete(`/api/boards/${boardId}`, {
       headers: { Authorization: `${localStorage.getItem("token")}` },
     });
-    return response.data; // or just return if you don't need the response data
+    return response.data;
   } catch (error) {
     console.error(
       "Error deleting board:",

@@ -14,7 +14,6 @@ router.post(
 
       const channel = await Channel.findOne({
         _id: channelId,
-        members: req.user._id,
       });
 
       if (!channel) {
@@ -74,7 +73,7 @@ router.delete(
   isAuthenticated(),
   async (req, res) => {
     try {
-      const { messageId } = req.params;
+      const messageId = req.params.messageId;
 
       const message = await Message.findById(messageId);
 
@@ -84,17 +83,19 @@ router.delete(
 
       if (
         message.creator.toString() !== req.user._id.toString() &&
-        req.user._id.toString() !== message.channel.admin.toString()
+        req.user._id.toString() !== message.channel.board.admin.toString()
       ) {
         return res
           .status(403)
           .json({ message: "You are not authorized to delete this message" });
       }
+      const channelId = req.params.channelId;
 
       await Channel.findByIdAndUpdate(channelId, {
         $pull: { messages: message._id },
       });
-      await message.remove();
+
+      await message.deleteOne({ _id: message._id });
 
       res.status(200).json({ message: "Message deleted successfully" });
     } catch (error) {

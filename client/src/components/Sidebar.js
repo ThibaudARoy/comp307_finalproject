@@ -59,9 +59,7 @@ function Sidebar(props) {
 
     return (
         <div className="sidebar">
-            <div className="boardName">
-                <h2>{props.boardName}</h2>
-            </div>
+            <h2>{props.boardName}</h2>
             <ul>
                 {channels.map(channel => (
                     <li className={`channel ${props.selectedChannel && props.selectedChannel.name === channel.name ? 'selected-channel' : 'channel-row'}`}  key={channel.name}>                        

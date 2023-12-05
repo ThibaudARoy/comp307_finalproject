@@ -30,11 +30,3 @@
     border-radius: 9px;
     font-weight: bold;
 }
-
-@media only screen and (max-width: 850px) {
-    .input {
-        width:100vw;
-        left:0;
-    }
-}
-

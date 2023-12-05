@@ -3,8 +3,6 @@
 .SelectBoard{
     background-color: #ec1c2e;
     font-family:Cabin, sans-serif;
-    margin:0px;
-    padding:0px;
 }
 
 header{
@@ -25,7 +23,6 @@ header{
     margin-left:100px;
     padding-top:50px;
     margin-right:100px;
-    width:100vw;
 }
 .BoardsContent h1{
     font-size:35px;
@@ -34,8 +31,8 @@ header{
 
 ul{
     list-style-type: none;
-    margin:0;
-    padding:0;
+    margin-left:0;
+    padding-left:0;
 }
 
 li{
@@ -78,20 +75,6 @@ li{
   }
 
   @media only screen and (max-width: 600px) {
-    .BoardsContent{
-        margin-left:0;
-        margin-right:0;
-    }
-    .Boards{
-        display:flex;
-        text-align: center;
-    }
-    .BoardsHeader h1{
-        font-size:50px;
-    }
-    li{
-        margin-right:0px;
-    }
     .btn-text{
         display:none;
     }

@@ -8,12 +8,9 @@
 .content {
     display: flex;
     flex: 1; 
-    width:100%;
 }
 
 .channel-content {
     display: flex;
-    flex-grow:1;
+    flex-direction: column;
 }
-
-

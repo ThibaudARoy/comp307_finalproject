@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
-
 .userBoard{
     width:200px;
     height:100px;
-    font-family: Cabin, sans-serif;
     background-color: #E8E8E8;
     border:1px solid lightgrey;
     color:black;
@@ -11,9 +8,7 @@
     flex-direction: column;
     align-items:center;
     justify-content: center;
-    font-weight:600;
-    font-size:20px;
-    
+    font-size:100%;
 }
 
 .userBoard:hover{
@@ -50,35 +45,4 @@
 .UserBoardButton:hover .DeleteBoardButton{
     opacity:1;
 }
-
-@media only screen and (max-width: 600px) {
-    .userBoard{
-        margin-left:0px;
-        padding-left:0px;
-        width:500px;
-        height:100px;
-        display: flex;
-        flex-direction: column;
-        align-items:normal;
-        justify-content: center;
-        font-size:35px;
-    }
-    .DeleteBoardButton{
-        margin-left:400px;
-    }
-    .crownIcon{
-        position:absolute;
-        height:auto;
-        width:35px;
-        margin-left:425px;
-        margin-top:-50px;
-    }
-    .birdBoard{
-        position:absolute;
-        margin-left:10px;
-        height:auto;
-        width:100px;
-    }
-
-  }
 

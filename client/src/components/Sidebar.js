@@ -1,19 +1,24 @@
-import React, {useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import {Link} from "react-router-dom";
-import './Sidebar.css';
+import React, { useEffect, useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./Sidebar.css";
 import icon from "../assets/x_icon.png";
-import axios from 'axios';
+import axios from "axios";
 
 function Sidebar(props) {
-    const [channels, setChannels] = useState(props.channels);
-    const [notifications, setNotifications] = useState({General: 3, Random: 0, React: 1, JavaScript: 0});
-    const [newChannel, setNewChannel] = useState('');
-    const [show, setShow] = useState(false);
-    const [channelToDelete, setChannelToDelete] = useState(null);
+  const [channels, setChannels] = useState(props.channels);
+  const [notifications, setNotifications] = useState({
+    General: 3,
+    Random: 0,
+    React: 1,
+    JavaScript: 0,
+  });
+  const [newChannel, setNewChannel] = useState("");
+  const [show, setShow] = useState(false);
+  const [channelToDelete, setChannelToDelete] = useState(null);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
     const handleAddChannel = () => {
         if (newChannel.trim() !== '') {
@@ -40,22 +45,38 @@ function Sidebar(props) {
           setChannels(channels.filter(channel => channel.name !== channelToDelete.name));
           setChannelToDelete(null);
         })
-        .catch(error => console.error(error));
-    };
+        .catch((error) => console.error(error));
+    }
+  };
 
-    const handleConfirmDelete = (channel) => {
-        setChannelToDelete(channel);
-    };
+  const handleDeleteChannel = () => {
+    axios
+      .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
+        headers: { Authorization: `${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        setChannels(
+          channels.filter((channel) => channel.name !== channelToDelete.name)
+        );
+        setChannelToDelete(null);
+      })
+      .catch((error) => console.error(error));
+  };
 
-    useEffect(() => {
-        axios.get(`/api/board/${props.boardId}/channels`, {
-          headers: { Authorization: `${localStorage.getItem("token")}` }
-        })
-        .then(response => {
-          setChannels(response.data);
-        })
-        .catch(error => console.error(error));
-      }, [props.boardId]);
+  const handleConfirmDelete = (channel) => {
+    setChannelToDelete(channel);
+  };
+
+  useEffect(() => {
+    axios
+      .get(`/api/boards/${props.boardId}/channels`, {
+        headers: { Authorization: `${localStorage.getItem("token")}` },
+      })
+      .then((response) => {
+        setChannels(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, [props.boardId]);
 
     return (
         <div className="sidebar">
@@ -92,24 +113,28 @@ function Sidebar(props) {
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={channelToDelete !== null} onHide={() => setChannelToDelete(null)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirm Delete</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure you want to delete <strong>#{channelToDelete ? channelToDelete.name : ''}</strong>?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setChannelToDelete(null)}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" onClick={handleDeleteChannel}>
-                        Delete
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
+      <Modal
+        show={channelToDelete !== null}
+        onHide={() => setChannelToDelete(null)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete{" "}
+          <strong>#{channelToDelete ? channelToDelete.name : ""}</strong>?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setChannelToDelete(null)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleDeleteChannel}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
 }
 
 export default Sidebar;

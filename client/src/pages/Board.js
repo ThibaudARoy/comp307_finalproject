@@ -10,15 +10,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
 
-const channels = ["General", "Random", "React", "JavaScript"];
+const ENDPOINT = "http://localhost:5000";
 
-const ENDPOINT = "http://localhost:5000"; // If you are deploying the app, replace the value with "https://YOUR_DEPLOYED_APPLICATION_URL"
-let socket;
 function Board() {
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
-  const [socketConnected, setSocketConnected] = useState(false);
   const [socket, setSocket] = useState(null);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
     axios

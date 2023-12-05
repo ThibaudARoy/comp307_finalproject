@@ -12,7 +12,7 @@
 
 .sender-name {
     font-weight: bold;
-    font-size: 23px;
+    font-size: 20px;
 }
 
 .time-stamp {
@@ -23,6 +23,7 @@
 
 .message-content {
     margin-top: 0;
+    font-size: 16px;
 }
 
 .name-time {

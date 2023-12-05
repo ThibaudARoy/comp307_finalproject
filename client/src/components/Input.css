@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .input {
-    width: 83.25%;
+    width: calc(83.25%-60px);
     position: absolute;
     top: calc(100vh - 110px);
     left: 16.75%;
@@ -14,27 +16,44 @@
 
 
 .input textarea {
-    width: 90%; 
-    height: 70px; 
+    font-family: Noto Sans JP, sans-serif;
+    width: 90%;
+    height: 50px; 
     resize: none; 
     overflow: auto; 
     border-radius: 9px;
-    border: 1px solid #000;
+    border: 1px solid #cccccc;
     padding-left: 10px;
-    padding-top: 20px;
+    padding-top:13px;
+    
 }
 
 .button {
-    width: 8.5%; 
-    height: 70px;
+    width: 50px; 
+    height: 50px;
     border-radius: 9px;
     font-weight: bold;
+    background-color:#ec1c2e !important;
+    border:1px solid #d4192a !important;
 }
 
-@media only screen and (max-width: 850px) {
-    .input {
-        width:100vw;
-        left:0;
+.button:hover{
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.button:active{
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
+.sendImg{
+    height:auto;
+    width:20px;
+}
+
+@media only screen and (max-width: 653px) {
+    .input{
+        left:110px;
     }
 }
-

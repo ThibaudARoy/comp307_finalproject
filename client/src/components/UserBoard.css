@@ -82,3 +82,33 @@
 
   }
 
+  @media only screen and (max-width: 550px) {
+    .userBoard{
+        margin-left:0px;
+        padding-left:0px;
+        width:400px;
+        height:100px;
+        display: flex;
+        flex-direction: column;
+        align-items:normal;
+        justify-content: center;
+        font-size:30px;
+    }
+    .DeleteBoardButton{
+        margin-left:300px;
+    }
+    .crownIcon{
+        position:absolute;
+        height:auto;
+        width:35px;
+        margin-left:340px;
+        margin-top:-50px;
+    }
+    .birdBoard{
+        margin-left:10px;
+        height:auto;
+        width:45px;
+        margin-top:-55px;
+    }
+
+  }

@@ -79,6 +79,12 @@
 .switch-button:active{
     background-color:#bd1626 !important;
 }
+@media only screen and (max-width: 653px) {
+    .topbar input[type="search"] {
+        width: 250px !important; 
+      }
+}
+
 
 @media only screen and (max-width: 850px) {
     .topbar input[type="search"] {

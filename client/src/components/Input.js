@@ -1,5 +1,6 @@
 import './Input.css';
 import Button from 'react-bootstrap/Button';
+import sendIcon from "../assets/send-message-2.png"
 import React, { useRef } from 'react';
 import axios from 'axios';
 
@@ -31,7 +32,9 @@ function Input({ boardId, selectedChannel }){
     return (
         <div className='input'>
             <textarea ref={textareaRef} placeholder="Type a message..."></textarea>
-            <Button onClick={sendMessage} variant='primary' className='button'>Send</Button>
+            <Button onClick={sendMessage} variant='primary' className='button'>
+               <img src={sendIcon} className="sendImg"></img>
+            </Button>
         </div>
     );
 }

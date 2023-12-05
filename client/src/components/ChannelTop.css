@@ -29,11 +29,11 @@
     font-weight:700;
 }
 
-@media only screen and (max-width: 850px) {
-    .top {
-        width:100vw;
-        left:0;
-        right:0;
+@media only screen and (max-width: 653px) {
+    .top{
+        left:110px;
     }
 }
+
+
 

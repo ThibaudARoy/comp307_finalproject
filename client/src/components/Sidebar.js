@@ -66,28 +66,27 @@ function Sidebar(props) {
                 {channels.map(channel => (
                     <li className={`channel ${props.selectedChannel && props.selectedChannel.name === channel.name ? 'selected-channel' : 'channel-row'}`}  key={channel.name}>                        
                         <div className="channel-row" onClick={() => props.onChannelClick(channel)}>
-                            <div className={notifications[channel.name] > 0 ? 'unread' : 'read'}># {channel.name}</div>
+                            <div className={notifications[channel.name] > 0 ? 'unread' : 'read'}><span className="hash"># </span>{channel.name}</div>
                             <button className='delete-button' onClick={() => {console.log(channel); handleConfirmDelete(channel)}}><img className='x-logo' src={icon}></img></button>
                         </div>
                     </li>
                 ))}
             </ul>
-            <Button className='add-button' variant="outline-primary" size="sm" onClick={handleShow}>
-                Add Channel
+            <Button className='add-button' variant="primary" size="sm" onClick={handleShow}>
+                <span className="wideScreenBtn">Add Channel</span>
+                <span className="mobileBtn">+</span>
             </Button>
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add a new channel</Modal.Title>
+                <Modal.Header className="headerModal" closeButton>
+                    <Modal.Title className="titleModal">Add a new channel</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Form.Control type="text" placeholder="New channel" value={newChannel} onChange={e => setNewChannel(e.target.value)} />
+                <Modal.Body className="channelModal">
+                    <label>Channel Name</label>
+                    <Form.Control className="modalInput" type="text" placeholder="New channel" value={newChannel} onChange={e => setNewChannel(e.target.value)} />
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleAddChannel}>
+                <Modal.Footer className="footerModal">
+                    <Button className="submitChannel" variant="danger" onClick={handleAddChannel}>
                         Add Channel
                     </Button>
                 </Modal.Footer>

@@ -1,5 +1,5 @@
 .message {
-    width: calc(83.25% - 60px);
+    width:calc(83.25%-60px);
     position: absolute;
     top: 124px;
     left: 16.75%;
@@ -29,12 +29,11 @@
     margin-bottom: 0;
 }
 
-@media only screen and (max-width: 850px) {
-    .message {
-        width:100vw;
-        left:0;
+@media only screen and (max-width: 653px) {
+    .message{
+        left:110px;
         padding-right:0;
-        margin-left:0;
     }
 }
+
 

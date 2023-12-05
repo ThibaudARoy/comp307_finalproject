@@ -68,7 +68,7 @@ function SelectBoard() {
       extraHeaders: {
         Authorization: `${localStorage.getItem("token")}`,
       },
-      transports: ["websocket"],
+      // transports: ["websocket"],
     });
     socket.emit("setup", "hello");
     socket.on("connected", () => {

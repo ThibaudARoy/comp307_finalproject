@@ -60,7 +60,6 @@ io.use((socket, next) => {
     if (err || !user) {
       return next(new Error("Authentication error: Invalid token"));
     }
-
     socket.user = user;
     return next();
   })(socket.handshake, {}, next);

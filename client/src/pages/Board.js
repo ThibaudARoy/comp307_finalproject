@@ -33,11 +33,13 @@ function Board(){
         <div className="board">
             <Topbar boardName={board ? board.name : ''}/>
             <div className="content">
+                <div className="sidebar">
                 <Sidebar boardName={board ? board.name : ''} channels={board ? board.channels : []} onChannelClick={handleChannelClick}  selectedChannel={selectedChannel} boardId={boardId} members={board ? board.members : []}/>
+                </div>
                 <div className="channel-content">
-                    <ChannelTop channel={selectedChannel ? selectedChannel.name : ''}/>
-                    <Message boardId={boardId} channelId={selectedChannel ? selectedChannel._id : null}/>
-                    <Input boardId={boardId} selectedChannel={selectedChannel}/>
+                    <ChannelTop className="top" channel={selectedChannel ? selectedChannel.name : ''}/>
+                    <Message className="message" boardId={boardId} channelId={selectedChannel ? selectedChannel._id : null}/>
+                    <Input className="inputBottom" boardId={boardId} selectedChannel={selectedChannel}/>
                 </div>
                 
             </div>

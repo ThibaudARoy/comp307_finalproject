@@ -37,18 +37,6 @@ function Sidebar(props) {
         }
       };
 
-    const handleDeleteChannel = () => {
-        axios.delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
-          headers: { Authorization: `${localStorage.getItem("token")}` }
-        })
-        .then(response => {
-          setChannels(channels.filter(channel => channel.name !== channelToDelete.name));
-          setChannelToDelete(null);
-        })
-        .catch((error) => console.error(error));
-    }
-  };
-
   const handleDeleteChannel = () => {
     axios
       .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
@@ -61,7 +49,7 @@ function Sidebar(props) {
         setChannelToDelete(null);
       })
       .catch((error) => console.error(error));
-  };
+    };
 
   const handleConfirmDelete = (channel) => {
     setChannelToDelete(channel);

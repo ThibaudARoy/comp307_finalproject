@@ -72,7 +72,7 @@ function Sidebar(props) {
                     </li>
                 ))}
             </ul>
-            <Button variant="outline-primary" size="sm" onClick={handleShow}>
+            <Button className='add-button' variant="outline-primary" size="sm" onClick={handleShow}>
                 Add Channel
             </Button>
 

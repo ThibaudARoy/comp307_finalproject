@@ -21,31 +21,21 @@ function Sidebar(props) {
   const handleShow = () => setShow(true);
 
   const handleAddChannel = () => {
-    if (newChannel.trim() !== "") {
-      axios
-        .post(
-          `/api/boards/${props.boardId}/channels`,
-          {
-            name: newChannel,
-            members: props.members,
-          },
-          {
-            headers: { Authorization: `${localStorage.getItem("token")}` },
-          }
-        )
-        .then((response) => {
-          const createdChannel = response.data.newChannel;
-
-          setChannels([...channels, response.data.newChannel]);
-          setNewChannel("");
-          handleClose();
-          if (props.socket) {
-            props.socket.emit("joinChannel", createdChannel._id);
-          }
-        })
-        .catch((error) => console.error(error));
-    }
-  };
+      if (newChannel.trim() !== '') {
+          axios.post(`/api/boards/${props.boardId}/channels`, {
+              name: newChannel,
+              members: props.members
+            }, {
+              headers: { Authorization: `${localStorage.getItem("token")}` }
+            })
+            .then(response => {
+              setChannels([...channels, response.data.newChannel]);
+              setNewChannel('');
+              handleClose();
+            })
+            .catch(error => console.error(error));
+      }
+    };
 
   const handleDeleteChannel = () => {
     axios

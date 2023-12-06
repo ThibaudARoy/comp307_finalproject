@@ -9,19 +9,14 @@ import { Link } from "react-router-dom";
 import AddBoard from "../components/AddBoard";
 import UserBoard from "../components/UserBoard";
 import LogoutConfirmModal from "../components/LogoutConfirmModal";
-import io from "socket.io-client";
 import { logoutUser, getUserInfo } from "../backendConnection/AuthService";
 import { getUserBoards } from "../backendConnection/BoardsService";
-
-const ENDPOINT = "http://localhost:5000"; // If you are deploying the app, replace the value with "https://YOUR_DEPLOYED_APPLICATION_URL"
-let socket;
 
 function SelectBoard() {
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userBoards, setUserBoards] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
-  const [socketConnected, setSocketConnected] = useState(false);
 
   const handleLogout = () => {
     setShowLogoutModal(true);
@@ -60,23 +55,6 @@ function SelectBoard() {
         console.error("Error fetching user info:", error);
         // handle error, maybe set an error state to display to the user
       });
-  }, []);
-
-  useEffect(() => {
-    const socket = io.connect(ENDPOINT, {
-      withCredentials: true,
-      extraHeaders: {
-        Authorization: `${localStorage.getItem("token")}`,
-      },
-      transports: ["websocket"],
-    });
-    socket.emit("setup", "hello");
-    socket.on("connected", () => {
-      console.log("authenticated");
-      setSocketConnected(true);
-    });
-
-    // eslint-disable-next-line
   }, []);
 
   return (

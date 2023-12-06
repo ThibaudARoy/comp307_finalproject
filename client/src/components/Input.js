@@ -1,42 +1,50 @@
-import './Input.css';
-import Button from 'react-bootstrap/Button';
-import sendIcon from "../assets/send-message-2.png"
-import React, { useRef } from 'react';
-import axios from 'axios';
+import "./Input.css";
+import Button from "react-bootstrap/Button";
+import sendIcon from "../assets/send-message-2.png";
+import React, { useRef } from "react";
+import axios from "axios";
 
-function Input({ boardId, selectedChannel }){
-    const textareaRef = useRef();
+function Input({ boardId, selectedChannel, socket }) {
+  const textareaRef = useRef();
 
-    const sendMessage = async () => {
-        const content = textareaRef.current.value;
+  const sendMessage = async () => {
+    const content = textareaRef.current.value;
 
-        if (!selectedChannel) {
-            console.error('No channel selected');
-            return;
-        }
+    if (!selectedChannel || !socket) {
+      console.error("No channel selected or socket not connected");
+      return;
+    }
 
-        try {
-            const response = await axios.post(`/api/boards/${boardId}/channels/${selectedChannel._id}/messages`, {
-                content
-            }, {
-                headers: { Authorization: `${localStorage.getItem("token")}` }
-            });
+    try {
+      const response = await axios.post(
+        `/api/boards/${boardId}/channels/${selectedChannel._id}/messages`,
+        { content },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
+      );
 
-            console.log('New message:', response.data);
-            textareaRef.current.value = ''; // Clear the textarea
-        } catch (error) {
-            console.error('Error:', error.response.data.message);
-        }
-    };
+      // Emit the new message event via WebSocket
+      const newMessageData = {
+        channelId: selectedChannel._id,
+        content,
+        timestamp: new Date().toISOString(), // or use server-generated timestamp
+        creator: response.data.creator, // assuming the response includes the creator
+      };
 
-    return (
-        <div className='input'>
-            <textarea ref={textareaRef} placeholder="Type a message..."></textarea>
-            <Button onClick={sendMessage} variant='primary' className='button'>
-               <img src={sendIcon} className="sendImg"></img>
-            </Button>
-        </div>
-    );
+      socket.emit("newMessage", newMessageData);
+      textareaRef.current.value = ""; // Clear the textarea
+    } catch (error) {
+      console.error("Error:", error.response.data.message);
+    }
+  };
+
+  return (
+    <div className="input">
+      <textarea ref={textareaRef} placeholder="Type a message..."></textarea>
+      <Button onClick={sendMessage} variant="primary" className="button">
+        <img src={sendIcon} className="sendImg"></img>
+      </Button>
+    </div>
+  );
 }
 
 export default Input;

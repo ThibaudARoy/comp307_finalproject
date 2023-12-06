@@ -34,9 +34,14 @@ function Sidebar(props) {
           }
         )
         .then((response) => {
+          const createdChannel = response.data.newChannel;
+
           setChannels([...channels, response.data.newChannel]);
           setNewChannel("");
           handleClose();
+          if (props.socket) {
+            props.socket.emit("joinChannel", createdChannel._id);
+          }
         })
         .catch((error) => console.error(error));
     }

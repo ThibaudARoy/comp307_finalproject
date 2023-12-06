@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 require("dotenv").config();
+const Message = require("./models/Message");
+const Channel = require("./models/Channel");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
@@ -80,19 +82,32 @@ io.on("connection", (socket) => {
     "newMessage",
     async ({ channelId, content, timestamp, creator }) => {
       try {
+        // Create and save the new message
         const newMessage = await new Message({
           content,
-          timestamp,
           creator,
           channel: channelId,
+          timestamp: timestamp || Date.now(), // Use provided timestamp or current time
+        }).save();
+
+        // Update the channel's message list
+        await Channel.findByIdAndUpdate(channelId, {
+          $push: { messages: newMessage._id },
         });
-        const savedMessage = newMessage.save();
-        io.to(channelId).emit("newMessage", savedMessage);
+
+        // Populate the creator field
+        const populatedMessage = await Message.findById(
+          newMessage._id
+        ).populate("creator", "firstName lastName");
+
+        // Emit the message to the channel
+        io.to(channelId).emit("newMessage", populatedMessage);
       } catch (error) {
         console.error(error);
       }
     }
   );
+
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
     console.log(`User left channel ${channelId}`);

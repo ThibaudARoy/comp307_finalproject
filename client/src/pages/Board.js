@@ -2,7 +2,6 @@ import "./Board.css";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import Message from "../components/Message";
-import { Route, Routes } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import ChannelTop from "../components/ChannelTop";
 import Input from "../components/Input";
@@ -82,6 +81,7 @@ function Board() {
             selectedChannel={selectedChannel}
             boardId={boardId}
             members={board ? board.members : []}
+            socket={socket}
           />
         </div>
         <div className="channel-content">
@@ -93,11 +93,13 @@ function Board() {
             className="message"
             boardId={boardId}
             channelId={selectedChannel ? selectedChannel._id : null}
+            socket={socket}
           />
           <Input
             className="inputBottom"
             boardId={boardId}
             selectedChannel={selectedChannel}
+            socket={socket}
           />
         </div>
       </div>

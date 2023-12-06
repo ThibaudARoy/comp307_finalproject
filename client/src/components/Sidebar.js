@@ -20,34 +20,22 @@ function Sidebar(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-    const handleAddChannel = () => {
-        if (newChannel.trim() !== '') {
-            axios.post(`/api/boards/${props.boardId}/channels`, {
-                name: newChannel,
-                members: props.members
-              }, {
-                headers: { Authorization: `${localStorage.getItem("token")}` }
-              })
-              .then(response => {
-                setChannels([...channels, response.data.newChannel]);
-                setNewChannel('');
-                handleClose();
-              })
-              .catch(error => console.error(error));
-        }
-      };
-
-    const handleDeleteChannel = () => {
-        axios.delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
-          headers: { Authorization: `${localStorage.getItem("token")}` }
-        })
-        .then(response => {
-          setChannels(channels.filter(channel => channel.name !== channelToDelete.name));
-          setChannelToDelete(null);
-        })
-        .catch((error) => console.error(error));
-    }
-  };
+  const handleAddChannel = () => {
+      if (newChannel.trim() !== '') {
+          axios.post(`/api/boards/${props.boardId}/channels`, {
+              name: newChannel,
+              members: props.members
+            }, {
+              headers: { Authorization: `${localStorage.getItem("token")}` }
+            })
+            .then(response => {
+              setChannels([...channels, response.data.newChannel]);
+              setNewChannel('');
+              handleClose();
+            })
+            .catch(error => console.error(error));
+      }
+    };
 
   const handleDeleteChannel = () => {
     axios

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
 
@@ -20,6 +20,7 @@ function stringToColor(str) {
 
 function Message({ boardId, channelId, socket }) {
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = React.createRef();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -62,6 +63,10 @@ function Message({ boardId, channelId, socket }) {
     }
   }, [socket, channelId]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="message">
       {messages.map((message, index) => {
@@ -103,6 +108,7 @@ function Message({ boardId, channelId, socket }) {
           </div>
         );
       })}
+       <div ref={messagesEndRef} /> 
     </div>
   );
 }

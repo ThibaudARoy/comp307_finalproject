@@ -37,9 +37,16 @@ function Input({ boardId, selectedChannel, socket }) {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <div className="input">
-      <textarea ref={textareaRef} placeholder="Type a message..."></textarea>
+      <textarea ref={textareaRef} placeholder="Type a message..." onKeyDown={handleKeyDown}></textarea>
       <Button onClick={sendMessage} variant="primary" className="button">
         <img src={sendIcon} className="sendImg"></img>
       </Button>

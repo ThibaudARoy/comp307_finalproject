@@ -85,26 +85,28 @@ function Message({ boardId, channelId, socket }) {
                 <hr />
               </div>
             )}
-            {(index === 0 ||
-              message.creator._id !== messages[index - 1].creator._id ||
-              currentDate !== previousDate) && (
-              <p className="name-time">
-                <span
-                  className="sender-name"
-                  style={{ color: stringToColor(message.creator._id) }}
-                >
-                  {message.creator.firstName} {message.creator.lastName}
-                </span>
-                <span className="time-stamp">
-                  {new Date(message.timestamp).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </span>
-              </p>
-            )}
-            <p className="message-content">{message.content}</p>
+            <div className="individual-message">
+              {(index === 0 ||
+                message.creator._id !== messages[index - 1].creator._id ||
+                currentDate !== previousDate) && (
+                <p className="name-time">
+                  <span
+                    className="sender-name"
+                    style={{ color: stringToColor(message.creator._id) }}
+                  >
+                    {message.creator.firstName} {message.creator.lastName}
+                  </span>
+                  <span className="time-stamp">
+                    {new Date(message.timestamp).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </span>
+                </p>
+              )}
+              <p className="message-content">{message.content}</p>
+            </div>
           </div>
         );
       })}

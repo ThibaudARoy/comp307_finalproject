@@ -15,6 +15,9 @@
 .individual-message {
     padding-right: 60px;
     padding-left: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sender-name {
@@ -73,6 +76,22 @@
 .date-separator span {
     margin: 0 10px;
     color: #888;
+}
+
+.dot-button {
+    border: none;
+    background-color: transparent;
+    visibility: hidden;
+    padding-left: 20px;
+}
+
+.dots {
+    height: 14px;
+    width: 14px;
+}
+
+.individual-message:hover .dot-button {
+    visibility: visible;
 }
 
 @media only screen and (max-width: 653px) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
+import dots from "../assets/dots.png"
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -86,26 +87,29 @@ function Message({ boardId, channelId, socket }) {
               </div>
             )}
             <div className="individual-message">
-              {(index === 0 ||
-                message.creator._id !== messages[index - 1].creator._id ||
-                currentDate !== previousDate) && (
-                <p className="name-time">
-                  <span
-                    className="sender-name"
-                    style={{ color: stringToColor(message.creator._id) }}
-                  >
-                    {message.creator.firstName} {message.creator.lastName}
-                  </span>
-                  <span className="time-stamp">
-                    {new Date(message.timestamp).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </span>
-                </p>
-              )}
-              <p className="message-content">{message.content}</p>
+              <div>
+                {(index === 0 ||
+                  message.creator._id !== messages[index - 1].creator._id ||
+                  currentDate !== previousDate) && (
+                  <p className="name-time">
+                    <span
+                      className="sender-name"
+                      style={{ color: stringToColor(message.creator._id) }}
+                    >
+                      {message.creator.firstName} {message.creator.lastName}
+                    </span>
+                    <span className="time-stamp">
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </span>
+                  </p>
+                )}
+                <p className="message-content">{message.content}</p>
+              </div>
+              <button className="dot-button"><img className="dots" src={dots}></img></button>
             </div>
           </div>
         );

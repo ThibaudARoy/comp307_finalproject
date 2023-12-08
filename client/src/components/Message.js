@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
 import dots from "../assets/dots.png"
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -109,7 +110,15 @@ function Message({ boardId, channelId, socket }) {
                 )}
                 <p className="message-content">{message.content}</p>
               </div>
-              <button className="dot-button"><img className="dots" src={dots}></img></button>
+              <DropdownButton
+                className="dot-button"
+                title={<img className="dots" src={dots} />}
+                id="dropdown-basic-button"
+                variant="secondary"
+              >
+                <Dropdown.Item href="#/action-1" className="pin-message">Pin</Dropdown.Item>
+                <Dropdown.Item href="#/action-2" className="delete-message">Delete</Dropdown.Item>
+              </DropdownButton>
             </div>
           </div>
         );

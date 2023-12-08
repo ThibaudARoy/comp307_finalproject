@@ -85,6 +85,20 @@
     padding-left: 20px;
 }
 
+.dot-button .btn-secondary {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.dot-button .btn-secondary:active {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.dropdown-toggle:after {
+    display: none;
+}
+
 .dots {
     height: 14px;
     width: 14px;
@@ -92,6 +106,21 @@
 
 .individual-message:hover .dot-button {
     visibility: visible;
+}
+
+.delete-message{
+    color: red;
+}
+
+.delete-message:hover {
+    background-color: #ec1c2e;
+    color: white;
+}
+
+.pin-message:hover {
+    color: rgb(255, 140, 0);
+    font-weight: bold;
+    background-color: white;
 }
 
 @media only screen and (max-width: 653px) {

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Message.css";
 import dots from "../assets/dots.png"
 import {Modal, Button, DropdownButton, Dropdown } from 'react-bootstrap';
+import { getUserInfo } from "../backendConnection/AuthService";
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -20,11 +21,12 @@ function stringToColor(str) {
   return color;
 }
 
-function Message({ boardId, channelId, socket }) {
+function Message({ boardId, boardAdmin, channelId, socket }) {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = React.createRef();
   const [show, setShow] = useState(false);
   const [messageId, setMessageId] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = (messageId) => {
@@ -96,11 +98,24 @@ function Message({ boardId, channelId, socket }) {
       setMessages(messages.filter(message => message._id !== messageId));
   
       handleClose();
-      
+
     } catch (error) {
       console.error('An error occurred while deleting the message:', error);
     }
   };
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const info = await getUserInfo();
+        setUserInfo(info);
+      } catch (error) {
+        console.error('An error occurred while fetching the user info:', error);
+      }
+    };
+  
+    fetchUserInfo();
+  }, []);
 
   return (
     <div className="message">
@@ -150,7 +165,9 @@ function Message({ boardId, channelId, socket }) {
                 variant="secondary"
               >
                 <Dropdown.Item href="#/action-1" className="pin-message">Pin</Dropdown.Item>
-                <Dropdown.Item  onClick={() => handleShow(message._id)} className="delete-message">Delete</Dropdown.Item>
+                {(userInfo && userInfo._id === message.creator._id || userInfo._id === boardAdmin) && (
+                  <Dropdown.Item onClick={() => handleShow(message._id)} className="delete-message">Delete</Dropdown.Item>
+                )}
               </DropdownButton>
             </div>
           </div>

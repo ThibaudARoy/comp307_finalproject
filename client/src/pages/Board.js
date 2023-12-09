@@ -92,6 +92,7 @@ function Board() {
           <Message
             className="message"
             boardId={boardId}
+            boardAdmin={board ? board.admin : null}
             channelId={selectedChannel ? selectedChannel._id : null}
             socket={socket}
           />

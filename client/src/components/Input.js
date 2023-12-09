@@ -22,15 +22,9 @@ function Input({ boardId, selectedChannel, socket }) {
         { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
 
-      // Emit the new message event via WebSocket
-      const newMessageData = {
-        channelId: selectedChannel._id,
-        content,
-        timestamp: new Date().toISOString(), // or use server-generated timestamp
-        creator: response.data.creator, // assuming the response includes the creator
-      };
+      const populatedMessage = response.data;
 
-      socket.emit("newMessage", newMessageData);
+      socket.emit("newMessage", populatedMessage);
       textareaRef.current.value = ""; // Clear the textarea
     } catch (error) {
       console.error("Error:", error.response.data.message);
@@ -38,7 +32,7 @@ function Input({ boardId, selectedChannel, socket }) {
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       sendMessage();
     }
@@ -46,7 +40,11 @@ function Input({ boardId, selectedChannel, socket }) {
 
   return (
     <div className="input">
-      <textarea ref={textareaRef} placeholder="Type a message..." onKeyDown={handleKeyDown}></textarea>
+      <textarea
+        ref={textareaRef}
+        placeholder="Type a message..."
+        onKeyDown={handleKeyDown}
+      ></textarea>
       <Button onClick={sendMessage} variant="primary" className="button">
         <img src={sendIcon} className="sendImg"></img>
       </Button>

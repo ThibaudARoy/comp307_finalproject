@@ -34,7 +34,12 @@ router.post(
         $push: { messages: newMessage._id },
       });
 
-      res.status(201).json(newMessage);
+      const populatedMessage = await Message.findById(newMessage._id).populate(
+        "creator",
+        "firstName lastName"
+      );
+
+      res.status(201).json(populatedMessage);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
@@ -59,7 +64,10 @@ router.get(
           .json({ message: "You are not a member of this channel" });
       }
 
-      const messages = await Message.find({ channel: channelId }).populate('creator', 'firstName lastName');
+      const messages = await Message.find({ channel: channelId }).populate(
+        "creator",
+        "firstName lastName"
+      );
 
       res.json(messages);
     } catch (error) {
@@ -76,10 +84,10 @@ router.delete(
       const messageId = req.params.messageId;
 
       const message = await Message.findById(messageId).populate({
-        path: 'channel',
+        path: "channel",
         populate: {
-          path: 'board',
-        }
+          path: "board",
+        },
       });
 
       if (!message) {

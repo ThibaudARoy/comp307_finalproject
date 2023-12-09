@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
-import dots from "../assets/dots.png"
-import {Modal, Button, DropdownButton, Dropdown } from 'react-bootstrap';
+import dots from "../assets/dots.png";
+import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { getUserInfo } from "../backendConnection/AuthService";
 
 function stringToColor(str) {
@@ -63,7 +63,7 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
     if (socket) {
       const newMessageHandler = (newMessage) => {
         console.log(newMessage);
-        if (newMessage.channel === channelId) {
+        if (newMessage.channelId === channelId) {
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         }
       };
@@ -78,12 +78,14 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     if (socket) {
       const messageDeletedHandler = (deletedMessageId) => {
-        setMessages(messages => messages.filter(message => message._id !== deletedMessageId));
+        setMessages((messages) =>
+          messages.filter((message) => message._id !== deletedMessageId)
+        );
       };
-      socket.on('messageDeleted', messageDeletedHandler);
-  
+      socket.on("messageDeleted", messageDeletedHandler);
+
       return () => {
-        socket.off('messageDeleted', messageDeletedHandler);
+        socket.off("messageDeleted", messageDeletedHandler);
       };
     }
   }, [socket]);
@@ -91,7 +93,6 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
 
   const handleDelete = async () => {
     try {
@@ -101,19 +102,18 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
           headers: { Authorization: `${localStorage.getItem("token")}` },
         }
       );
-  
+
       if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       console.log(response.data);
 
-      socket.emit('deleteMessage', { channelId, messageId });
-  
-      handleClose();
+      socket.emit("deleteMessage", { channelId, messageId });
 
+      handleClose();
     } catch (error) {
-      console.error('An error occurred while deleting the message:', error);
+      console.error("An error occurred while deleting the message:", error);
     }
   };
 
@@ -123,10 +123,10 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
         const info = await getUserInfo();
         setUserInfo(info);
       } catch (error) {
-        console.error('An error occurred while fetching the user info:', error);
+        console.error("An error occurred while fetching the user info:", error);
       }
     };
-  
+
     fetchUserInfo();
   }, []);
 
@@ -177,31 +177,39 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 id="dropdown-basic-button"
                 variant="secondary"
               >
-                <Dropdown.Item href="#/action-1" className="pin-message">Pin</Dropdown.Item>
-                {(userInfo && userInfo._id === message.creator._id || userInfo._id === boardAdmin) && (
-                  <Dropdown.Item onClick={() => handleShow(message._id)} className="delete-message">Delete</Dropdown.Item>
+                <Dropdown.Item href="#/action-1" className="pin-message">
+                  Pin
+                </Dropdown.Item>
+                {((userInfo && userInfo._id === message.creator._id) ||
+                  userInfo._id === boardAdmin) && (
+                  <Dropdown.Item
+                    onClick={() => handleShow(message._id)}
+                    className="delete-message"
+                  >
+                    Delete
+                  </Dropdown.Item>
                 )}
               </DropdownButton>
             </div>
           </div>
         );
       })}
-       <div ref={messagesEndRef} /> 
+      <div ref={messagesEndRef} />
 
-       <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

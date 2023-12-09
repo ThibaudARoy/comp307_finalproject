@@ -83,7 +83,7 @@ function Sidebar(props) {
 
       const deleteChannelHandler = (channelDel) => {
         console.log("delete channel " + channelDel);
-        console.log("channels before: " + channels);
+        console.log("channels: " + channels);
         setChannels(
           channels.filter((channel) => channel._id !== channelDel)
         );
@@ -92,7 +92,7 @@ function Sidebar(props) {
 
       return () => {
         socket.off("newChannel", newChannelHandler);
-        socket.off("deleteChannel");
+        socket.off("deleteChannel", deleteChannelHandler);
       };
     }
   }, [props.boardId, socket]);

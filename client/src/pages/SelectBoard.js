@@ -17,6 +17,8 @@ function SelectBoard() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userBoards, setUserBoards] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const handleLogout = () => {
     setShowLogoutModal(true);
@@ -56,6 +58,27 @@ function SelectBoard() {
         // handle error, maybe set an error state to display to the user
       });
   }, []);
+
+  /*useEffect(() => {
+    const socket = io.connect(ENDPOINT, {
+      withCredentials: true,
+      extraHeaders: {
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+      // transports: ["websocket"],
+    });
+    socket.emit("setup", "hello");
+    socket.on("connected", () => {
+      console.log("authenticated");
+      setSocketConnected(true);
+    });
+
+    setSocket(socket);
+    // eslint-disable-next-line
+    return () => {
+      socket.disconnect();
+    };
+  }, []);*/
 
   return (
     <div className="SelectBoard">

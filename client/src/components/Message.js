@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
+import dots from "../assets/dots.png";
+import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import { getUserInfo } from "../backendConnection/AuthService";
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -18,8 +21,18 @@ function stringToColor(str) {
   return color;
 }
 
-function Message({ boardId, channelId, socket }) {
+function Message({ boardId, boardAdmin, channelId, socket }) {
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = React.createRef();
+  const [show, setShow] = useState(false);
+  const [messageId, setMessageId] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (messageId) => {
+    setMessageId(messageId);
+    setShow(true);
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -46,22 +59,6 @@ function Message({ boardId, channelId, socket }) {
     fetchMessages();
   }, [boardId, channelId]);
 
-  useEffect(() => {
-    if (socket) {
-      const newMessageHandler = (newMessage) => {
-        console.log(newMessage);
-        if (newMessage.channel === channelId) {
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-        }
-      };
-      socket.on("newMessage", newMessageHandler);
-
-      return () => {
-        socket.off("newMessage", newMessageHandler);
-      };
-    }
-  }, [socket, channelId]);
-
   return (
     <div className="message">
       {messages.map((message, index) => {
@@ -80,29 +77,68 @@ function Message({ boardId, channelId, socket }) {
                 <hr />
               </div>
             )}
-            {(index === 0 ||
-              message.creator._id !== messages[index - 1].creator._id ||
-              currentDate !== previousDate) && (
-              <p className="name-time">
-                <span
-                  className="sender-name"
-                  style={{ color: stringToColor(message.creator._id) }}
-                >
-                  {message.creator.firstName} {message.creator.lastName}
-                </span>
-                <span className="time-stamp">
-                  {new Date(message.timestamp).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </span>
-              </p>
-            )}
-            <p className="message-content">{message.content}</p>
+            <div className="individual-message">
+              <div>
+                {(index === 0 ||
+                  message.creator._id !== messages[index - 1].creator._id ||
+                  currentDate !== previousDate) && (
+                  <p className="name-time">
+                    <span
+                      className="sender-name"
+                      style={{ color: stringToColor(message.creator._id) }}
+                    >
+                      {message.creator.firstName} {message.creator.lastName}
+                    </span>
+                    <span className="time-stamp">
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </span>
+                  </p>
+                )}
+                <p className="message-content">{message.content}</p>
+              </div>
+              <DropdownButton
+                className="dot-button"
+                title={<img className="dots" src={dots} />}
+                id="dropdown-basic-button"
+                variant="secondary"
+              >
+                <Dropdown.Item href="#/action-1" className="pin-message">
+                  Pin
+                </Dropdown.Item>
+                {((userInfo && userInfo._id === message.creator._id) ||
+                  userInfo._id === boardAdmin) && (
+                  <Dropdown.Item
+                    onClick={() => handleShow(message._id)}
+                    className="delete-message"
+                  >
+                    Delete
+                  </Dropdown.Item>
+                )}
+              </DropdownButton>
+            </div>
           </div>
         );
       })}
+      <div ref={messagesEndRef} />
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

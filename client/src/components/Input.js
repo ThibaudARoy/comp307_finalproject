@@ -18,19 +18,15 @@ function Input({ boardId, selectedChannel, socket }) {
     try {
       const response = await axios.post(
         `/api/boards/${boardId}/channels/${selectedChannel._id}/messages`,
-        { content },
-        { headers: { Authorization: `${localStorage.getItem("token")}` } }
+        {
+          content,
+        },
+        {
+          headers: { Authorization: `${localStorage.getItem("token")}` },
+        }
       );
 
-      // Emit the new message event via WebSocket
-      const newMessageData = {
-        channelId: selectedChannel._id,
-        content,
-        timestamp: new Date().toISOString(), // or use server-generated timestamp
-        creator: response.data.creator, // assuming the response includes the creator
-      };
-
-      socket.emit("newMessage", newMessageData);
+      console.log("New message:", response.data);
       textareaRef.current.value = ""; // Clear the textarea
     } catch (error) {
       console.error("Error:", error.response.data.message);
@@ -39,7 +35,11 @@ function Input({ boardId, selectedChannel, socket }) {
 
   return (
     <div className="input">
-      <textarea ref={textareaRef} placeholder="Type a message..."></textarea>
+      <textarea
+        ref={textareaRef}
+        placeholder="Type a message..."
+        onKeyDown={handleKeyDown}
+      ></textarea>
       <Button onClick={sendMessage} variant="primary" className="button">
         <img src={sendIcon} className="sendImg"></img>
       </Button>

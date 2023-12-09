@@ -49,8 +49,6 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
           }
         );
         setMessages(response.data);
-        console.log(response.data);
-        console.log("YESSIR");
       } catch (error) {
         console.error(error);
       }
@@ -62,8 +60,7 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     if (socket) {
       const newMessageHandler = (newMessage) => {
-        console.log(newMessage);
-        if (newMessage.channelId === channelId) {
+        if (newMessage.channel === channelId) {
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         }
       };

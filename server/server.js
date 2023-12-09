@@ -83,9 +83,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("newMessage", (populatedMessage) => {
-    const { channelId } = populatedMessage;
-
-    io.to(channelId).emit("newMessage", populatedMessage);
+    const { channel } = populatedMessage;
+    io.to(channel).emit("newMessage", populatedMessage);
   });
 
   socket.on("leaveChannel", (channelId) => {

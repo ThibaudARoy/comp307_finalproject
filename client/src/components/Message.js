@@ -127,6 +127,24 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
     fetchUserInfo();
   }, []);
 
+  const handlePinUnpin = async (messageId, shouldPin) => {
+    try {
+      await axios.patch(
+        `/api/boards/${boardId}/channels/${channelId}/messages/${messageId}`,
+        { pinned: shouldPin },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
+      );
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg._id === messageId ? { ...msg, pinned: shouldPin } : msg
+        )
+      );
+    } catch (error) {
+      console.error("Error updating pin status:", error);
+    }
+  };
+
   return (
     <div className="message">
       {messages.map((message, index) => {
@@ -145,7 +163,11 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 <hr />
               </div>
             )}
-            <div className="individual-message">
+            <div
+              className={`individual-message ${
+                message.pinned ? "pinned-message" : ""
+              }`}
+            >
               <div>
                 {(index === 0 ||
                   message.creator._id !== messages[index - 1].creator._id ||
@@ -174,9 +196,13 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 id="dropdown-basic-button"
                 variant="secondary"
               >
-                <Dropdown.Item href="#/action-1" className="pin-message">
-                  Pin
+                <Dropdown.Item
+                  onClick={() => handlePinUnpin(message._id, !message.pinned)}
+                  className="pin-message"
+                >
+                  {message.pinned ? "Unpin" : "Pin"}
                 </Dropdown.Item>
+
                 {((userInfo && userInfo._id === message.creator._id) ||
                   userInfo._id === boardAdmin) && (
                   <Dropdown.Item

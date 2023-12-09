@@ -21,28 +21,21 @@ function Sidebar(props) {
   const handleShow = () => setShow(true);
 
   const handleAddChannel = () => {
-    if (newChannel.trim() !== "") {
-      axios
-        .post(
-          `/api/boards/${props.boardId}/channels`,
-          {
-            name: newChannel,
-            members: [
-              /* array of member IDs */
-            ], //problem here?
-          },
-          {
-            headers: { Authorization: `${localStorage.getItem("token")}` },
-          }
-        )
-        .then((response) => {
-          setChannels([...channels, response.data.newChannel]);
-          setNewChannel("");
-          handleClose();
-        })
-        .catch((error) => console.error(error));
-    }
-  };
+      if (newChannel.trim() !== '') {
+          axios.post(`/api/boards/${props.boardId}/channels`, {
+              name: newChannel,
+              members: props.members
+            }, {
+              headers: { Authorization: `${localStorage.getItem("token")}` }
+            })
+            .then(response => {
+              setChannels([...channels, response.data.newChannel]);
+              setNewChannel('');
+              handleClose();
+            })
+            .catch(error => console.error(error));
+      }
+    };
 
   const handleDeleteChannel = () => {
     axios
@@ -75,12 +68,15 @@ function Sidebar(props) {
 
   return (
     <div className="sidebar">
-      <h2>{props.boardName}</h2>
+      <div className="boardName">
+        <h2>{props.boardName}</h2>
+      </div>
       <ul>
         {channels.map((channel) => (
           <li
             className={`channel ${
-              props.selectedChannel === channel.name
+              props.selectedChannel &&
+              props.selectedChannel.name === channel.name
                 ? "selected-channel"
                 : "channel-row"
             }`}
@@ -88,12 +84,13 @@ function Sidebar(props) {
           >
             <div
               className="channel-row"
-              onClick={() => props.onChannelClick(channel.name)}
+              onClick={() => props.onChannelClick(channel)}
             >
               <div
                 className={notifications[channel.name] > 0 ? "unread" : "read"}
               >
-                # {channel.name}
+                <span className="hash"># </span>
+                {channel.name}
               </div>
               <button
                 className="delete-button"
@@ -108,27 +105,36 @@ function Sidebar(props) {
           </li>
         ))}
       </ul>
-      <Button variant="outline-primary" size="sm" onClick={handleShow}>
-        Add Channel
+      <Button
+        className="add-button"
+        variant="primary"
+        size="sm"
+        onClick={handleShow}
+      >
+        <span className="wideScreenBtn">Add Channel</span>
+        <span className="mobileBtn">+</span>
       </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add a new channel</Modal.Title>
+        <Modal.Header className="headerModal" closeButton>
+          <Modal.Title className="titleModal">Add a new channel</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="channelModal">
+          <label>Channel Name</label>
           <Form.Control
+            className="modalInput"
             type="text"
             placeholder="New channel"
             value={newChannel}
             onChange={(e) => setNewChannel(e.target.value)}
           />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleAddChannel}>
+        <Modal.Footer className="footerModal">
+          <Button
+            className="submitChannel"
+            variant="danger"
+            onClick={handleAddChannel}
+          >
             Add Channel
           </Button>
         </Modal.Footer>

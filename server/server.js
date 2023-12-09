@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
 require("dotenv").config();
+const Message = require("./models/Message");
+const Channel = require("./models/Channel");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
@@ -61,19 +63,59 @@ io.use((socket, next) => {
     if (err || !user) {
       return next(new Error("Authentication error: Invalid token"));
     }
-
     socket.user = user;
     return next();
   })(socket.handshake, {}, next);
 });
 
 io.on("connection", (socket) => {
-  console.log(`User connected ${socket.user.id}`);
+  console.log(`User connected ${socket.user._id}`);
   socket.on("setup", (message) => {
     socket.emit("connected");
   });
 
-  // We can write our socket event listeners in here...
+  socket.on("joinChannel", (channelId) => {
+    socket.join(channelId);
+    console.log(`User joined channel ${channelId}`);
+  });
+
+  socket.on(
+    "newMessage",
+    async ({ channelId, content, timestamp, creator }) => {
+      try {
+        // Create and save the new message
+        const newMessage = await new Message({
+          content,
+          creator,
+          channel: channelId,
+          timestamp: timestamp || Date.now(), // Use provided timestamp or current time
+        }).save();
+
+        // Update the channel's message list
+        await Channel.findByIdAndUpdate(channelId, {
+          $push: { messages: newMessage._id },
+        });
+
+        // Populate the creator field
+        const populatedMessage = await Message.findById(
+          newMessage._id
+        ).populate("creator", "firstName lastName");
+
+        // Emit the message to the channel
+        io.to(channelId).emit("newMessage", populatedMessage);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  );
+
+  socket.on("leaveChannel", (channelId) => {
+    socket.leave(channelId);
+    console.log(`User left channel ${channelId}`);
+  });
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
 });
 
 httpServer.listen(PORT, () => {

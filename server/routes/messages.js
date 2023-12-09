@@ -59,7 +59,7 @@ router.get(
           .json({ message: "You are not a member of this channel" });
       }
 
-      const messages = await Message.find({ channel: channelId });
+      const messages = await Message.find({ channel: channelId }).populate('creator', 'firstName lastName');
 
       res.json(messages);
     } catch (error) {

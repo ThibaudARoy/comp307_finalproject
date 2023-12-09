@@ -76,6 +76,19 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   }, [socket, channelId]);
 
   useEffect(() => {
+    if (socket) {
+      const messageDeletedHandler = (deletedMessageId) => {
+        setMessages(messages => messages.filter(message => message._id !== deletedMessageId));
+      };
+      socket.on('messageDeleted', messageDeletedHandler);
+  
+      return () => {
+        socket.off('messageDeleted', messageDeletedHandler);
+      };
+    }
+  }, [socket]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -95,7 +108,7 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   
       console.log(response.data);
 
-      setMessages(messages.filter(message => message._id !== messageId));
+      socket.emit('deleteMessage', { channelId, messageId });
   
       handleClose();
 

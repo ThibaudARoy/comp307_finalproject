@@ -13,6 +13,7 @@ const MessageSchema = new mongoose.Schema({
     ref: "Channel",
     required: true,
   },
+  pinned: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Message", MessageSchema);

@@ -116,10 +116,12 @@ io.on("connection", (socket) => {
   );
 
 
-  socket.on("newChannel", async (channelId) => { 
-    const newChannel = await Channel.findById(channelId);
+  socket.on("newChannel", async ({channelToAdd, boardId }) => { 
+    console.log("new channel created");
+    const newChannel = await Channel.findById(channelToAdd);
     console.log(newChannel);
-    io.to(newChannel.board).emit("newChannel", newChannel);
+    console.log(boardId);
+    io.to(boardId).emit("newChannel", newChannel);
   });
 
   socket.on("deleteChannel", async ({ channelToDelete, boardId }) => {

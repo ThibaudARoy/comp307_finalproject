@@ -30,10 +30,8 @@ function Sidebar(props) {
               headers: { Authorization: `${localStorage.getItem("token")}` }
             })
             .then(response => {
-              setChannels([...channels, response.data.newChannel]);
-              setNewChannel('');
-              handleClose();
-              socket.emit("newChannel", response.data.newChannel);
+              
+              socket.emit("newChannel", {channelToAdd: response.data.newChannel, boardId: props.boardId});
             })
             .catch(error => console.error(error));
           
@@ -42,7 +40,6 @@ function Sidebar(props) {
 
   const handleDeleteChannel = () => {
     console.log("channel to delete: " +channelToDelete._id);
-    socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
     axios
       .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
@@ -52,7 +49,7 @@ function Sidebar(props) {
         setChannels(
           channels.filter((channel) => channel.name !== channelToDelete.name)
         );
-        
+        socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
         setChannelToDelete(null);
         console.log("channels after: " + channels)
       })
@@ -77,8 +74,10 @@ function Sidebar(props) {
   useEffect(() => {
     if (socket) {
       const newChannelHandler = (newChannel) => {
-        //console.log("new channel " + newChannel);
-        //setChannels((prevChannels) => [...prevChannels, newChannel]);
+        console.log("new channel " + newChannel);
+        setChannels((prevChannels) => [...prevChannels, newChannel]);
+        setNewChannel('');
+        handleClose();
       };
 
       const deleteChannelHandler = (channelDel) => {
@@ -88,6 +87,8 @@ function Sidebar(props) {
           channels.filter((channel) => channel._id !== channelDel)
         );
       };
+
+      socket.on("newChannel", newChannelHandler);
       socket.on("deleteChannel", deleteChannelHandler);
 
       return () => {
@@ -95,7 +96,7 @@ function Sidebar(props) {
         socket.off("deleteChannel", deleteChannelHandler);
       };
     }
-  }, [props.boardId, socket]);
+  }, [props.boardId, socket, channels]);
 
 
   return (

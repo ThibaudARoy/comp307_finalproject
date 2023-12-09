@@ -34,7 +34,12 @@ router.post(
         $push: { messages: newMessage._id },
       });
 
-      res.status(201).json(newMessage);
+      const populatedMessage = await Message.findById(newMessage._id).populate(
+        "creator",
+        "firstName lastName"
+      );
+
+      res.status(201).json(populatedMessage);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
@@ -59,7 +64,10 @@ router.get(
           .json({ message: "You are not a member of this channel" });
       }
 
-      const messages = await Message.find({ channel: channelId }).populate('creator', 'firstName lastName');
+      const messages = await Message.find({ channel: channelId }).populate(
+        "creator",
+        "firstName lastName"
+      );
 
       res.json(messages);
     } catch (error) {
@@ -75,7 +83,12 @@ router.delete(
     try {
       const messageId = req.params.messageId;
 
-      const message = await Message.findById(messageId);
+      const message = await Message.findById(messageId).populate({
+        path: "channel",
+        populate: {
+          path: "board",
+        },
+      });
 
       if (!message) {
         return res.status(404).json({ message: "Message not found" });
@@ -98,6 +111,31 @@ router.delete(
       await message.deleteOne({ _id: message._id });
 
       res.status(200).json({ message: "Message deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+);
+
+router.patch(
+  "/boards/:boardId/channels/:channelId/messages/:messageId",
+  isAuthenticated(),
+  async (req, res) => {
+    try {
+      const { messageId } = req.params;
+      const { pinned } = req.body;
+
+      const message = await Message.findByIdAndUpdate(
+        messageId,
+        { $set: { pinned: pinned } },
+        { new: true }
+      ).populate("creator", "firstName lastName");
+
+      if (!message) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      res.status(200).json(message);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

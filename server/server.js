@@ -85,35 +85,15 @@ io.on("connection", (socket) => {
     console.log(`User joined board ${boardId}`);
   });
 
-  socket.on(
-    "newMessage",
-    async ({ channelId, content, timestamp, creator }) => {
-      try {
-        // Create and save the new message
-        const newMessage = await new Message({
-          content,
-          creator,
-          channel: channelId,
-          timestamp: timestamp || Date.now(), // Use provided timestamp or current time
-        }).save();
 
-        // Update the channel's message list
-        await Channel.findByIdAndUpdate(channelId, {
-          $push: { messages: newMessage._id },
-        });
+  socket.on("deleteMessage", ({ channelId, messageId }) => {
+    io.to(channelId).emit("messageDeleted", messageId);
+  });
 
-        // Populate the creator field
-        const populatedMessage = await Message.findById(
-          newMessage._id
-        ).populate("creator", "firstName lastName");
-
-        // Emit the message to the channel
-        io.to(channelId).emit("newMessage", populatedMessage);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  );
+  socket.on("newMessage", (populatedMessage) => {
+    const { channel } = populatedMessage;
+    io.to(channel).emit("newMessage", populatedMessage);
+  });
 
 
   socket.on("newChannel", async ({channelToAdd, boardId }) => { 
@@ -125,7 +105,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("deleteChannel", async ({ channelToDelete, boardId }) => {
-    
     console.log("Delete id " + channelToDelete);
     io.to(boardId).emit("deleteChannel", channelToDelete);
   });

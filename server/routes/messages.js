@@ -75,7 +75,12 @@ router.delete(
     try {
       const messageId = req.params.messageId;
 
-      const message = await Message.findById(messageId);
+      const message = await Message.findById(messageId).populate({
+        path: 'channel',
+        populate: {
+          path: 'board',
+        }
+      });
 
       if (!message) {
         return res.status(404).json({ message: "Message not found" });

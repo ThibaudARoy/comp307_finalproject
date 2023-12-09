@@ -78,6 +78,10 @@ io.on("connection", (socket) => {
     console.log(`User joined channel ${channelId}`);
   });
 
+  socket.on('deleteMessage', ({ channelId, messageId }) => {
+    io.to(channelId).emit('messageDeleted', messageId);
+  });
+
   socket.on(
     "newMessage",
     async ({ channelId, content, timestamp, creator }) => {

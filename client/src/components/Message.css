@@ -6,8 +6,18 @@
     right: 0;
     bottom: 110px;
     overflow: auto;
-    margin-left: 60px;
+}
+
+.individual-message:hover {
+    background-color: #e7e7e7;
+}
+
+.individual-message {
     padding-right: 60px;
+    padding-left: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sender-name {
@@ -22,12 +32,14 @@
 }
 
 .message-content {
-    margin-top: 0;
+    margin: 0;
     font-size: 16px;
+    padding: 4px;
 }
 
 .name-time {
     margin-bottom: 0;
+    padding-top: 10px;
 }
 
 .date-separator {
@@ -64,6 +76,51 @@
 .date-separator span {
     margin: 0 10px;
     color: #888;
+}
+
+.dot-button {
+    border: none;
+    background-color: transparent;
+    visibility: hidden;
+    padding-left: 20px;
+}
+
+.dot-button .btn-secondary {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.dot-button .btn-secondary:active {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.dropdown-toggle:after {
+    display: none;
+}
+
+.dots {
+    height: 14px;
+    width: 14px;
+}
+
+.individual-message:hover .dot-button {
+    visibility: visible;
+}
+
+.delete-message{
+    color: red;
+}
+
+.delete-message:hover {
+    background-color: #ec1c2e;
+    color: white;
+}
+
+.pin-message:hover {
+    color: rgb(255, 140, 0);
+    font-weight: bold;
+    background-color: white;
 }
 
 @media only screen and (max-width: 653px) {

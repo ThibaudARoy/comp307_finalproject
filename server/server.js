@@ -5,6 +5,7 @@ const passport = require("passport");
 require("dotenv").config();
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
+const User= require("./models/User");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
@@ -79,6 +80,11 @@ io.on("connection", (socket) => {
     console.log(`User joined channel ${channelId}`);
   });
 
+  socket.on("joinBoard", (boardId) => {
+    socket.join(boardId);
+    console.log(`User joined board ${boardId}`);
+  });
+
   socket.on(
     "newMessage",
     async ({ channelId, content, timestamp, creator }) => {
@@ -109,10 +115,29 @@ io.on("connection", (socket) => {
     }
   );
 
+
+  socket.on("newChannel", async (channelId) => { 
+    const newChannel = await Channel.findById(channelId);
+    console.log(newChannel);
+    io.to(newChannel.board).emit("newChannel", newChannel);
+  });
+
+  socket.on("deleteChannel", async ({ channelToDelete, boardId }) => {
+    
+    console.log("Delete id " + channelToDelete);
+    io.to(boardId).emit("deleteChannel", channelToDelete);
+  });
+
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
     console.log(`User left channel ${channelId}`);
   });
+
+  socket.on("leaveBoard", (boardId) => {
+    socket.leave(boardId);
+    console.log(`User left board ${boardId}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });

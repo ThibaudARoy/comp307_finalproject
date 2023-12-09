@@ -16,6 +16,7 @@ function Sidebar(props) {
   const [newChannel, setNewChannel] = useState("");
   const [show, setShow] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState(null);
+  const socket = props.socket;
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -32,21 +33,28 @@ function Sidebar(props) {
               setChannels([...channels, response.data.newChannel]);
               setNewChannel('');
               handleClose();
+              socket.emit("newChannel", response.data.newChannel);
             })
             .catch(error => console.error(error));
+          
       }
     };
 
   const handleDeleteChannel = () => {
+    console.log("channel to delete: " +channelToDelete._id);
+    socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
     axios
       .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((response) => {
+        console.log("channels before: " + channels);
         setChannels(
           channels.filter((channel) => channel.name !== channelToDelete.name)
         );
+        
         setChannelToDelete(null);
+        console.log("channels after: " + channels)
       })
       .catch((error) => console.error(error));
   };
@@ -65,6 +73,30 @@ function Sidebar(props) {
       })
       .catch((error) => console.error(error));
   }, [props.boardId]);
+
+  useEffect(() => {
+    if (socket) {
+      const newChannelHandler = (newChannel) => {
+        //console.log("new channel " + newChannel);
+        //setChannels((prevChannels) => [...prevChannels, newChannel]);
+      };
+
+      const deleteChannelHandler = (channelDel) => {
+        console.log("delete channel " + channelDel);
+        console.log("channels before: " + channels);
+        setChannels(
+          channels.filter((channel) => channel._id !== channelDel)
+        );
+      };
+      socket.on("deleteChannel", deleteChannelHandler);
+
+      return () => {
+        socket.off("newChannel", newChannelHandler);
+        socket.off("deleteChannel");
+      };
+    }
+  }, [props.boardId, socket]);
+
 
   return (
     <div className="sidebar">
@@ -95,7 +127,7 @@ function Sidebar(props) {
               <button
                 className="delete-button"
                 onClick={() => {
-                  console.log(channel);
+                  //console.log(channel);
                   handleConfirmDelete(channel);
                 }}
               >

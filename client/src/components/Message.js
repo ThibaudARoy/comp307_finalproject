@@ -59,6 +59,77 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
     fetchMessages();
   }, [boardId, channelId]);
 
+  useEffect(() => {
+    if (socket) {
+      const newMessageHandler = (newMessage) => {
+        console.log(newMessage);
+        if (newMessage.channel === channelId) {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        }
+      };
+      socket.on("newMessage", newMessageHandler);
+
+      return () => {
+        socket.off("newMessage", newMessageHandler);
+      };
+    }
+  }, [socket, channelId]);
+
+  useEffect(() => {
+    if (socket) {
+      const messageDeletedHandler = (deletedMessageId) => {
+        setMessages((messages) =>
+          messages.filter((message) => message._id !== deletedMessageId)
+        );
+      };
+      socket.on("messageDeleted", messageDeletedHandler);
+
+      return () => {
+        socket.off("messageDeleted", messageDeletedHandler);
+      };
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `/api/boards/${boardId}/channels/${channelId}/messages/${messageId}`,
+        {
+          headers: { Authorization: `${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log(response.data);
+
+      socket.emit("deleteMessage", { channelId, messageId });
+
+      handleClose();
+    } catch (error) {
+      console.error("An error occurred while deleting the message:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const info = await getUserInfo();
+        setUserInfo(info);
+      } catch (error) {
+        console.error("An error occurred while fetching the user info:", error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   return (
     <div className="message">
       {messages.map((message, index) => {

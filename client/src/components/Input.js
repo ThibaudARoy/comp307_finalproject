@@ -18,18 +18,29 @@ function Input({ boardId, selectedChannel, socket }) {
     try {
       const response = await axios.post(
         `/api/boards/${boardId}/channels/${selectedChannel._id}/messages`,
-        {
-          content,
-        },
-        {
-          headers: { Authorization: `${localStorage.getItem("token")}` },
-        }
+        { content },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
 
-      console.log("New message:", response.data);
+      // Emit the new message event via WebSocket
+      const newMessageData = {
+        channelId: selectedChannel._id,
+        content,
+        timestamp: new Date().toISOString(), // or use server-generated timestamp
+        creator: response.data.creator, // assuming the response includes the creator
+      };
+
+      socket.emit("newMessage", newMessageData);
       textareaRef.current.value = ""; // Clear the textarea
     } catch (error) {
       console.error("Error:", error.response.data.message);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
     }
   };
 

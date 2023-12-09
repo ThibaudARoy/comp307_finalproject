@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
 import dots from "../assets/dots.png"
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import {Modal, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -23,6 +23,14 @@ function stringToColor(str) {
 function Message({ boardId, channelId, socket }) {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = React.createRef();
+  const [show, setShow] = useState(false);
+  const [messageId, setMessageId] = useState(null);
+
+  const handleClose = () => setShow(false);
+  const handleShow = (messageId) => {
+    setMessageId(messageId);
+    setShow(true);
+  };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -68,6 +76,31 @@ function Message({ boardId, channelId, socket }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `/api/boards/${boardId}/channels/${channelId}/messages/${messageId}`,
+        {
+          headers: { Authorization: `${localStorage.getItem("token")}` },
+        }
+      );
+  
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      console.log(response.data);
+
+      setMessages(messages.filter(message => message._id !== messageId));
+  
+      handleClose();
+      
+    } catch (error) {
+      console.error('An error occurred while deleting the message:', error);
+    }
+  };
 
   return (
     <div className="message">
@@ -117,13 +150,28 @@ function Message({ boardId, channelId, socket }) {
                 variant="secondary"
               >
                 <Dropdown.Item href="#/action-1" className="pin-message">Pin</Dropdown.Item>
-                <Dropdown.Item href="#/action-2" className="delete-message">Delete</Dropdown.Item>
+                <Dropdown.Item  onClick={() => handleShow(message._id)} className="delete-message">Delete</Dropdown.Item>
               </DropdownButton>
             </div>
           </div>
         );
       })}
        <div ref={messagesEndRef} /> 
+
+       <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleDelete}>
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
     </div>
   );
 }

@@ -117,4 +117,29 @@ router.delete(
   }
 );
 
+router.patch(
+  "/boards/:boardId/channels/:channelId/messages/:messageId",
+  isAuthenticated(),
+  async (req, res) => {
+    try {
+      const { messageId } = req.params;
+      const { pinned } = req.body;
+
+      const message = await Message.findByIdAndUpdate(
+        messageId,
+        { $set: { pinned: pinned } },
+        { new: true }
+      ).populate("creator", "firstName lastName");
+
+      if (!message) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+
+      res.status(200).json(message);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+);
+
 module.exports = router;

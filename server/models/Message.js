@@ -20,4 +20,6 @@ const MessageSchema = new mongoose.Schema({
   },
 });
 
+MessageSchema.index({ content: "text" });
+
 module.exports = mongoose.model("Message", MessageSchema);

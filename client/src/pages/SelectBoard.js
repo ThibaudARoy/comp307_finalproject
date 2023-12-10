@@ -12,6 +12,7 @@ import LogoutConfirmModal from "../components/LogoutConfirmModal";
 import { logoutUser, getUserInfo } from "../backendConnection/AuthService";
 import { getUserBoards } from "../backendConnection/BoardsService";
 import { io } from "socket.io-client";
+import SearchBar from "../components/SearchBar";
 const ENDPOINT = "http://localhost:5000";
 
 function SelectBoard() {
@@ -79,13 +80,18 @@ function SelectBoard() {
 
     socket.on("newBoard", (newBoard) => {
       console.log("new board " + newBoard);
-      if (newBoard.owner === userInfo._id || newBoard.members.includes(userInfo._id)) {
+      if (
+        newBoard.owner === userInfo._id ||
+        newBoard.members.includes(userInfo._id)
+      ) {
         setUserBoards((userBoards) => [...userBoards, newBoard]);
       }
     });
 
     socket.on("deleteBoard", (boardId) => {
-      setUserBoards((userBoards) => userBoards.filter((board) => board._id !== boardId));
+      setUserBoards((userBoards) =>
+        userBoards.filter((board) => board._id !== boardId)
+      );
     });
     // eslint-disable-next-line
     return () => {
@@ -141,10 +147,15 @@ function SelectBoard() {
                 <UserBoard userInfo={userInfo} board={board} socket={socket} />
               </li>
             ))}
-            <li>{userInfo && <AddBoard userInfo={userInfo} socket={socket}></AddBoard>}</li>
+            <li>
+              {userInfo && (
+                <AddBoard userInfo={userInfo} socket={socket}></AddBoard>
+              )}
+            </li>
           </ul>
         </div>
       </div>
+      <SearchBar boardName="Searchtest" boardId="6575209e4739f3e1c529fa4b" />
     </div>
   );
 }

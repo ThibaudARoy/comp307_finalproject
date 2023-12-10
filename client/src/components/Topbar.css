@@ -1,112 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap");
 
 .topbar {
-    background-color: #ec1c2e;
-    color: #ffffff;
-    padding-left:10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 65px;
+  background-color: #ec1c2e;
+  color: #ffffff;
+  padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
 }
 
 .topbar input[type="search"] {
-    font-family: Noto Sans JP, sans-serif;
-    width: 600px; 
-    height: 30px; 
-    padding: 5px;
-    border:1px solid #bd1625;
-    border-radius: 10px;
-    background-color:#bd1625;
-    margin-top: 10px;
-  }
+  font-family: Noto Sans JP, sans-serif;
+  width: 600px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #bd1625;
+  border-radius: 10px;
+  background-color: #bd1625;
+  margin-top: 10px;
+}
 
 .topbar input[type="search"]::placeholder {
-    font-family: Cabin, sans-serif;
-    color: #a8777b;
-    font-weight:bolder;
-    text-align: center;
+  font-family: Cabin, sans-serif;
+  color: #a8777b;
+  font-weight: bolder;
+  text-align: center;
 }
 
 .search-bar input[type="search"]:focus {
-    color:#e6d8d9;
+  color: #e6d8d9;
 }
 
-.btnContainer{
-    width: 16.75%;
+.btnContainer {
+  width: 16.75%;
 }
 
 .switch-button {
-    font-family:Cabin, sans-serif;
-    font-weight: bold;
-    background-color: #ec1c2e;
+  font-family: Cabin, sans-serif;
+  font-weight: bold;
+  background-color: #ec1c2e;
 }
 
-.switch-button, .search-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    border:none;
+.switch-button,
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  border: none;
 }
 
-.switchbtntext{
-    display:none;
+.switchbtntext {
+  display: none;
 }
 
-.bird{
-    height:auto;
-    width:50px;
+.bird {
+  height: auto;
+  width: 50px;
 }
-.back{
-    height:auto;
-    width:25px;
-    display:none;
-}
-
-.switch-button:hover{
-    background-color:#d4192a  !important;
+.back {
+  height: auto;
+  width: 25px;
+  display: none;
 }
 
-.switch-button:hover .switchbtntext{
-    display:block
+.switch-button:hover {
+  background-color: #d4192a !important;
 }
 
-.switch-button:active{
-    background-color:#bd1626 !important;
+.switch-button:hover .switchbtntext {
+  display: block;
+}
+
+.switch-button:active {
+  background-color: #bd1626 !important;
 }
 @media only screen and (max-width: 653px) {
-    .topbar input[type="search"] {
-        width: 250px !important; 
-      }
+  .topbar input[type="search"] {
+    width: 250px !important;
+  }
 }
 
-
 @media only screen and (max-width: 850px) {
-    .topbar input[type="search"] {
-        width: 400px; 
-      }
-
+  .topbar input[type="search"] {
+    width: 400px;
+  }
 }
 
 @media only screen and (max-width: 1100px) {
-    .switch-button:hover .switchbtntext{
-        display:none;
-    }
-    .switch-button:hover .bird{
-        display:none;
-    }
-    .switch-button:hover .back{
-        display:block;
-    }
-    .switch-button {
-        width:76px;
-        height:55px;
-    }
-
-
+  .switch-button:hover .switchbtntext {
+    display: none;
   }
+  .switch-button:hover .bird {
+    display: none;
+  }
+  .switch-button:hover .back {
+    display: block;
+  }
+  .switch-button {
+    width: 76px;
+    height: 55px;
+  }
+}
+
+.search-bar .search-results {
+  margin-top: 10px;
+  background-color: #f1f1f1; /* Light background for the results */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+  color: #333;
+}
+
+/* Styles for individual search items */
+.search-bar .search-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Separates individual search results */
+}
+
+.search-bar .search-item:last-child {
+  border-bottom: none; /* Removes border from the last item */
+}
+
+/* Styles for message content in search results */
+.search-bar .search-content {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Styles for message creator in search results */
+.search-bar .search-creator {
+  font-size: 12px;
+  color: #666;
+}

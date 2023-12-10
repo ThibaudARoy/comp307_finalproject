@@ -11,6 +11,8 @@ import UserBoard from "../components/UserBoard";
 import LogoutConfirmModal from "../components/LogoutConfirmModal";
 import { logoutUser, getUserInfo } from "../backendConnection/AuthService";
 import { getUserBoards } from "../backendConnection/BoardsService";
+import { io } from "socket.io-client";
+const ENDPOINT = "http://localhost:5000";
 
 function SelectBoard() {
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ function SelectBoard() {
       });
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     const socket = io.connect(ENDPOINT, {
       withCredentials: true,
       extraHeaders: {
@@ -74,11 +76,22 @@ function SelectBoard() {
     });
 
     setSocket(socket);
+
+    socket.on("newBoard", (newBoard) => {
+      console.log("new board " + newBoard);
+      if (newBoard.owner === userInfo._id || newBoard.members.includes(userInfo._id)) {
+        setUserBoards((userBoards) => [...userBoards, newBoard]);
+      }
+    });
+
+    socket.on("deleteBoard", (boardId) => {
+      setUserBoards((userBoards) => userBoards.filter((board) => board._id !== boardId));
+    });
     // eslint-disable-next-line
     return () => {
       socket.disconnect();
     };
-  }, []);*/
+  }, []);
 
   return (
     <div className="SelectBoard">
@@ -125,10 +138,10 @@ function SelectBoard() {
             {/* Iterate over user's boards. Create a UserBoard Component for each.  */}
             {userBoards.map((board) => (
               <li key={board._id}>
-                <UserBoard userInfo={userInfo} board={board} />
+                <UserBoard userInfo={userInfo} board={board} socket={socket} />
               </li>
             ))}
-            <li>{userInfo && <AddBoard userInfo={userInfo}></AddBoard>}</li>
+            <li>{userInfo && <AddBoard userInfo={userInfo} socket={socket}></AddBoard>}</li>
           </ul>
         </div>
       </div>

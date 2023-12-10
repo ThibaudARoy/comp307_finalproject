@@ -109,6 +109,13 @@ io.on("connection", (socket) => {
     io.to(boardId).emit("deleteChannel", channelToDelete);
   });
 
+  socket.on("newBoard", async (newBoard) => {
+    io.emit("newBoard", newBoard);
+  });
+
+  socket.on("deleteBoard", async (boardToDelete) => {
+    io.emit("deleteBoard", boardToDelete);
+  });
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
     console.log(`User left channel ${channelId}`);

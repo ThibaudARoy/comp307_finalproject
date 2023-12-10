@@ -109,6 +109,7 @@ function Sidebar(props) {
       <div className="boardName">
         <h2>{props.boardName}</h2>
       </div>
+      <div className="channel-list">
       <ul>
         {channels.map((channel) => (
           <li
@@ -152,7 +153,7 @@ function Sidebar(props) {
         <span className="wideScreenBtn">Add Channel</span>
         <span className="mobileBtn">+</span>
       </Button>
-
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="headerModal" closeButton>
           <Modal.Title className="titleModal">Add a new channel</Modal.Title>

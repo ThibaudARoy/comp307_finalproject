@@ -100,6 +100,17 @@ router.get("/auth/users/", isAuthenticated(), async (req, res) => {
   }
 });
 
+router.get("/auth/findUser/", isAuthenticated(), async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId, "firstName lastName");
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
   try {
     console.log(req.params.email);

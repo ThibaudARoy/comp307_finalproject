@@ -21,6 +21,13 @@
     display:none;
 }
 
+.channel-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 124px);
+}
+
 .sidebar h2 {
     color: #ffffff;
     width: 100%;

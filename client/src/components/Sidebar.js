@@ -111,6 +111,7 @@ function Sidebar(props) {
       <div className="boardName">
         <h2>{props.boardName}</h2>
       </div>
+      <div className="channel-list">
       <ul>
         {channels.map((channel) => (
           <li

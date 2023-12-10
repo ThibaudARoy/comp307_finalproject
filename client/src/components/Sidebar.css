@@ -72,6 +72,7 @@
     width: 100%;
     font-size: 15px;
     padding: 1px 10px; 
+    height:35px;
 }
 
 .delete-button {
@@ -126,6 +127,7 @@
 }
 
 .add-button {
+    margin-top: 10px;
     align-self: center;
     font-family:Cabin, sans-serif;
     font-weight:600;
@@ -151,6 +153,16 @@
     color:white;
     font-family:Cabin, sans-serif;
 }
+.footerModal2{
+    border-top:1px solid #e0e0e0 !important;
+    display:flex;
+    flex-direction: row;
+    justify-content:center;
+}
+.dataText{
+    font-weight: 300;
+    font-size:20px;
+}
 
 .titleModal{
     font-weight:700 !important;
@@ -166,6 +178,13 @@ label{
 .modalInput{
     margin-top:10px;
 
+}
+.bodyModal{
+    font-family:Cabin, sans-serif;
+    text-align: center;
+    font-size:22px;
+    font-weight:600;
+    margin-bottom:5px;
 }
 
 .submitChannel{

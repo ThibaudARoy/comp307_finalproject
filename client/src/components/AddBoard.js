@@ -21,7 +21,6 @@ function AddBoard({ userInfo, socket }) {
       const newBoard = await createBoard(formData);
       socket.emit("newBoard", newBoard);
       console.log("Board created:", newBoard);
-      window.location.reload();
       setShowModal(false);
       // Additional actions on success (e.g., redirect or state update)
     } catch (error) {

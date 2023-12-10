@@ -17,6 +17,8 @@ function Sidebar(props) {
   const [show, setShow] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState(null);
   const socket = props.socket;
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -130,28 +132,32 @@ function Sidebar(props) {
                 <span className="hash"># </span>
                 {channel.name}
               </div>
-              <button
-                className="delete-button"
-                onClick={() => {
-                  //console.log(channel);
-                  handleConfirmDelete(channel);
-                }}
-              >
-                <img className="x-logo" src={icon}></img>
-              </button>
+              {props.isAdmin && (
+                <button
+                  className="delete-button"
+                  onClick={() => {
+                    //console.log(channel);
+                    handleConfirmDelete(channel);
+                  }}
+                >
+                  <img className="x-logo" src={icon}></img>
+                </button>
+              )}
             </div>
           </li>
         ))}
       </ul>
-      <Button
-        className="add-button"
-        variant="primary"
-        size="sm"
-        onClick={handleShow}
-      >
-        <span className="wideScreenBtn">Add Channel</span>
-        <span className="mobileBtn">+</span>
-      </Button>
+        {props.isAdmin && (
+          <Button
+            className="add-button"
+            variant="primary"
+            size="sm"
+            onClick={handleShow}
+          >
+            <span className="wideScreenBtn">Add Channel</span>
+            <span className="mobileBtn">+</span>
+          </Button>
+        )}
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="headerModal" closeButton>
@@ -182,18 +188,20 @@ function Sidebar(props) {
         show={channelToDelete !== null}
         onHide={() => setChannelToDelete(null)}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+        <Modal.Header className="headerModal" closeButton>
+          <Modal.Title className="titleModal">Confirm Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="bodyModal">
           Are you sure you want to delete{" "}
           <strong>#{channelToDelete ? channelToDelete.name : ""}</strong>?
+          <br></br>
+          <span className="dataText">All data associated to it will be lost.</span>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setChannelToDelete(null)}>
+        <Modal.Footer className="footerModal2">
+          <Button className="CancelButton" variant="secondary" onClick={() => setChannelToDelete(null)}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleDeleteChannel}>
+          <Button className="DeleteButton" variant="primary" onClick={handleDeleteChannel}>
             Delete
           </Button>
         </Modal.Footer>

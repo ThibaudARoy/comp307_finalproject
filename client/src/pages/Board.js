@@ -54,11 +54,13 @@ function Board() {
       board.channels.forEach((channel) => {
         socket.emit("joinChannel", channel);
       });
+      socket.emit("joinBoard", boardId);
 
       return () => {
         board.channels.forEach((channel) => {
-          socket.emit("leaveChannel", channel);
+          socket.emit("leaveChannel", channel);  
         });
+        socket.emit("leaveBoard", boardId);
       };
     }
   }, [board, boardId, socketConnected, socket]);

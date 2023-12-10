@@ -5,7 +5,7 @@ import AddBoardModal from "./AddBoardModal";
 import plus from "../assets/plus.png";
 import { createBoard } from "../backendConnection/BoardsService";
 
-function AddBoard({ userInfo }) {
+function AddBoard({ userInfo, socket }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleAddBoardClick = () => {
@@ -19,6 +19,7 @@ function AddBoard({ userInfo }) {
     try {
       console.log(formData);
       const newBoard = await createBoard(formData);
+      socket.emit("newBoard", newBoard);
       console.log("Board created:", newBoard);
       window.location.reload();
       setShowModal(false);

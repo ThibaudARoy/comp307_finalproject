@@ -5,10 +5,9 @@ const passport = require("passport");
 require("dotenv").config();
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
-const User= require("./models/User");
+const User = require("./models/User");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
-
 
 const app = express();
 const httpServer = require("http").createServer(app);
@@ -33,6 +32,8 @@ const boardsRouter = require("./routes/boards");
 const membersRouter = require("./routes/members");
 const messagesRouter = require("./routes/messages");
 const channelRouter = require("./routes/channels");
+const searchRouter = require("./routes/search");
+app.use("/api/", searchRouter);
 app.use("/api/", usersRouter);
 app.use("/api/", boardsRouter);
 app.use("/api/", membersRouter);
@@ -85,7 +86,6 @@ io.on("connection", (socket) => {
     console.log(`User joined board ${boardId}`);
   });
 
-
   socket.on("deleteMessage", ({ channelId, messageId }) => {
     io.to(channelId).emit("messageDeleted", messageId);
   });
@@ -95,8 +95,7 @@ io.on("connection", (socket) => {
     io.to(channel).emit("newMessage", populatedMessage);
   });
 
-
-  socket.on("newChannel", async ({channelToAdd, boardId }) => { 
+  socket.on("newChannel", async ({ channelToAdd, boardId }) => {
     console.log("new channel created");
     const newChannel = await Channel.findById(channelToAdd);
     console.log(newChannel);

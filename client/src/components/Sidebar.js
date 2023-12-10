@@ -78,6 +78,11 @@ function Sidebar(props) {
         setChannels((prevChannels) => [...prevChannels, newChannel]);
         setNewChannel('');
         handleClose();
+        socket.emit("joinChannel", newChannel._id);
+        return () => {
+            socket.emit("leaveChannel", newChannel._id) 
+          }
+  
       };
 
       const deleteChannelHandler = (channelDel) => {

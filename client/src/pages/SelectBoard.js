@@ -11,12 +11,17 @@ import UserBoard from "../components/UserBoard";
 import LogoutConfirmModal from "../components/LogoutConfirmModal";
 import { logoutUser, getUserInfo } from "../backendConnection/AuthService";
 import { getUserBoards } from "../backendConnection/BoardsService";
+import { io } from "socket.io-client";
+import SearchBar from "../components/SearchBar";
+const ENDPOINT = "http://localhost:5000";
 
 function SelectBoard() {
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userBoards, setUserBoards] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+  const [socket, setSocket] = useState(null);
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const handleLogout = () => {
     setShowLogoutModal(true);
@@ -55,6 +60,43 @@ function SelectBoard() {
         console.error("Error fetching user info:", error);
         // handle error, maybe set an error state to display to the user
       });
+  }, []);
+
+  useEffect(() => {
+    const socket = io.connect(ENDPOINT, {
+      withCredentials: true,
+      extraHeaders: {
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+      // transports: ["websocket"],
+    });
+    socket.emit("setup", "hello");
+    socket.on("connected", () => {
+      console.log("authenticated");
+      setSocketConnected(true);
+    });
+
+    setSocket(socket);
+
+    socket.on("newBoard", (newBoard) => {
+      console.log("new board " + newBoard);
+      if (
+        newBoard.owner === userInfo._id ||
+        newBoard.members.includes(userInfo._id)
+      ) {
+        setUserBoards((userBoards) => [...userBoards, newBoard]);
+      }
+    });
+
+    socket.on("deleteBoard", (boardId) => {
+      setUserBoards((userBoards) =>
+        userBoards.filter((board) => board._id !== boardId)
+      );
+    });
+    // eslint-disable-next-line
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
@@ -102,13 +144,18 @@ function SelectBoard() {
             {/* Iterate over user's boards. Create a UserBoard Component for each.  */}
             {userBoards.map((board) => (
               <li key={board._id}>
-                <UserBoard userInfo={userInfo} board={board} />
+                <UserBoard userInfo={userInfo} board={board} socket={socket} />
               </li>
             ))}
-            <li>{userInfo && <AddBoard userInfo={userInfo}></AddBoard>}</li>
+            <li>
+              {userInfo && (
+                <AddBoard userInfo={userInfo} socket={socket}></AddBoard>
+              )}
+            </li>
           </ul>
         </div>
       </div>
+      <SearchBar boardName="Searchtest" boardId="6575209e4739f3e1c529fa4b" />
     </div>
   );
 }

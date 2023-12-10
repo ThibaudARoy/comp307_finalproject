@@ -16,47 +16,42 @@ function Sidebar(props) {
   const [newChannel, setNewChannel] = useState("");
   const [show, setShow] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState(null);
+  const socket = props.socket;
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleAddChannel = () => {
-    if (newChannel.trim() !== "") {
-      axios
-        .post(
-          `/api/boards/${props.boardId}/channels`,
-          {
-            name: newChannel,
-            members: props.members,
-          },
-          {
-            headers: { Authorization: `${localStorage.getItem("token")}` },
-          }
-        )
-        .then((response) => {
-          const createdChannel = response.data.newChannel;
-
-          setChannels([...channels, response.data.newChannel]);
-          setNewChannel("");
-          handleClose();
-          if (props.socket) {
-            props.socket.emit("joinChannel", createdChannel._id);
-          }
-        })
-        .catch((error) => console.error(error));
-    }
-  };
+      if (newChannel.trim() !== '') {
+          axios.post(`/api/boards/${props.boardId}/channels`, {
+              name: newChannel,
+              members: props.members
+            }, {
+              headers: { Authorization: `${localStorage.getItem("token")}` }
+            })
+            .then(response => {
+              
+              socket.emit("newChannel", {channelToAdd: response.data.newChannel, boardId: props.boardId});
+            })
+            .catch(error => console.error(error));
+          
+      }
+    };
 
   const handleDeleteChannel = () => {
+    console.log("channel to delete: " +channelToDelete._id);
     axios
       .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((response) => {
+        console.log("channels before: " + channels);
         setChannels(
           channels.filter((channel) => channel.name !== channelToDelete.name)
         );
+        socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
         setChannelToDelete(null);
+        console.log("channels after: " + channels)
       })
       .catch((error) => console.error(error));
     };
@@ -75,6 +70,39 @@ function Sidebar(props) {
       })
       .catch((error) => console.error(error));
   }, [props.boardId]);
+
+  useEffect(() => {
+    if (socket) {
+      const newChannelHandler = (newChannel) => {
+        console.log("new channel " + newChannel);
+        setChannels((prevChannels) => [...prevChannels, newChannel]);
+        setNewChannel('');
+        handleClose();
+        socket.emit("joinChannel", newChannel._id);
+        return () => {
+            socket.emit("leaveChannel", newChannel._id) 
+          }
+  
+      };
+
+      const deleteChannelHandler = (channelDel) => {
+        console.log("delete channel " + channelDel);
+        console.log("channels: " + channels);
+        setChannels(
+          channels.filter((channel) => channel._id !== channelDel)
+        );
+      };
+
+      socket.on("newChannel", newChannelHandler);
+      socket.on("deleteChannel", deleteChannelHandler);
+
+      return () => {
+        socket.off("newChannel", newChannelHandler);
+        socket.off("deleteChannel", deleteChannelHandler);
+      };
+    }
+  }, [props.boardId, socket, channels]);
+
 
   return (
     <div className="sidebar">
@@ -105,7 +133,7 @@ function Sidebar(props) {
               <button
                 className="delete-button"
                 onClick={() => {
-                  console.log(channel);
+                  //console.log(channel);
                   handleConfirmDelete(channel);
                 }}
               >

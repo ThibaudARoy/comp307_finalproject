@@ -5,6 +5,7 @@ const passport = require("passport");
 require("dotenv").config();
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
+const User = require("./models/User");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
@@ -31,6 +32,8 @@ const boardsRouter = require("./routes/boards");
 const membersRouter = require("./routes/members");
 const messagesRouter = require("./routes/messages");
 const channelRouter = require("./routes/channels");
+const searchRouter = require("./routes/search");
+app.use("/api/", searchRouter);
 app.use("/api/", usersRouter);
 app.use("/api/", boardsRouter);
 app.use("/api/", membersRouter);
@@ -78,44 +81,50 @@ io.on("connection", (socket) => {
     console.log(`User joined channel ${channelId}`);
   });
 
-  socket.on('deleteMessage', ({ channelId, messageId }) => {
-    io.to(channelId).emit('messageDeleted', messageId);
+  socket.on("joinBoard", (boardId) => {
+    socket.join(boardId);
+    console.log(`User joined board ${boardId}`);
   });
 
-  socket.on(
-    "newMessage",
-    async ({ channelId, content, timestamp, creator }) => {
-      try {
-        // Create and save the new message
-        const newMessage = await new Message({
-          content,
-          creator,
-          channel: channelId,
-          timestamp: timestamp || Date.now(), // Use provided timestamp or current time
-        }).save();
+  socket.on("deleteMessage", ({ channelId, messageId }) => {
+    io.to(channelId).emit("messageDeleted", messageId);
+  });
 
-        // Update the channel's message list
-        await Channel.findByIdAndUpdate(channelId, {
-          $push: { messages: newMessage._id },
-        });
+  socket.on("newMessage", (populatedMessage) => {
+    const { channel } = populatedMessage;
+    io.to(channel).emit("newMessage", populatedMessage);
+  });
 
-        // Populate the creator field
-        const populatedMessage = await Message.findById(
-          newMessage._id
-        ).populate("creator", "firstName lastName");
+  socket.on("newChannel", async ({ channelToAdd, boardId }) => {
+    console.log("new channel created");
+    const newChannel = await Channel.findById(channelToAdd);
+    console.log(newChannel);
+    console.log(boardId);
+    io.to(boardId).emit("newChannel", newChannel);
+  });
 
-        // Emit the message to the channel
-        io.to(channelId).emit("newMessage", populatedMessage);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  );
+  socket.on("deleteChannel", async ({ channelToDelete, boardId }) => {
+    console.log("Delete id " + channelToDelete);
+    io.to(boardId).emit("deleteChannel", channelToDelete);
+  });
 
+  socket.on("newBoard", async (newBoard) => {
+    io.emit("newBoard", newBoard);
+  });
+
+  socket.on("deleteBoard", async (boardToDelete) => {
+    io.emit("deleteBoard", boardToDelete);
+  });
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
     console.log(`User left channel ${channelId}`);
   });
+
+  socket.on("leaveBoard", (boardId) => {
+    socket.leave(boardId);
+    console.log(`User left board ${boardId}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });

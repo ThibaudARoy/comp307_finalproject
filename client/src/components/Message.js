@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
-import dots from "../assets/dots.png"
-import {Modal, Button, DropdownButton, Dropdown } from 'react-bootstrap';
+import dots from "../assets/dots.png";
+import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { getUserInfo } from "../backendConnection/AuthService";
 
 function stringToColor(str) {
@@ -49,8 +49,6 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
           }
         );
         setMessages(response.data);
-        console.log(response.data);
-        console.log("YESSIR");
       } catch (error) {
         console.error(error);
       }
@@ -62,7 +60,6 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     if (socket) {
       const newMessageHandler = (newMessage) => {
-        console.log(newMessage);
         if (newMessage.channel === channelId) {
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         }
@@ -78,12 +75,14 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     if (socket) {
       const messageDeletedHandler = (deletedMessageId) => {
-        setMessages(messages => messages.filter(message => message._id !== deletedMessageId));
+        setMessages((messages) =>
+          messages.filter((message) => message._id !== deletedMessageId)
+        );
       };
-      socket.on('messageDeleted', messageDeletedHandler);
-  
+      socket.on("messageDeleted", messageDeletedHandler);
+
       return () => {
-        socket.off('messageDeleted', messageDeletedHandler);
+        socket.off("messageDeleted", messageDeletedHandler);
       };
     }
   }, [socket]);
@@ -91,12 +90,6 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-      return () => {
-        socket.off("newMessage", newMessageHandler);
-      };
-    }
-  }, [socket, channelId]);
 
   const handleDelete = async () => {
     try {
@@ -106,19 +99,18 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
           headers: { Authorization: `${localStorage.getItem("token")}` },
         }
       );
-  
+
       if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       console.log(response.data);
 
-      socket.emit('deleteMessage', { channelId, messageId });
-  
-      handleClose();
+      socket.emit("deleteMessage", { channelId, messageId });
 
+      handleClose();
     } catch (error) {
-      console.error('An error occurred while deleting the message:', error);
+      console.error("An error occurred while deleting the message:", error);
     }
   };
 
@@ -128,12 +120,37 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
         const info = await getUserInfo();
         setUserInfo(info);
       } catch (error) {
-        console.error('An error occurred while fetching the user info:', error);
+        console.error("An error occurred while fetching the user info:", error);
       }
     };
-  
+
     fetchUserInfo();
   }, []);
+
+  const handlePinUnpin = async (messageId, shouldPin) => {
+    try {
+      const userId = userInfo._id;
+      await axios.patch(
+        `/api/boards/${boardId}/channels/${channelId}/messages/${messageId}`,
+        { pinned: shouldPin, pinnedBy: shouldPin ? userId : null },
+        { headers: { Authorization: `${localStorage.getItem("token")}` } }
+      );
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg._id === messageId
+            ? {
+                ...msg,
+                pinned: shouldPin,
+                pinnedBy: shouldPin ? userId : null,
+              }
+            : msg
+        )
+      );
+    } catch (error) {
+      console.error("Error updating pin status:", error);
+    }
+  };
 
   return (
     <div className="message">
@@ -153,7 +170,17 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 <hr />
               </div>
             )}
-            <div className="individual-message">
+            <div
+              className={`individual-message ${
+                message.pinned ? "pinned-message" : ""
+              }`}
+            >
+              {/* {message.pinned && message.pinnedBy && (
+                <div className="pinned-info">
+                  Pinned by: {message.pinnedBy.firstName}{" "}
+                  {message.pinnedBy.lastName}
+                </div>
+              )} */}
               <div>
                 {(index === 0 ||
                   message.creator._id !== messages[index - 1].creator._id ||
@@ -182,31 +209,43 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 id="dropdown-basic-button"
                 variant="secondary"
               >
-                <Dropdown.Item href="#/action-1" className="pin-message">Pin</Dropdown.Item>
-                {(userInfo && userInfo._id === message.creator._id || userInfo._id === boardAdmin) && (
-                  <Dropdown.Item onClick={() => handleShow(message._id)} className="delete-message">Delete</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => handlePinUnpin(message._id, !message.pinned)}
+                  className="pin-message"
+                >
+                  {message.pinned ? "Unpin" : "Pin"}
+                </Dropdown.Item>
+
+                {((userInfo && userInfo._id === message.creator._id) ||
+                  userInfo._id === boardAdmin) && (
+                  <Dropdown.Item
+                    onClick={() => handleShow(message._id)}
+                    className="delete-message"
+                  >
+                    Delete
+                  </Dropdown.Item>
                 )}
               </DropdownButton>
             </div>
           </div>
         );
       })}
-       <div ref={messagesEndRef} /> 
+      <div ref={messagesEndRef} />
 
-       <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

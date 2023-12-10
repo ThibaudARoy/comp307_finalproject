@@ -1,133 +1,135 @@
 .message {
-    width:calc(83.25%-60px);
-    position: absolute;
-    top: 124px;
-    left: 16.75%;
-    right: 0;
-    bottom: 110px;
-    overflow: auto;
+  width: calc(83.25%-60px);
+  position: absolute;
+  top: 124px;
+  left: 16.75%;
+  right: 0;
+  bottom: 110px;
+  overflow: auto;
 }
 
 .individual-message:hover {
-    background-color: #e7e7e7;
+  background-color: #e7e7e7;
 }
 
 .individual-message {
-    padding-right: 60px;
-    padding-left: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding-right: 60px;
+  padding-left: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pinned-message {
+  background-color: #ffeda0; /* Quick visual test */
 }
 
 .sender-name {
-    font-weight: bold;
-    font-size: 20px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .time-stamp {
-    font-size: 0.9em;
-    padding-left: 5px;
-    color: rgb(104, 104, 104);
+  font-size: 0.9em;
+  padding-left: 5px;
+  color: rgb(104, 104, 104);
 }
 
 .message-content {
-    margin: 0;
-    font-size: 16px;
-    padding: 4px;
+  margin: 0;
+  font-size: 16px;
+  padding: 4px;
 }
 
 .name-time {
-    margin-bottom: 0;
-    padding-top: 10px;
+  margin-bottom: 0;
+  padding-top: 10px;
 }
 
 .date-separator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
 }
 
 .date-separator hr {
-    flex-grow: 1;
-    border: none;
-    border-top: 1px solid #ddd;
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #ddd;
 }
 
 .date-separator span {
-    margin: 0 10px;
-    color: #888;
+  margin: 0 10px;
+  color: #888;
 }
 
 .date-separator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
 }
 
 .date-separator hr {
-    flex-grow: 1;
-    border: none;
-    border-top: 1px solid #ddd;
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #ddd;
 }
 
 .date-separator span {
-    margin: 0 10px;
-    color: #888;
+  margin: 0 10px;
+  color: #888;
 }
 
 .dot-button {
-    border: none;
-    background-color: transparent;
-    visibility: hidden;
-    padding-left: 20px;
+  border: none;
+  background-color: transparent;
+  visibility: hidden;
+  padding-left: 20px;
 }
 
 .dot-button .btn-secondary {
-    background-color: transparent;
-    border-color: transparent;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .dot-button .btn-secondary:active {
-    background-color: transparent;
-    border-color: transparent;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .dropdown-toggle:after {
-    display: none;
+  display: none;
 }
 
 .dots {
-    height: 14px;
-    width: 14px;
+  height: 14px;
+  width: 14px;
 }
 
 .individual-message:hover .dot-button {
-    visibility: visible;
+  visibility: visible;
 }
 
-.delete-message{
-    color: red;
+.delete-message {
+  color: red;
 }
 
 .delete-message:hover {
-    background-color: #ec1c2e;
-    color: white;
+  background-color: #ec1c2e;
+  color: white;
 }
 
 .pin-message:hover {
-    color: rgb(255, 140, 0);
-    font-weight: bold;
-    background-color: white;
+  color: rgb(255, 140, 0);
+  font-weight: bold;
+  background-color: white;
 }
 
 @media only screen and (max-width: 653px) {
-    .message{
-        left:110px;
-        padding-right:0;
-    }
+  .message {
+    left: 110px;
+    padding-right: 0;
+  }
 }
-
-

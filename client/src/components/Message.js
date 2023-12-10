@@ -129,15 +129,22 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
 
   const handlePinUnpin = async (messageId, shouldPin) => {
     try {
+      const userId = userInfo._id;
       await axios.patch(
         `/api/boards/${boardId}/channels/${channelId}/messages/${messageId}`,
-        { pinned: shouldPin },
+        { pinned: shouldPin, pinnedBy: shouldPin ? userId : null },
         { headers: { Authorization: `${localStorage.getItem("token")}` } }
       );
 
       setMessages((prevMessages) =>
         prevMessages.map((msg) =>
-          msg._id === messageId ? { ...msg, pinned: shouldPin } : msg
+          msg._id === messageId
+            ? {
+                ...msg,
+                pinned: shouldPin,
+                pinnedBy: shouldPin ? userId : null,
+              }
+            : msg
         )
       );
     } catch (error) {
@@ -168,6 +175,12 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                 message.pinned ? "pinned-message" : ""
               }`}
             >
+              {/* {message.pinned && message.pinnedBy && (
+                <div className="pinned-info">
+                  Pinned by: {message.pinnedBy.firstName}{" "}
+                  {message.pinnedBy.lastName}
+                </div>
+              )} */}
               <div>
                 {(index === 0 ||
                   message.creator._id !== messages[index - 1].creator._id ||

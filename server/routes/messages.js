@@ -123,13 +123,14 @@ router.patch(
   async (req, res) => {
     try {
       const { messageId } = req.params;
-      const { pinned } = req.body;
+      const { pinned, pinnedBy } = req.body;
+      const pinnedByUser = req.user._id;
 
-      const message = await Message.findByIdAndUpdate(
-        messageId,
-        { $set: { pinned: pinned } },
+      const message = await Message.findOneAndUpdate(
+        { _id: messageId },
+        { $set: { pinned: pinned, pinnedBy: pinnedByUser } },
         { new: true }
-      ).populate("creator", "firstName lastName");
+      ).populate("pinnedBy", "firstName lastName");
 
       if (!message) {
         return res.status(404).json({ message: "Message not found" });

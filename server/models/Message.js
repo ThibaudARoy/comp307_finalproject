@@ -14,6 +14,10 @@ const MessageSchema = new mongoose.Schema({
     required: true,
   },
   pinned: { type: Boolean, default: false },
+  pinnedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Message", MessageSchema);

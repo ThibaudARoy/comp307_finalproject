@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../Topbar/Topbar.css"; // Assuming the CSS is in this file
+import "../Topbar/Topbar.css";
 
 function SearchBar({ boardName, boardId }) {
   const [searchTerm, setSearchTerm] = useState("");

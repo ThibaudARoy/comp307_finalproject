@@ -4,10 +4,25 @@ import ParticlesBackground from "./ParticlesBackground"
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { getUserInfo } from "../backendConnection/AuthService";
 
 function LandingPage() {
-    const token = localStorage.getItem('token');
-    const isAuthenticated = token != null;
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+        try {
+            const info = await getUserInfo();
+            setIsAuthenticated(true);
+        } catch (error) {
+            setIsAuthenticated(false);
+            localStorage.removeItem("token");
+        }
+        };
+    
+        fetchUserInfo();
+      }, []);
 
     return(
     <div className="LandingPage">

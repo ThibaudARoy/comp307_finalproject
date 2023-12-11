@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
-import icon from "../assets/x_icon.png";
+import icon from "../../assets/x_icon.png";
 import axios from "axios";
-import users from "../assets/manageusers.svg"
-import { getUserInfo } from "../backendConnection/AuthService"
-import ManageMembers from "./ManageMembers"
-import { thisBoardMembers } from '../backendConnection/MemberService';
+import users from "../../assets/manageusers.svg"
+import { getUserInfo } from "../../backendConnection/AuthService"
+import ManageMembers from "../ManageMembers/ManageMembers"
+import { thisBoardMembers } from '../../backendConnection/MemberService';
 
 function Sidebar(props) {
   const [channels, setChannels] = useState(props.channels);

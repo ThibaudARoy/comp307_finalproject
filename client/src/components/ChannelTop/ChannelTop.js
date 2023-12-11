@@ -1,6 +1,6 @@
 import './ChannelTop.css';
-import hamburger from "../assets/hamburger.png"
-import arrow from "../assets/arrow_back.png"
+import hamburger from "../../assets/hamburger.png"
+import arrow from "../../assets/arrow_back.png"
 
 
 function ChannelTop({channel, onToggleSidebar, isSidebarVisible}){

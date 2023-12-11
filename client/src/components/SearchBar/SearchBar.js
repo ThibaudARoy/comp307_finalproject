@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Topbar.css"; // Assuming the CSS is in this file
+import "../Topbar/Topbar.css"; // Assuming the CSS is in this file
 
 function SearchBar({ boardName, boardId }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,9 +54,10 @@ function SearchBar({ boardName, boardId }) {
                 by{" "}
                 <span className="messageCreator">
                   {result.creatorDetails.firstName}{" "}
-                  {result.creatorDetails.lastName} on{" "}
-                  {result.formattedTimestamp} in {result.channelName}
-                </span>
+                  {result.creatorDetails.lastName}</span> on{" "}
+                  <span className="messageCreator">{result.formattedTimestamp} </span> 
+                  in <span className="messageCreator">#{result.channelName}</span> 
+
               </p>
             </div>
           ))}

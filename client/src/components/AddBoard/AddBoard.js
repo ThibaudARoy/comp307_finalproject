@@ -1,9 +1,9 @@
 import "./AddBoard.css";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import AddBoardModal from "./AddBoardModal";
-import plus from "../assets/plus.png";
-import { createBoard } from "../backendConnection/BoardsService";
+import AddBoardModal from "../AddBoardModal/AddBoardModal";
+import plus from "../../assets/plus.png";
+import { createBoard } from "../../backendConnection/BoardsService";
 
 function AddBoard({ userInfo, socket }) {
   const [showModal, setShowModal] = useState(false);

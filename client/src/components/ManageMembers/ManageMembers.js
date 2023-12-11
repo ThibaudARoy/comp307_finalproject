@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import "./ManageMembers.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { queryUsersByEmail } from "../backendConnection/AuthService";
-import userRed from "../assets/user_red.png"
-import { deleteMember } from "../backendConnection/MemberService"
-import { addNewMember } from "../backendConnection/MemberService";
-import { thisBoardMembers } from '../backendConnection/MemberService';
+import { queryUsersByEmail } from "../../backendConnection/AuthService";
+import userRed from "../../assets/user_red.png"
+import { deleteMember } from "../../backendConnection/MemberService"
+import { addNewMember } from "../../backendConnection/MemberService";
+import { thisBoardMembers } from '../../backendConnection/MemberService';
 
 function ManageMembers({ show, onHide, userInfo, boardId, boardMembers, updateBoardMembers, isAdmin}) {
 const [name, setName] = useState('');

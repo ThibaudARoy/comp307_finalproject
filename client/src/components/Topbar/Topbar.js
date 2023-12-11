@@ -1,10 +1,10 @@
 import React from "react";
 import "./Topbar.css";
 import Button from "react-bootstrap/Button";
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 import { useNavigate } from "react-router-dom";
-import bird from "../assets/SOCSBird_white.png";
-import back from "../assets/arrow_back.png";
+import bird from "../../assets/SOCSBird_white.png";
+import back from "../../assets/arrow_back.png";
 
 function Topbar({ boardName, boardId }) {
   const navigate = useNavigate();

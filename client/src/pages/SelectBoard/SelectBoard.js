@@ -1,18 +1,18 @@
 import "./SelectBoard.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/SOCSLogo.png";
-import usericon from "../assets/user.png";
+import logo from "../../assets/SOCSLogo.png";
+import usericon from "../../assets/user.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import AddBoard from "../components/AddBoard";
-import UserBoard from "../components/UserBoard";
-import LogoutConfirmModal from "../components/LogoutConfirmModal";
-import { logoutUser, getUserInfo } from "../backendConnection/AuthService";
-import { getUserBoards } from "../backendConnection/BoardsService";
+import AddBoard from "../../components/AddBoard/AddBoard";
+import UserBoard from "../../components/UserBoard/UserBoard";
+import LogoutConfirmModal from "../../components/LogoutConfirmModal/LogoutConfirmModal";
+import { logoutUser, getUserInfo } from "../../backendConnection/AuthService";
+import { getUserBoards } from "../../backendConnection/BoardsService";
 import { io } from "socket.io-client";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 const ENDPOINT = "http://localhost:5000";
 
 function SelectBoard() {

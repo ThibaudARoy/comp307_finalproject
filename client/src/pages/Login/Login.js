@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "./Login.css";
-import logo from "../assets/SOCSLogo.png";
-import bird from "../assets/SOCSBird.png";
-import ParticlesBackground from "./ParticlesBackground";
+import logo from "../../assets/SOCSLogo.png";
+import bird from "../../assets/SOCSBird.png";
+import ParticlesBackground from "../ParticlesBackground/ParticlesBackground";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
   isEmailValidForLogin,
   isPasswordValidForLogin,
-} from "../inputValidation/Validation";
-import { loginUser } from "../backendConnection/AuthService";
+} from "../../inputValidation/Validation";
+import { loginUser } from "../../backendConnection/AuthService";
 
 function Login() {
   const navigate = useNavigate();

@@ -85,9 +85,6 @@ function SelectBoard() {
           newBoard.admin === userId ||
           newBoard.members.includes(userId)
         ) {
-          console.log("new board owner " + newBoard.admin);
-          console.log("new board members " + newBoard.members);
-          console.log("user info " + userId);
           setUserBoards((userBoards) => [...userBoards, newBoard]);
         }
       });
@@ -102,10 +99,6 @@ function SelectBoard() {
         socket.disconnect();
       };
   }, []);
-
-  //useEffect(() => {
-
-  //}, []);
 
   return (
     <div className="SelectBoard">

@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   boards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Board" }],
 });
 
+// Hash password before saving to database
 UserSchema.pre("save", function (next) {
   var user = this;
   if (this.isModified("password") || this.isNew) {
@@ -29,6 +30,7 @@ UserSchema.pre("save", function (next) {
   }
 });
 
+// Compare password to verify plain text against hashed password
 UserSchema.methods.comparePassword = function (passw, cb) {
   bcrypt.compare(passw, this.password, function (err, isMatch) {
     if (err) {

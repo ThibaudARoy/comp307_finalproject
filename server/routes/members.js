@@ -5,6 +5,7 @@ const User = require("../models/User");
 const Channel = require("../models/Channel");
 const { isAuthenticated } = require("../middleware/auth");
 
+// Add a member to a board
 router.post("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
@@ -24,6 +25,7 @@ router.post("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
     }
 
     board.members.push(userToAdd);
+    // Add the new member to all channels in the board
     for (let i = 0; i < board.channels.length; i++) {
       const channel = await Channel.findById(board.channels[i]._id);
       channel.members.push(userToAdd);
@@ -37,6 +39,7 @@ router.post("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get all members of a board
 router.get("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
@@ -55,6 +58,7 @@ router.get("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Remove a member from a board
 router.delete(
   "/boards/:boardId/members/:userId",
   isAuthenticated(),
@@ -75,6 +79,7 @@ router.delete(
       board.members = board.members.filter(
         (member) => member.toString() !== userIdToRemove
       );
+      // Remove the member from all channels in the board
       for (let i = 0; i < board.channels.length; i++) {
         const channel = await Channel.findById(board.channels[i]._id);
         channel.members = channel.members.filter(

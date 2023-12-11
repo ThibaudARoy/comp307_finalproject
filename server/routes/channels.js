@@ -4,6 +4,7 @@ const Board = require("../models/Board");
 const Channel = require("../models/Channel");
 const { isAuthenticated } = require("../middleware/auth");
 
+// Create a channel
 router.post(
   "/boards/:boardId/channels",
   isAuthenticated(),
@@ -20,7 +21,6 @@ router.post(
         name: name,
         board: boardId,
         members: board.members,
-        //messages: req.body.messages
       });
 
       await newChannel.save();
@@ -29,11 +29,6 @@ router.post(
         $push: { channels: newChannel._id },
       });
 
-      // await Channel.updateMany(
-      //    { _id: { $in: newChannel._id } },
-      //   { $push: { members: req.body.members } }
-      // );
-
       res.status(200).json({ newChannel });
     } catch (error) {
       return res.status(400).json({ message: error.message });
@@ -41,6 +36,7 @@ router.post(
   }
 );
 
+// Get all channels for a board
 router.get("/boards/:boardId/channels", isAuthenticated(), async (req, res) => {
   try {
     const boardId = req.params.boardId;
@@ -62,6 +58,7 @@ router.get("/boards/:boardId/channels", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Delete a channel
 router.delete(
   "/boards/:boardId/channels/:channelId",
   isAuthenticated(),
@@ -85,7 +82,6 @@ router.delete(
           .json({ message: "You are not the owner of this board." });
       }
 
-      //await channel.remove();
       await channel.deleteOne({_id: channel._id})
 
       await Board.findByIdAndUpdate(board._id, {

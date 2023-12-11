@@ -9,6 +9,7 @@ var User = require("../models/User");
 const key = process.env.JWT_SECRET;
 const { isAuthenticated } = require("../middleware/auth");
 
+// Register a new user
 router.post("/auth/register", function (req, res) {
   if (
     !req.body.email ||
@@ -49,6 +50,7 @@ router.post("/auth/register", function (req, res) {
   }
 });
 
+// Authenticate a user
 router.post("/auth/login", function (req, res) {
   User.findOne({
     email: req.body.email,
@@ -78,10 +80,12 @@ router.post("/auth/login", function (req, res) {
     });
 });
 
+// Logout a user
 router.post("/auth/logout/", isAuthenticated(), async (req, res) => {
   res.json({ success: true });
 });
 
+// Get a user's profile
 router.get("/auth/user/", isAuthenticated(), async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -91,6 +95,7 @@ router.get("/auth/user/", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get all users
 router.get("/auth/users/", isAuthenticated(), async (req, res) => {
   try {
     const users = await User.find({ _id: { $ne: req.user._id } });
@@ -100,6 +105,7 @@ router.get("/auth/users/", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get a user by id
 router.get("/auth/findUser/", isAuthenticated(), async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -111,6 +117,7 @@ router.get("/auth/findUser/", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get a user by email
 router.get("/users/:email/user", isAuthenticated(), async (req, res) => {
   try {
     console.log(req.params.email);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isAuthorized } from './isAuthorized';
 
 export const registerUser = async (userData) => {
     try {
@@ -27,6 +28,7 @@ export const logoutUser = async () => {
         await axios.post('/api/auth/logout', {}, {headers: {Authorization: `${localStorage.getItem("token")}`}});
         localStorage.removeItem("token");
     } catch (error) {
+        isAuthorized(error.response.data);
         throw error;
     }
 };
@@ -38,6 +40,7 @@ export const getUserInfo = async () => {
         });
         return response.data;
     } catch (error) {
+        isAuthorized(error.response.data);
         throw error;
     }
 };
@@ -50,6 +53,7 @@ export const queryUsersByEmail = async (email) => {
         });
       return response.data;
     } catch (error) {
+        isAuthorized(error.response.data);
       console.error('Error fetching users:', error);
       return [];
     }

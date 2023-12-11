@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Board = require("../models/Board");
 const User = require("../models/User");
+const Channel = require("../models/Channel");
 const { isAuthenticated } = require("../middleware/auth");
 
 router.post("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
@@ -23,6 +24,11 @@ router.post("/boards/:boardId/members", isAuthenticated(), async (req, res) => {
     }
 
     board.members.push(userToAdd);
+    for (let i = 0; i < board.channels.length; i++) {
+      const channel = await Channel.findById(board.channels[i]._id);
+      channel.members.push(userToAdd);
+      await channel.save();
+    }
     await board.save();
 
     res.status(201).json({ message: "Member added successfully" });
@@ -69,6 +75,13 @@ router.delete(
       board.members = board.members.filter(
         (member) => member.toString() !== userIdToRemove
       );
+      for (let i = 0; i < board.channels.length; i++) {
+        const channel = await Channel.findById(board.channels[i]._id);
+        channel.members = channel.members.filter(
+          (member) => member.toString() !== userIdToRemove
+        );
+        await channel.save();
+      }
       await board.save();
 
       res.json({ message: "Member removed successfully" });

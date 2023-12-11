@@ -8,6 +8,7 @@ import Input from "../../components/Input/Input";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 const ENDPOINT = "http://localhost:5000";
 
@@ -30,7 +31,10 @@ function Board() {
       .then((response) => {
         setBoard(response.data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        isAuthorized(error.response.data);
+        console.error(error)
+      });
   }, [boardId]);
 
   useEffect(() => {

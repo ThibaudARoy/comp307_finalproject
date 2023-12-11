@@ -8,6 +8,7 @@ import users from "../../assets/manageusers.svg"
 import { getUserInfo } from "../../backendConnection/AuthService"
 import ManageMembers from "../ManageMembers/ManageMembers"
 import { thisBoardMembers } from '../../backendConnection/MemberService';
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 function Sidebar(props) {
   const [channels, setChannels] = useState(props.channels);
@@ -93,6 +94,7 @@ function Sidebar(props) {
       setNewChannel(''); // Optionally, reset the input field after adding the channel
     })
     .catch(error => {
+      isAuthorized(error.response.data);
       console.error(error);
       setAddError('Error occurred while adding the channel.'); // Handle potential server-side error
     });
@@ -113,7 +115,10 @@ function Sidebar(props) {
         setChannelToDelete(null);
         console.log("channels after: " + channels)
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        isAuthorized(error.response.data);
+        console.error(error)
+        });
     };
 
   const handleConfirmDelete = (channel) => {
@@ -128,7 +133,10 @@ function Sidebar(props) {
       .then((response) => {
         setChannels(response.data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        isAuthorized(error.response.data);
+        console.error(error)
+      });
   }, [props.boardId]);
 
   useEffect(() => {

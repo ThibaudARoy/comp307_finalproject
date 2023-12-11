@@ -299,6 +299,7 @@ function Sidebar(props) {
         boardMembers = {boardMembers}
         updateBoardMembers={updateBoardMembers}
         isAdmin = {isAdmin}
+        socket = {socket}
       />
     </div>
   );

@@ -88,11 +88,25 @@ function SelectBoard() {
           setUserBoards((userBoards) => [...userBoards, newBoard]);
         }
       });
+
+      socket.on("newMember", ({memberId, board}) => {
+        if (memberId === userId) {
+          setUserBoards((userBoards) => [...userBoards, board]);
+        }
+      });
   
       socket.on("deleteBoard", (boardId) => {
         setUserBoards((userBoards) =>
           userBoards.filter((board) => board._id !== boardId)
         );
+      });
+
+      socket.on("deleteMember", ({ memberId, boardId }) => {
+        if (memberId === userId) {
+          setUserBoards((userBoards) =>
+            userBoards.filter((board) => board._id !== boardId)
+          );
+        }
       });
       // eslint-disable-next-line
       return () => {

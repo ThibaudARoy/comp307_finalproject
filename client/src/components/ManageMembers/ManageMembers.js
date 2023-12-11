@@ -8,7 +8,7 @@ import { deleteMember } from "../../backendConnection/MemberService"
 import { addNewMember } from "../../backendConnection/MemberService";
 import { thisBoardMembers } from '../../backendConnection/MemberService';
 
-function ManageMembers({ show, onHide, userInfo, boardId, boardMembers, updateBoardMembers, isAdmin}) {
+function ManageMembers({ show, onHide, userInfo, boardId, boardMembers, updateBoardMembers, isAdmin, socket}) {
 const [name, setName] = useState('');
   const [members, setMembers] = useState('');
   const [memberSuggestions, setMemberSuggestions] = useState([]);
@@ -138,6 +138,7 @@ const renderBoardMembers = (showRemoveButton = true) => {
 const confirmRemoveMember = async (memberId) => {
   try {
     await deleteMember(boardId, memberId); // Make sure boardId is passed as prop
+    socket.emit("deleteMemberServ", { memberId, boardId });
     updateBoardMembers(prevMembers => prevMembers.filter(member => member._id !== memberId));
     setMemberBeingConfirmed(null);
   } catch (error) {
@@ -161,10 +162,14 @@ const confirmRemoveMember = async (memberId) => {
     }
   
     try {
-      const addMemberPromises = addedMembers.map(member => addNewMember(boardId, member._id));
+      const addMemberPromises = addedMembers.map(member => {
+        socket.emit("newMemberServ", { memberId: member._id, boardId });
+        addNewMember(boardId, member._id);
+      });
       const addedMembersDetails = await Promise.all(addMemberPromises);
   
       // Assuming the API returns the details of the added member
+      thisBoardMembers(boardId);
       thisBoardMembers(boardId)
       .then((members) => {
         updateBoardMembers(members); 

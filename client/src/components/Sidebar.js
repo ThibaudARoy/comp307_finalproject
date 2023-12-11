@@ -11,12 +11,6 @@ import { thisBoardMembers } from '../backendConnection/MemberService';
 
 function Sidebar(props) {
   const [channels, setChannels] = useState(props.channels);
-  const [notifications, setNotifications] = useState({
-    General: 3,
-    Random: 0,
-    React: 1,
-    JavaScript: 0,
-  });
   const [newChannel, setNewChannel] = useState("");
   const [show, setShow] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState(null);
@@ -189,9 +183,7 @@ function Sidebar(props) {
               className="channel-row"
               onClick={() => props.onChannelClick(channel)}
             >
-              <div
-                className={notifications[channel.name] > 0 ? "unread" : "read"}
-              >
+              <div>
                 <span className="hash"># </span>
                 {channel.name}
               </div>

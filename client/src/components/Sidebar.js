@@ -108,6 +108,7 @@ function Sidebar(props) {
         );
         socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
         setChannelToDelete(null);
+        props.onChannelClick(null);
         console.log("channels after: " + channels)
       })
       .catch((error) => console.error(error));

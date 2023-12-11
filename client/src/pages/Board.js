@@ -16,6 +16,11 @@ function Board() {
   const [board, setBoard] = useState(null);
   const [socket, setSocket] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+      setIsSidebarVisible(!isSidebarVisible);
+  }
 
   useEffect(() => {
     axios
@@ -72,9 +77,11 @@ function Board() {
   };
   return (
     <div className="board">
-      <Topbar boardName={board ? board.name : ""} />
+      <Topbar 
+      boardName={board ? board.name : ""} 
+      boardId ={boardId} />
       <div className="content">
-        <div className="sidebar">
+        <div className={`sidebar ${isSidebarVisible ? "" : "collapsed"}`}>
           <Sidebar
             boardName={board ? board.name : ""}
             boardAdmin={board ? board.admin : null}
@@ -82,6 +89,7 @@ function Board() {
             onChannelClick={handleChannelClick}
             selectedChannel={selectedChannel}
             boardId={boardId}
+            isSidebarVisible={isSidebarVisible}
             members={board ? board.members : []}
             socket={socket}
           />
@@ -90,6 +98,8 @@ function Board() {
           <ChannelTop
             className="top"
             channel={selectedChannel ? selectedChannel.name : ""}
+            onToggleSidebar={toggleSidebar}
+            isSidebarVisible={isSidebarVisible}
           />
           <Message
             className="message"
@@ -97,12 +107,14 @@ function Board() {
             boardAdmin={board ? board.admin : null}
             channelId={selectedChannel ? selectedChannel._id : null}
             socket={socket}
+            isSidebarVisible={isSidebarVisible}
           />
           <Input
             className="inputBottom"
             boardId={boardId}
             selectedChannel={selectedChannel}
             socket={socket}
+            isSidebarVisible={isSidebarVisible}
           />
         </div>
       </div>

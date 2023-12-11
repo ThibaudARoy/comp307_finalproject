@@ -82,7 +82,7 @@ function Register() {
     return (
         <div className="background">
             <header>
-                <Link to="/register">
+                <Link to="/">
                     <img src={logo} style={{ width: '300px', height: 'auto' }} className="SOCSlogo" alt="logo" />
                 </Link>
             </header>

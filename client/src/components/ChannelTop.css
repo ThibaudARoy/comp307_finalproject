@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
 
 .top {
+    z-index:0;
     height: 60px;
     width: 83.25%;
     border-bottom: 1px solid #cccccc;
@@ -26,13 +27,31 @@
 }
 
 .hashmark{
+    margin-left:-20px;
     font-family:'Gill Sans', sans-serif;
     font-weight:700;
 }
-
+.toggle-sidebar-btn {
+    display: none;
+    margin-left:5px;
+    border:none;
+    background-color: #e6e6e6;
+}
+.collapseIcon{
+    width:auto;
+    height:20px;
+}
 @media only screen and (max-width: 653px) {
     .top{
         left:110px;
+    }
+    .toggle-sidebar-btn {
+        display: block !important;
+    }
+    .top.collapsed {
+        left: 0px;
+        width:100%
+        /* Additional styles for collapsed state */
     }
 }
 

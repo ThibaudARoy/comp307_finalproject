@@ -13,7 +13,20 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
   const [addedMembers, setAddedMembers] = useState([]);
   const [memberError, setMemberError] = useState('');
   const [debounceTimeout, setDebounceTimeout] = useState(null);
+  const [nameError, setNameError] = useState('');
 
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    if (nameError) {
+      setNameError(''); 
+    }
+  };
+
+  const handleHideModal = () => {
+    setNameError('');
+    onHide(); 
+  };
   const handleMemberInputChange = (e) => {
     const email = e.target.value;
     setMembers(email);
@@ -105,6 +118,13 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
   }, [show, userInfo]);
 
   const handleSubmit = () => {
+    // Check if name is empty
+    if (!name.trim()) {
+      setNameError("Board name cannot be empty."); // Set error message
+      return; // Prevent form submission
+    }
+    setNameError(''); // Clear error message if name is valid
+
     const boardData = {
       name: name,
       admins: userInfo._id,
@@ -116,7 +136,7 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
 
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={handleHideModal}>
       <Modal.Header closeButton className="headerModal">
         <Modal.Title className="titleModal">Create a New Board</Modal.Title>
       </Modal.Header>
@@ -128,7 +148,7 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
               type="text"
               className="form-control"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleNameChange}
             />
           </div>
           <div className="form-group">
@@ -156,6 +176,7 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
             </div>
           </div>
         </form>
+        {nameError && <div className="error-message">{nameError}</div>} {/* Display error message */}
       </Modal.Body>
       <Modal.Footer className="footerModal">
           <Button variant="danger" onClick={handleSubmit} className="submitBoard">

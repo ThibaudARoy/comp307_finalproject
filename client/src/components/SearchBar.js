@@ -5,6 +5,8 @@ import "./Topbar.css"; // Assuming the CSS is in this file
 function SearchBar({ boardName, boardId }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
+
 
   useEffect(() => {
     const searchMessages = async () => {
@@ -38,20 +40,24 @@ function SearchBar({ boardName, boardId }) {
         placeholder={`Search ${boardName}...`}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onFocus={() => setIsSearchBarFocused(true)}
+        onBlur={() => setIsSearchBarFocused(false)}
       />
+      {isSearchBarFocused && searchResults.length > 0 && (
       <div className="search-results">
         {searchResults.map((result) => (
           <div key={result._id} className="search-item">
             {" "}
             {/* Added class name for styling */}
-            <p className="search-content">{result.content}</p>{" "}
+            <p className="search-content">"{result.content}"</p>{" "}
             {/* Added class name for styling */}
             <p className="search-creator">
-              {result.creatorDetails.firstName} {result.creatorDetails.lastName}
+              by <span className="messageCreator">{result.creatorDetails.firstName} {result.creatorDetails.lastName}</span>
             </p>
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

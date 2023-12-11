@@ -25,6 +25,8 @@ function Sidebar(props) {
   const [showManageMembersModal, setShowManageMembersModal] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [boardMembers, setBoardMembers] = useState([]);
+
+  const [addError, setAddError] = useState('');
   
   useEffect(() => {
     getUserInfo()
@@ -46,7 +48,11 @@ function Sidebar(props) {
       });
   }, []);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+      setShow(false);
+      setAddError(''); 
+      setNewChannel(''); 
+    };
   const handleShow = () => setShow(true);
 
   const handleManageMembersClick = () => {
@@ -54,21 +60,43 @@ function Sidebar(props) {
   };
 
   const handleAddChannel = () => {
-      if (newChannel.trim() !== '') {
-          axios.post(`/api/boards/${props.boardId}/channels`, {
-              name: newChannel,
-              members: props.members
-            }, {
-              headers: { Authorization: `${localStorage.getItem("token")}` }
-            })
-            .then(response => {
-              
-              socket.emit("newChannel", {channelToAdd: response.data.newChannel, boardId: props.boardId});
-            })
-            .catch(error => console.error(error));
-          
-      }
-    };
+    const newChannelName = newChannel.trim();
+    
+    // Check if the input field is empty
+    if (!newChannelName) {
+      setAddError('Channel name cannot be empty.');
+      return;
+    }
+  
+    // Check if channel already exists (case insensitive)
+    const channelExists = channels.some(
+      (channel) => channel.name.toLowerCase() === newChannelName.toLowerCase()
+    );
+  
+    if (channelExists) {
+      setAddError(`A channel with the name '${newChannelName}' already exists.`);
+      return;
+    }
+  
+    // Clear any existing error message
+    setAddError('');
+  
+    // Add the new channel
+    axios.post(`/api/boards/${props.boardId}/channels`, {
+      name: newChannelName,
+      members: props.members
+    }, {
+      headers: { Authorization: `${localStorage.getItem("token")}` }
+    })
+    .then(response => {
+      socket.emit("newChannel", {channelToAdd: response.data.newChannel, boardId: props.boardId});
+      setNewChannel(''); // Optionally, reset the input field after adding the channel
+    })
+    .catch(error => {
+      console.error(error);
+      setAddError('Error occurred while adding the channel.'); // Handle potential server-side error
+    });
+  };
 
   const handleDeleteChannel = () => {
     console.log("channel to delete: " +channelToDelete._id);
@@ -141,7 +169,7 @@ function Sidebar(props) {
 
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${props.isSidebarVisible ? "" : "collapsed"}`}>
       <div className="boardName">
         <h2>{props.boardName}</h2>
       </div>
@@ -204,30 +232,34 @@ function Sidebar(props) {
             <img src={users} className="usersIcon"></img>
             
           </Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header className="headerModal" closeButton>
-          <Modal.Title className="titleModal">Add a new channel</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="channelModal">
-          <label>Channel Name</label>
-          <Form.Control
-            className="modalInput"
-            type="text"
-            placeholder="New channel"
-            value={newChannel}
-            onChange={(e) => setNewChannel(e.target.value)}
-          />
-        </Modal.Body>
-        <Modal.Footer className="footerModal">
-          <Button
-            className="submitChannel"
-            variant="danger"
-            onClick={handleAddChannel}
-          >
-            Add Channel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal show={show} onHide={handleClose}>
+  <Modal.Header className="headerModal" closeButton>
+    <Modal.Title className="titleModal">Add a new channel</Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="channelModal">
+    <label>Channel Name</label>
+    <Form.Control
+      className="modalInput"
+      type="text"
+      placeholder="New channel"
+      value={newChannel}
+      onChange={(e) => {
+        setNewChannel(e.target.value);
+        setAddError(''); 
+      }}
+    />
+    {addError && <div className="error-message">{addError}</div>}
+  </Modal.Body>
+  <Modal.Footer className="footerModal">
+    <Button
+      className="submitChannel"
+      variant="danger"
+      onClick={handleAddChannel}
+    >
+      Add Channel
+    </Button>
+  </Modal.Footer>
+</Modal>
 
       <Modal
         show={channelToDelete !== null}

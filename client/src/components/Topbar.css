@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap");
 
 .topbar {
+  z-index: 1000;
   background-color: #ec1c2e;
   color: #ffffff;
   padding-left: 10px;
@@ -80,15 +81,20 @@
 .switch-button:active {
   background-color: #bd1626 !important;
 }
+@media only screen and (max-width: 850px) {
+  .topbar input[type="search"] {
+    width: 400px;
+  }
+  .search-bar .search-results {
+    width:400px !important;
+  }
+}
 @media only screen and (max-width: 653px) {
   .topbar input[type="search"] {
     width: 250px !important;
   }
-}
-
-@media only screen and (max-width: 850px) {
-  .topbar input[type="search"] {
-    width: 400px;
+  .search-bar .search-results {
+    width:250px !important;
   }
 }
 
@@ -109,6 +115,9 @@
 }
 
 .search-bar .search-results {
+  position: absolute;
+  top: 53%;
+  width:600px;
   margin-top: 10px;
   background-color: #f1f1f1; /* Light background for the results */
   border-radius: 5px;
@@ -119,6 +128,7 @@
 /* Styles for individual search items */
 .search-bar .search-item {
   padding: 10px;
+  height:60px;
   border-bottom: 1px solid #ddd; /* Separates individual search results */
 }
 
@@ -128,6 +138,7 @@
 
 /* Styles for message content in search results */
 .search-bar .search-content {
+  font-family:Noto Sans JP, sans-serif;
   font-size: 14px;
   margin-bottom: 5px;
 }
@@ -135,5 +146,12 @@
 /* Styles for message creator in search results */
 .search-bar .search-creator {
   font-size: 12px;
+  font-family:Cabin, sans-serif;
   color: #666;
 }
+
+.messageCreator{
+  font-weight:600;
+  color:#ec1c2e;
+}
+

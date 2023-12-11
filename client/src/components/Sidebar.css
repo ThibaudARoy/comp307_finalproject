@@ -224,6 +224,18 @@ label{
     border: 1px solid #bd1626 !important;
 }
 
+.sidebar.collapsed {
+    display:none !important;
+    background-color: transparent !important; 
+}
+
+.error-message{
+    text-align: center;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    color:#ec1c2e
+}
+
 
 @media only screen and (max-width: 850px) {
     .boardName {
@@ -270,6 +282,7 @@ label{
         font-family:Cabin, sans-serif;
         font-weight:600;
         font-size:40px;
+        
         width: 40px;
         height:40px;
         border-radius:100px;

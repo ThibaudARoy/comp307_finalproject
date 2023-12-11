@@ -77,7 +77,7 @@ li{
     background-color:#ec1c2e !important;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 640px) {
     .BoardsContent{
         margin-left:0;
         margin-right:0;
@@ -97,5 +97,3 @@ li{
     }
   }
 
-  @media only screen and (min-width: 601px) {
-}

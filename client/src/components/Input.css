@@ -56,4 +56,10 @@
     .input{
         left:110px;
     }
+
+    .input.collapsed {
+        left: 0px;
+        width:100%
+        /* Additional styles for collapsed state */
+    }
 }

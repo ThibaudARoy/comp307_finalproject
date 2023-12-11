@@ -6,6 +6,7 @@ require("dotenv").config();
 const Message = require("./models/Message");
 const Channel = require("./models/Channel");
 const User = require("./models/User");
+const Board = require("./models/Board");
 console.log("Secret Key:", process.env.SECRET_OR_KEY);
 console.log("Secret Key:", process.env.MONGODB_URI);
 
@@ -108,6 +109,17 @@ io.on("connection", (socket) => {
   socket.on("deleteBoard", async (boardToDelete) => {
     io.emit("deleteBoard", boardToDelete);
   });
+
+  socket.on("newMemberServ", async ({ memberId, boardId }) => {
+    const board = await Board.findById(boardId);
+    //console.log("board " + board);
+    io.emit("newMember", { memberId, board });
+  });
+
+  socket.on("deleteMemberServ", async ({ memberId, boardId }) => {
+    io.emit("deleteMember", { memberId, boardId });
+  });
+
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
   });

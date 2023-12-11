@@ -62,7 +62,7 @@ router.post("/auth/login", function (req, res) {
       } else {
         user.comparePassword(req.body.password, function (err, isMatch) {
           if (isMatch && !err) {
-            var token = jwt.sign({ id: user._id }, key, { expiresIn: "22h" });
+            var token = jwt.sign({ id: user._id }, key, { expiresIn: "2h" });
             res.json({ success: true, token: "Bearer " + token });
           } else {
             res.status(401).send({

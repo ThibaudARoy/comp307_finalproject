@@ -1,4 +1,5 @@
 import axios from "axios";
+import { isAuthorized } from "./isAuthorized";
 
 export const findMembers = async () => {
   try {
@@ -7,6 +8,7 @@ export const findMembers = async () => {
     });
     return response.data;
   } catch (error) {
+    isAuthorized(error.response.data);
     console.error("Error fetching users:", error);
     throw error;
   }
@@ -19,6 +21,7 @@ export const thisBoardMembers = async (boardId) => {
     });
     return response.data;
   } catch (error) {
+    isAuthorized(error.response.data);
     console.error("Error fetching users:", error);
     throw error;
   }
@@ -31,6 +34,7 @@ export const deleteMember = async (boardId, userId) => {
     });
     return response.data;
   } catch (error) {
+    isAuthorized(error.response.data);
     console.error("Error fetching users:", error);
     throw error;
   }
@@ -45,6 +49,7 @@ export const addNewMember = async (boardId, userId) => {
     });
     return response.data;
   } catch (error) {
+    isAuthorized(error.response.data);
     console.error("Error adding new member:", error);
     throw error;
   }

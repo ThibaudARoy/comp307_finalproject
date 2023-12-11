@@ -5,7 +5,7 @@ import dots from "../../assets/dots.png";
 import pin from "../../assets/pin.svg"
 import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { getUserInfo } from "../../backendConnection/AuthService";
-
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -52,6 +52,7 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
         );
         setMessages(response.data);
       } catch (error) {
+        isAuthorized(error.response.data);
         console.error(error);
       }
     };
@@ -103,6 +104,7 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
       );
 
       if (response.status !== 200) {
+        isAuthorized(response.data);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -110,6 +112,7 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
 
       handleClose();
     } catch (error) {
+      isAuthorized(error.response.data);
       console.error("An error occurred while deleting the message:", error);
     }
   };
@@ -148,13 +151,14 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
         )
       );
     } catch (error) {
+      isAuthorized(error.response.data);
       console.error("Error updating pin status:", error);
     }
   };
 
   return (
     <div className={`message ${isSidebarVisible ? "" : "collapsed"}`}>
-      {messages.map((message, index) => {
+      {channelId ? (messages.map((message, index) => {
         const currentDate = new Date(message.timestamp).toDateString();
         const previousDate =
           index > 0
@@ -229,7 +233,9 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
             </div>
           </div>
         );
-      })}
+      })) : (
+        <div className="not-selected-message">Select or add a channel...</div>
+      )}
       <div ref={messagesEndRef} />
 
       <Modal show={show} onHide={handleClose}>

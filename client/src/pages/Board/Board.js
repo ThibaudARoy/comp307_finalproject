@@ -8,6 +8,7 @@ import Input from "../../components/Input/Input";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 const ENDPOINT = "http://localhost:5000";
 
@@ -17,6 +18,8 @@ function Board() {
   const [socket, setSocket] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+
 
   const toggleSidebar = () => {
       setIsSidebarVisible(!isSidebarVisible);
@@ -30,7 +33,10 @@ function Board() {
       .then((response) => {
         setBoard(response.data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        isAuthorized(error.response.data);
+        console.error(error)
+      });
   }, [boardId]);
 
   useEffect(() => {
@@ -68,8 +74,6 @@ function Board() {
       };
     }
   }, [board, boardId, socketConnected, socket]);
-
-  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const handleChannelClick = (channel) => {
     setSelectedChannel(channel);

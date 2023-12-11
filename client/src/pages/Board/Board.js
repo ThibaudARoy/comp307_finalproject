@@ -43,7 +43,6 @@ function Board() {
     });
     socket.emit("setup", "hello");
     socket.on("connected", () => {
-      console.log("authenticated");
       setSocketConnected(true);
     });
 
@@ -75,6 +74,7 @@ function Board() {
   const handleChannelClick = (channel) => {
     setSelectedChannel(channel);
   };
+  
   return (
     <div className="board">
       <Topbar 

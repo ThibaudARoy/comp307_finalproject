@@ -1,12 +1,13 @@
 import "./AddBoard.css";
+import plus from "../../assets/plus.png";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import AddBoardModal from "../AddBoardModal/AddBoardModal";
-import plus from "../../assets/plus.png";
 import { createBoard } from "../../backendConnection/BoardsService";
 
 function AddBoard({ userInfo, socket }) {
   const [showModal, setShowModal] = useState(false);
+  const [boardCreationError, setBoardCreationError] = useState('');
 
   const handleAddBoardClick = () => {
     setShowModal(true);
@@ -22,10 +23,10 @@ function AddBoard({ userInfo, socket }) {
       socket.emit("newBoard", newBoard);
       console.log("Board created:", newBoard);
       setShowModal(false);
-      // Additional actions on success (e.g., redirect or state update)
+      setBoardCreationError(''); // Clear any previous errors
     } catch (error) {
       console.error("Failed to create board:", error);
-      // Handle error (e.g., showing error message to user)
+      setBoardCreationError('Failed to create board. Please try again.'); // Set error message if the request fails
     }
   };
   return (
@@ -41,6 +42,7 @@ function AddBoard({ userInfo, socket }) {
         onHide={handleModalClose}
         onSubmit={handleBoardCreation}
         userInfo={userInfo}
+        boardCreationError={boardCreationError}
       />
     </div>
   );

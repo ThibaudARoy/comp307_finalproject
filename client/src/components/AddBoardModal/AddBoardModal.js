@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { queryUsersByEmail } from "../../backendConnection/AuthService";
 import userRed from "../../assets/user_red.png"
 
-function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
+function AddBoardModal({ show, onHide, onSubmit, userInfo, boardCreationError }) {
   const [name, setName] = useState('');
   const [members, setMembers] = useState('');
   const [memberSuggestions, setMemberSuggestions] = useState([]);
@@ -143,7 +143,9 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
       <Modal.Body>
         <form>
           <div className="form-group">
-            <label>Name</label>
+            <label className={nameError ? 'error-label' : ''}>
+              Name
+            </label>
             <input
               type="text"
               className="form-control"
@@ -176,7 +178,8 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
             </div>
           </div>
         </form>
-        {nameError && <div className="error-message">{nameError}</div>} {/* Display error message */}
+        {nameError && <div className="error-message">{nameError}</div>}
+        {boardCreationError && <div className="error-message">{boardCreationError}</div>} {/* Display board creation error message */}
       </Modal.Body>
       <Modal.Footer className="footerModal">
           <Button variant="danger" onClick={handleSubmit} className="submitBoard">

@@ -62,6 +62,12 @@ h1 {
     text-decoration: underline solid !important;
 }
 
+.logError{
+    color:#ec1c2e;
+    text-align: center;
+    margin-bottom:-15px;
+}
+
 @media only screen and (max-width: 600px) {
     .LoginPage {
         width: 100%; 

@@ -51,7 +51,6 @@ const [name, setName] = useState('');
 
   const handleSelectSuggestion = (suggestedMember) => {
     if (isMemberAdded(suggestedMember)) {
-      console.log('Member already added');
       return;
     }
     setAddedMembers([...addedMembers, suggestedMember]);

@@ -39,7 +39,6 @@ function SelectBoard() {
   const closeLogoutModal = () => {
     setShowLogoutModal(false);
   };
-  //Get the user's boards (Currently can't make it work, not sure why. (New user = Not initialized?))
   useEffect(() => {
     // Fetch user boards
     getUserBoards()
@@ -48,7 +47,8 @@ function SelectBoard() {
       })
       .catch((error) => {
         console.error("Error fetching boards:", error);
-        // handle error, maybe set an error state to display to the user
+        localStorage.removeItem('token');
+        window.location.reload();
       });
 
     var userId;
@@ -56,12 +56,12 @@ function SelectBoard() {
     getUserInfo()
       .then((info) => {
         setUserInfo(info);
-        console.log(userInfo);
         userId = info._id;
       })
       .catch((error) => {
         console.error("Error fetching user info:", error);
-        // handle error, maybe set an error state to display to the user
+        localStorage.removeItem('token');
+        window.location.reload();
       });
 
       const socket = io.connect(ENDPOINT, {
@@ -73,7 +73,6 @@ function SelectBoard() {
       });
       socket.emit("setup", "hello");
       socket.on("connected", () => {
-        console.log("authenticated");
         setSocketConnected(true);
       });
   

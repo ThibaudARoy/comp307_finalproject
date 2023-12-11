@@ -106,8 +106,6 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log(response.data);
-
       socket.emit("deleteMessage", { channelId, messageId });
 
       handleClose();

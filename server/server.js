@@ -42,10 +42,6 @@ app.use("/api/", channelRouter);
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/test", (req, res) => {
-  res.json({ message: "Server is connected test" });
-});
-
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: "http://localhost:3000",
@@ -96,10 +92,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("newChannel", async ({ channelToAdd, boardId }) => {
-    console.log("new channel created");
     const newChannel = await Channel.findById(channelToAdd);
-    console.log(newChannel);
-    console.log(boardId);
     io.to(boardId).emit("newChannel", newChannel);
   });
 
@@ -117,12 +110,10 @@ io.on("connection", (socket) => {
   });
   socket.on("leaveChannel", (channelId) => {
     socket.leave(channelId);
-    console.log(`User left channel ${channelId}`);
   });
 
   socket.on("leaveBoard", (boardId) => {
     socket.leave(boardId);
-    console.log(`User left board ${boardId}`);
   });
 
   socket.on("disconnect", () => {

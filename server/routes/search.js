@@ -21,14 +21,12 @@ router.get("/search/:boardId", async (req, res) => {
     console.log(`Fetching channels for board ID: ${boardId}`);
     const channels = await Channel.find({ board: boardId });
 
-    // Handling no channels found
     if (channels.length === 0) {
       return res.status(404).send(`No channels found for board: ${boardId}`);
     }
 
     const channelIds = channels.map((channel) => channel._id);
 
-    // Perform the search in messages
     const messages = await mongoose.connection
       .collection("messages")
       .aggregate([
@@ -50,6 +48,17 @@ router.get("/search/:boardId", async (req, res) => {
           $unwind: "$creatorDetails",
         },
         {
+          $lookup: {
+            from: "channels",
+            localField: "channel",
+            foreignField: "_id",
+            as: "channelDetails",
+          },
+        },
+        {
+          $unwind: "$channelDetails",
+        },
+        {
           $addFields: {
             formattedTimestamp: {
               $dateToString: {
@@ -67,6 +76,7 @@ router.get("/search/:boardId", async (req, res) => {
             timestamp: 1,
             formattedTimestamp: 1,
             channel: 1,
+            channelName: "$channelDetails.name",
             creatorDetails: { firstName: 1, lastName: 1 },
           },
         },

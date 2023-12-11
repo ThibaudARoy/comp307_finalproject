@@ -51,53 +51,61 @@ function SelectBoard() {
         // handle error, maybe set an error state to display to the user
       });
 
+    var userId;
     // Fetch user info
     getUserInfo()
       .then((info) => {
         setUserInfo(info);
+        console.log(userInfo);
+        userId = info._id;
       })
       .catch((error) => {
         console.error("Error fetching user info:", error);
         // handle error, maybe set an error state to display to the user
       });
+
+      const socket = io.connect(ENDPOINT, {
+        withCredentials: true,
+        extraHeaders: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        // transports: ["websocket"],
+      });
+      socket.emit("setup", "hello");
+      socket.on("connected", () => {
+        console.log("authenticated");
+        setSocketConnected(true);
+      });
+  
+      setSocket(socket);
+  
+      socket.on("newBoard", (newBoard) => {
+        console.log("new board " + newBoard);
+        if (
+          newBoard.admin === userId ||
+          newBoard.members.includes(userId)
+        ) {
+          console.log("new board owner " + newBoard.admin);
+          console.log("new board members " + newBoard.members);
+          console.log("user info " + userId);
+          setUserBoards((userBoards) => [...userBoards, newBoard]);
+        }
+      });
+  
+      socket.on("deleteBoard", (boardId) => {
+        setUserBoards((userBoards) =>
+          userBoards.filter((board) => board._id !== boardId)
+        );
+      });
+      // eslint-disable-next-line
+      return () => {
+        socket.disconnect();
+      };
   }, []);
 
-  useEffect(() => {
-    const socket = io.connect(ENDPOINT, {
-      withCredentials: true,
-      extraHeaders: {
-        Authorization: `${localStorage.getItem("token")}`,
-      },
-      // transports: ["websocket"],
-    });
-    socket.emit("setup", "hello");
-    socket.on("connected", () => {
-      console.log("authenticated");
-      setSocketConnected(true);
-    });
+  //useEffect(() => {
 
-    setSocket(socket);
-
-    socket.on("newBoard", (newBoard) => {
-      console.log("new board " + newBoard);
-      if (
-        newBoard.owner === userInfo._id ||
-        newBoard.members.includes(userInfo._id)
-      ) {
-        setUserBoards((userBoards) => [...userBoards, newBoard]);
-      }
-    });
-
-    socket.on("deleteBoard", (boardId) => {
-      setUserBoards((userBoards) =>
-        userBoards.filter((board) => board._id !== boardId)
-      );
-    });
-    // eslint-disable-next-line
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //}, []);
 
   return (
     <div className="SelectBoard">

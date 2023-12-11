@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/Login";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import Login from "./pages/Login/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
-import LoginRoute from "./components/LoginRoute";
-import Register from "./pages/Register";
-import SelectBoard from "./pages/SelectBoard";
-import Board from "./pages/Board";
+import PrivateRoute from "./components/Routes/PrivateRoute";
+import LoginRoute from "./components/Routes/LoginRoute";
+import Register from "./pages/Register/Register";
+import SelectBoard from "./pages/SelectBoard/SelectBoard";
+import Board from "./pages/Board/Board";
 
 function App() {
   return (

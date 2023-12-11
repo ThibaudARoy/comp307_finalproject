@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
-import { queryUsersByEmail } from "../backendConnection/AuthService";
-import userRed from "../assets/user_red.png"
+import { queryUsersByEmail } from "../../backendConnection/AuthService";
+import userRed from "../../assets/user_red.png"
 
 function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
   const [name, setName] = useState('');

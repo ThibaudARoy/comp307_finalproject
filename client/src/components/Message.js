@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
 import dots from "../assets/dots.png";
+import pin from "../assets/pin.svg"
 import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { getUserInfo } from "../backendConnection/AuthService";
+
 
 function stringToColor(str) {
   if (!str || str.length === 0) {
@@ -21,7 +23,7 @@ function stringToColor(str) {
   return color;
 }
 
-function Message({ boardId, boardAdmin, channelId, socket }) {
+function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = React.createRef();
   const [show, setShow] = useState(false);
@@ -153,7 +155,7 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
   };
 
   return (
-    <div className="message">
+    <div className={`message ${isSidebarVisible ? "" : "collapsed"}`}>
       {messages.map((message, index) => {
         const currentDate = new Date(message.timestamp).toDateString();
         const previousDate =
@@ -190,7 +192,7 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
                       className="sender-name"
                       style={{ color: stringToColor(message.creator._id) }}
                     >
-                      {message.creator.firstName} {message.creator.lastName}
+                      {message.creator.firstName} <span className="lastName" >{message.creator.lastName}</span>
                     </span>
                     <span className="time-stamp">
                       {new Date(message.timestamp).toLocaleTimeString([], {
@@ -233,15 +235,15 @@ function Message({ boardId, boardAdmin, channelId, socket }) {
       <div ref={messagesEndRef} />
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+        <Modal.Header closeButton className="headerModal">
+          <Modal.Title className="titleModal">Confirm Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this message?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+        <Modal.Body className="bodyModal">Are you sure you want to delete this message?</Modal.Body>
+        <Modal.Footer className="footerModal2">
+          <Button className="CancelButton" variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleDelete}>
+          <Button className="DeleteButton" variant="primary" onClick={handleDelete}>
             Delete
           </Button>
         </Modal.Footer>

@@ -4,7 +4,7 @@ import sendIcon from "../assets/send-message-2.png";
 import React, { useRef } from "react";
 import axios from "axios";
 
-function Input({ boardId, selectedChannel, socket }) {
+function Input({ boardId, selectedChannel, socket, isSidebarVisible }) {
   const textareaRef = useRef();
 
   const sendMessage = async () => {
@@ -39,7 +39,7 @@ function Input({ boardId, selectedChannel, socket }) {
   };
 
   return (
-    <div className="input">
+    <div className={`input ${isSidebarVisible ? "" : "collapsed"}`}>
       <textarea
         ref={textareaRef}
         placeholder="Type a message..."

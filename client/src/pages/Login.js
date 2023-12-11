@@ -55,7 +55,7 @@ function Login() {
   return (
     <div className="backLogin">
       <header>
-        <Link to="/login">
+        <Link to="/">
           <img
             src={logo}
             style={{ width: "300px", height: "auto" }}

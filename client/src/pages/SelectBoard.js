@@ -155,7 +155,6 @@ function SelectBoard() {
           </ul>
         </div>
       </div>
-      <SearchBar boardName="Searchtest" boardId="6575209e4739f3e1c529fa4b" />
     </div>
   );
 }

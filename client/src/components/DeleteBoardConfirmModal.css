@@ -19,7 +19,7 @@
 }
 
 .footerModal2{
-    border:none;
+    border-top:1px solid #e0e0e0 !important;
     display:flex;
     flex-direction: row;
     justify-content:center;
@@ -47,4 +47,9 @@
     font-family:Cabin, sans-serif;
     font-weight:600;
     border:1px solid dimgray;
+}
+
+.dataText{
+    font-weight: 300;
+    font-size:20px;
 }

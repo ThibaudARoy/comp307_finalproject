@@ -13,7 +13,7 @@ function DeleteBoardConfirmModal({ show, onClose, onConfirm }) {
         <div className="bodyModal">
             Are you sure you want to delete this Board?
             <br></br> 
-            All data associated to it will be lost.
+            <span className="dataText">All data associated to it will be lost.</span>
         </div>
       </Modal.Body>
       <Modal.Footer className="footerModal2">

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&family=Noto+Sans+JP:wght@300&display=swap');
+
 .message {
   width: calc(83.25%-60px);
   position: absolute;
@@ -13,6 +15,7 @@
 }
 
 .individual-message {
+  font-family:Noto Sans JP, sans-serif;
   padding-right: 60px;
   padding-left: 60px;
   display: flex;
@@ -25,6 +28,7 @@
 }
 
 .sender-name {
+  font-family: Cabin, sans-serif;
   font-weight: bold;
   font-size: 20px;
 }
@@ -113,7 +117,7 @@
 }
 
 .delete-message {
-  color: red;
+  color: #ec1c2e;
 }
 
 .delete-message:hover {
@@ -122,9 +126,8 @@
 }
 
 .pin-message:hover {
-  color: rgb(255, 140, 0);
-  font-weight: bold;
-  background-color: white;
+  background-color: #ec1c2e;
+  color: white;
 }
 
 @media only screen and (max-width: 653px) {
@@ -132,4 +135,21 @@
     left: 110px;
     padding-right: 0;
   }
+  .time-stamp {
+    font-size: 0.7em;
+  }
+  .lastName{
+    display:none;
+  }
+  .individual-message {
+    padding-right: 30px;
+  }
+  .message.collapsed {
+    left: 0px;
+    width:100%
+    /* Additional styles for collapsed state */
+}
+.message.collapsed .lastName{
+  display:inline;
+}
 }

@@ -1,11 +1,12 @@
 import React from "react";
 import "./Topbar.css";
 import Button from "react-bootstrap/Button";
+import SearchBar from "./SearchBar";
 import { useNavigate } from "react-router-dom";
 import bird from "../assets/SOCSBird_white.png";
 import back from "../assets/arrow_back.png";
 
-function Topbar({ boardName }) {
+function Topbar({ boardName, boardId }) {
   const navigate = useNavigate();
   const handleSwitchClick = () => {
     navigate("/select");
@@ -24,7 +25,9 @@ function Topbar({ boardName }) {
         </Button>
       </div>
       <div className="search-bar">
-        <input type="search" placeholder={`Search ${boardName}...`} />
+        <SearchBar
+        boardName={boardName}
+        boardId={boardId}></SearchBar>
       </div>
     </div>
   );

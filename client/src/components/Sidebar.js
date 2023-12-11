@@ -19,6 +19,7 @@ function Sidebar(props) {
   const [showManageMembersModal, setShowManageMembersModal] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [boardMembers, setBoardMembers] = useState([]);
+  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const [addError, setAddError] = useState('');
   
@@ -83,8 +84,10 @@ function Sidebar(props) {
       headers: { Authorization: `${localStorage.getItem("token")}` }
     })
     .then(response => {
+      const newChannel = response.data.newChannel;
       socket.emit("newChannel", {channelToAdd: response.data.newChannel, boardId: props.boardId});
       setNewChannel(''); // Optionally, reset the input field after adding the channel
+      selectChannel(newChannel); // Select the new channel
     })
     .catch(error => {
       console.error(error);
@@ -133,6 +136,7 @@ function Sidebar(props) {
         setNewChannel('');
         handleClose();
         socket.emit("joinChannel", newChannel._id);
+        selectChannel(newChannel); // Select the new channel
         return () => {
             socket.emit("leaveChannel", newChannel._id) 
           }
@@ -161,6 +165,10 @@ function Sidebar(props) {
     setBoardMembers(newBoardMembers);
   };
 
+  const selectChannel = (channel) => {
+    setSelectedChannel(channel);
+    props.onChannelClick(channel);
+  };
 
   return (
     <div className={`sidebar ${props.isSidebarVisible ? "" : "collapsed"}`}>
@@ -172,8 +180,8 @@ function Sidebar(props) {
         {channels.map((channel) => (
           <li
             className={`channel ${
-              props.selectedChannel &&
-              props.selectedChannel.name === channel.name
+              selectedChannel &&
+              selectedChannel.name === channel.name
                 ? "selected-channel"
                 : "channel-row"
             }`}
@@ -181,7 +189,7 @@ function Sidebar(props) {
           >
             <div
               className="channel-row"
-              onClick={() => props.onChannelClick(channel)}
+              onClick={() => selectChannel(channel)}
             >
               <div>
                 <span className="hash"># </span>

@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import sendIcon from "../assets/send-message-2.png";
 import React, { useRef } from "react";
 import axios from "axios";
+import { isAuthorized } from "../backendConnection/isAuthorized";
 
 function Input({ boardId, selectedChannel, socket, isSidebarVisible }) {
   const textareaRef = useRef();
@@ -27,6 +28,7 @@ function Input({ boardId, selectedChannel, socket, isSidebarVisible }) {
       socket.emit("newMessage", populatedMessage);
       textareaRef.current.value = ""; // Clear the textarea
     } catch (error) {
+      isAuthorized(error.response.data);
       console.error("Error:", error.response.data.message);
     }
   };

@@ -10,6 +10,16 @@
   overflow: auto;
 }
 
+.not-selected-message{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 30px;
+  font-family:Noto Sans JP, sans-serif;
+  font-weight: 600;
+}
+
 .individual-message:hover {
   background-color: #e7e7e7;
 }

@@ -18,6 +18,8 @@ function Board() {
   const [socket, setSocket] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+
 
   const toggleSidebar = () => {
       setIsSidebarVisible(!isSidebarVisible);
@@ -73,8 +75,6 @@ function Board() {
       };
     }
   }, [board, boardId, socketConnected, socket]);
-
-  const [selectedChannel, setSelectedChannel] = useState(null);
 
   const handleChannelClick = (channel) => {
     setSelectedChannel(channel);

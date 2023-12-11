@@ -160,7 +160,7 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
 
   return (
     <div className={`message ${isSidebarVisible ? "" : "collapsed"}`}>
-      {messages.map((message, index) => {
+      {channelId ? (messages.map((message, index) => {
         const currentDate = new Date(message.timestamp).toDateString();
         const previousDate =
           index > 0
@@ -235,7 +235,9 @@ function Message({ boardId, boardAdmin, channelId, socket, isSidebarVisible }) {
             </div>
           </div>
         );
-      })}
+      })) : (
+        <div className="not-selected-message">Select or add a channel...</div>
+      )}
       <div ref={messagesEndRef} />
 
       <Modal show={show} onHide={handleClose}>

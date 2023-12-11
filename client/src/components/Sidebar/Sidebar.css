@@ -224,10 +224,6 @@ label{
     border: 1px solid #bd1626 !important;
 }
 
-.sidebar.collapsed {
-    display:none !important;
-    background-color: transparent !important; 
-}
 
 .error-message{
     text-align: center;
@@ -298,6 +294,10 @@ label{
 @media only screen and (max-width: 653px) {
     .sidebar{
         width:110px;
+    }
+    .sidebar.collapsed {
+        display:none !important;
+        background-color: transparent !important; 
     }
 
 }

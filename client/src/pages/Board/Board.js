@@ -1,14 +1,14 @@
 import "./Board.css";
-import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
-import Message from "../components/Message";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Topbar from "../../components/Topbar/Topbar";
+import Message from "../../components/Message/Message";
 import React, { useEffect, useState } from "react";
-import ChannelTop from "../components/ChannelTop";
-import Input from "../components/Input";
+import ChannelTop from "../../components/ChannelTop/ChannelTop";
+import Input from "../../components/Input/Input";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
-import { isAuthorized } from "../backendConnection/isAuthorized";
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 const ENDPOINT = "http://localhost:5000";
 

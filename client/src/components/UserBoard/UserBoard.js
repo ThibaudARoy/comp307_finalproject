@@ -1,11 +1,11 @@
 import "./UserBoard.css";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import DeleteBoardButton from "./DeleteBoardButton";
-import DeleteBoardConfirmModal from "./DeleteBoardConfirmModal";
-import { deleteBoard } from "../backendConnection/BoardsService";
-import bird from "../assets/SOCSBird.png";
-import crown from "../assets/crown.png";
+import DeleteBoardButton from "../DeleteBoardButton/DeleteBoardButton";
+import DeleteBoardConfirmModal from "../DeleteBoardConfirmModal/DeleteBoardConfirmModal";
+import { deleteBoard } from "../../backendConnection/BoardsService";
+import bird from "../../assets/SOCSBird.png";
+import crown from "../../assets/crown.png";
 import { useNavigate } from "react-router-dom";
 
 //Takes a board as input. Creates a UserBoard component for that board.

@@ -1,9 +1,9 @@
 import "./Input.css";
 import Button from "react-bootstrap/Button";
-import sendIcon from "../assets/send-message-2.png";
+import sendIcon from "../../assets/send-message-2.png";
 import React, { useRef } from "react";
 import axios from "axios";
-import { isAuthorized } from "../backendConnection/isAuthorized";
+import { isAuthorized } from "../../backendConnection/isAuthorized";
 
 function Input({ boardId, selectedChannel, socket, isSidebarVisible }) {
   const textareaRef = useRef();

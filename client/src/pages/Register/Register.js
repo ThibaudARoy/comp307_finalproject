@@ -1,12 +1,12 @@
 import "./Register.css"
-import logo from "../assets/SOCSLogo.png";
-import ParticlesBackground from "./ParticlesBackground";
+import logo from "../../assets/SOCSLogo.png";
+import ParticlesBackground from "../ParticlesBackground/ParticlesBackground";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import { validateEmail, validatePassword, isNonEmpty } from "../inputValidation/Validation";
-import { registerUser } from '../backendConnection/AuthService';
+import { validateEmail, validatePassword, isNonEmpty } from "../../inputValidation/Validation";
+import { registerUser } from '../../backendConnection/AuthService';
 
 function Register() {
     const navigate = useNavigate();

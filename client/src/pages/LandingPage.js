@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link} from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../backendConnection/AuthService";
+import axios from "axios";
 
 function LandingPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -13,7 +13,9 @@ function LandingPage() {
     useEffect(() => {
         const fetchUserInfo = async () => {
         try {
-            const info = await getUserInfo();
+            const info = await axios.get('/api/auth/user/', {
+                headers: { Authorization: `${localStorage.getItem("token")}` }
+            });
             setIsAuthenticated(true);
         } catch (error) {
             setIsAuthenticated(false);

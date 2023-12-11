@@ -7,7 +7,6 @@ function SearchBar({ boardName, boardId }) {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchBarFocused, setIsSearchBarFocused] = useState(false);
 
-
   useEffect(() => {
     const searchMessages = async () => {
       if (searchTerm !== "") {
@@ -44,19 +43,24 @@ function SearchBar({ boardName, boardId }) {
         onBlur={() => setIsSearchBarFocused(false)}
       />
       {isSearchBarFocused && searchResults.length > 0 && (
-      <div className="search-results">
-        {searchResults.map((result) => (
-          <div key={result._id} className="search-item">
-            {" "}
-            {/* Added class name for styling */}
-            <p className="search-content">"{result.content}"</p>{" "}
-            {/* Added class name for styling */}
-            <p className="search-creator">
-              by <span className="messageCreator">{result.creatorDetails.firstName} {result.creatorDetails.lastName}</span>
-            </p>
-          </div>
-        ))}
-      </div>
+        <div className="search-results">
+          {searchResults.map((result) => (
+            <div key={result._id} className="search-item">
+              {" "}
+              {/* Added class name for styling */}
+              <p className="search-content">"{result.content}"</p>{" "}
+              {/* Added class name for styling */}
+              <p className="search-creator">
+                by{" "}
+                <span className="messageCreator">
+                  {result.creatorDetails.firstName}{" "}
+                  {result.creatorDetails.lastName} on{" "}
+                  {result.formattedTimestamp} in {result.channelName}
+                </span>
+              </p>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

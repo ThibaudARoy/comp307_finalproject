@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import ChannelTop from "../components/ChannelTop";
 import Input from "../components/Input";
 import { useParams } from "react-router-dom";
-import { getUserInfo } from "../backendConnection/AuthService"
 import axios from "axios";
 import io from "socket.io-client";
 
@@ -17,16 +16,6 @@ function Board() {
   const [board, setBoard] = useState(null);
   const [socket, setSocket] = useState(null);
   const [socketConnected, setSocketConnected] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    getUserInfo()
-      .then(data => {
-        setUserInfo(data);
-      })
-      .catch(error => console.error('Error fetching user info:', error));
-  }, []);
-  const isAdmin = userInfo && userInfo._id === board.admin;
 
   useEffect(() => {
     axios
@@ -88,10 +77,10 @@ function Board() {
         <div className="sidebar">
           <Sidebar
             boardName={board ? board.name : ""}
+            boardAdmin={board ? board.admin : null}
             channels={board ? board.channels : []}
             onChannelClick={handleChannelClick}
             selectedChannel={selectedChannel}
-            isAdmin={isAdmin}
             boardId={boardId}
             members={board ? board.members : []}
             socket={socket}

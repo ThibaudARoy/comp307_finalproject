@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Message.css";
 import dots from "../assets/dots.png";
+import pin from "../assets/pin.svg"
 import { Modal, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import { getUserInfo } from "../backendConnection/AuthService";
+
 
 function stringToColor(str) {
   if (!str || str.length === 0) {

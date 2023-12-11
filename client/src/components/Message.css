@@ -113,7 +113,7 @@
 }
 
 .delete-message {
-  color: red;
+  color: #ec1c2e;
 }
 
 .delete-message:hover {
@@ -122,9 +122,8 @@
 }
 
 .pin-message:hover {
-  color: rgb(255, 140, 0);
-  font-weight: bold;
-  background-color: white;
+  background-color: #ec1c2e;
+  color: white;
 }
 
 @media only screen and (max-width: 653px) {

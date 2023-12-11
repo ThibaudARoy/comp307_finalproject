@@ -44,9 +44,10 @@ export const getUserInfo = async () => {
 
 export const queryUsersByEmail = async (email) => {
     try {
-      const response = await axios.get(`api/users/${email}/user`, {
-        headers: { Authorization: `${localStorage.getItem("token")}` },
-      });
+        const baseURL = "http://localhost:3000/"; 
+        const response = await axios.get(`${baseURL}api/users/${email}/user`, {
+          headers: { Authorization: `${localStorage.getItem("token")}` },
+        });
       return response.data;
     } catch (error) {
       console.error('Error fetching users:', error);

@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import "./Sidebar.css";
 import icon from "../assets/x_icon.png";
 import axios from "axios";
+import users from "../assets/manageusers.svg"
+import { getUserInfo } from "../backendConnection/AuthService"
+import ManageMembers from "./ManageMembers"
+import { thisBoardMembers } from '../backendConnection/MemberService';
 
 function Sidebar(props) {
   const [channels, setChannels] = useState(props.channels);
@@ -18,10 +22,36 @@ function Sidebar(props) {
   const [channelToDelete, setChannelToDelete] = useState(null);
   const socket = props.socket;
   const [isCollapsed, setIsCollapsed] = useState(false);
-
+  const [showManageMembersModal, setShowManageMembersModal] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const [boardMembers, setBoardMembers] = useState([]);
+  
+  useEffect(() => {
+    getUserInfo()
+      .then((info) => {
+        setUserInfo(info);
+      })
+      .catch((error) => {
+        console.error("Error fetching user info:", error);
+      });
+    }, []);
+  const isAdmin = userInfo && userInfo._id === props.boardAdmin;
+  useEffect(() => {
+    thisBoardMembers(props.boardId)
+      .then((members) => {
+        setBoardMembers(members);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleManageMembersClick = () => {
+    setShowManageMembersModal(true);
+  };
 
   const handleAddChannel = () => {
       if (newChannel.trim() !== '') {
@@ -105,6 +135,10 @@ function Sidebar(props) {
     }
   }, [props.boardId, socket, channels]);
 
+  const updateBoardMembers = (newBoardMembers) => {
+    setBoardMembers(newBoardMembers);
+  };
+
 
   return (
     <div className="sidebar">
@@ -133,7 +167,7 @@ function Sidebar(props) {
                 <span className="hash"># </span>
                 {channel.name}
               </div>
-              {props.isAdmin && (
+              {isAdmin && (
                 <button
                   className="delete-button"
                   onClick={() => {
@@ -148,7 +182,7 @@ function Sidebar(props) {
           </li>
         ))}
       </ul>
-        {props.isAdmin && (
+        {isAdmin && (
           <Button
             className="add-button"
             variant="primary"
@@ -159,7 +193,17 @@ function Sidebar(props) {
             <span className="mobileBtn">+</span>
           </Button>
         )}
-
+    </div>
+    <Button
+            className="managemembers-button"
+            variant="primary"
+            size="sm"
+            onClick={handleManageMembersClick} 
+          >
+            <span className="wideScreenBtn">Members</span>
+            <img src={users} className="usersIcon"></img>
+            
+          </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="headerModal" closeButton>
           <Modal.Title className="titleModal">Add a new channel</Modal.Title>
@@ -207,6 +251,15 @@ function Sidebar(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+      <ManageMembers
+        show={showManageMembersModal}
+        onHide={() => setShowManageMembersModal(false)}
+        userInfo = {userInfo}
+        boardId = {props.boardId}
+        boardMembers = {boardMembers}
+        updateBoardMembers={updateBoardMembers}
+        isAdmin = {isAdmin}
+      />
     </div>
   );
 }

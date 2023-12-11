@@ -150,7 +150,7 @@ function AddBoardModal({ show, onHide, onSubmit, userInfo }) {
             </div>
             {memberError && (
               <div className="member-error"><span>{memberError}</span></div>
-            )}
+            )} 
             <div className="added-members-list">
               {renderAddedMembers()}
             </div>

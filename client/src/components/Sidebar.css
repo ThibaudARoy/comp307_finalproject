@@ -202,6 +202,28 @@ label{
     font-size:25px;
     background-color:#ec1c2e;
 }
+.usersIcon{
+    display:none;
+}
+
+.managemembers-button {
+    margin-top: 10px;
+    font-family:Cabin, sans-serif;
+    font-weight:600;
+    background-color:#ec1c2e !important;
+    border:1px solid #d4192a !important;
+}
+
+.managemembers-button:hover {
+    background-color:#d4192a  !important;
+    border: 1px solid #bd1626  !important;
+}
+
+.managemembers-button:active {
+    background-color:#bd1626 !important;
+    border: 1px solid #bd1626 !important;
+}
+
 
 @media only screen and (max-width: 850px) {
     .boardName {
@@ -240,11 +262,31 @@ label{
         border:1px solid #d4192a !important;
     }
 
+    .managemembers-button {
+        display:flex;
+        align-self: center;
+        align-items: center;
+        justify-content: center;
+        font-family:Cabin, sans-serif;
+        font-weight:600;
+        font-size:40px;
+        width: 40px;
+        height:40px;
+        border-radius:100px;
+        background-color:#ec1c2e !important;
+        border:1px solid #d4192a !important;
+    }
+    .usersIcon{
+        display:inline !important;
+        width: 25px;
+    }
+
 }
 @media only screen and (max-width: 653px) {
     .sidebar{
         width:110px;
     }
+
 }
 
 

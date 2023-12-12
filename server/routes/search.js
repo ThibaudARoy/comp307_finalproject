@@ -100,3 +100,4 @@ router.get("/search/:boardId", async (req, res) => {
 });
 
 module.exports = router;
+

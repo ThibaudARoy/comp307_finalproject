@@ -4,6 +4,7 @@ const Channel = require("../models/Channel");
 const Message = require("../models/Message");
 const mongoose = require("mongoose");
 
+// Enables searching on messages through a query
 router.get("/search/:boardId", async (req, res) => {
   const { boardId } = req.params;
   const searchTerm = req.query.q;
@@ -27,6 +28,7 @@ router.get("/search/:boardId", async (req, res) => {
 
     const channelIds = channels.map((channel) => channel._id);
 
+    // Uses Mongo's aggregation pipeline to find and format message data with channel and user data
     const messages = await mongoose.connection
       .collection("messages")
       .aggregate([
@@ -41,11 +43,12 @@ router.get("/search/:boardId", async (req, res) => {
             from: "users",
             localField: "creator",
             foreignField: "_id",
-            as: "creatorDetails",
+            as: "creatorInfo",
           },
         },
+        // Unwind is used to deconstruct an array and output one document for each element of the array
         {
-          $unwind: "$creatorDetails",
+          $unwind: "$creatorInfo",
         },
         {
           $lookup: {
@@ -77,7 +80,7 @@ router.get("/search/:boardId", async (req, res) => {
             formattedTimestamp: 1,
             channel: 1,
             channelName: "$channelDetails.name",
-            creatorDetails: { firstName: 1, lastName: 1 },
+            creatorInfo: { firstName: 1, lastName: 1 },
           },
         },
       ])

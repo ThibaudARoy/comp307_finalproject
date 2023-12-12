@@ -20,6 +20,7 @@ const MessageSchema = new mongoose.Schema({
   },
 });
 
+// This gives us indexing on messages, which enables better search
 MessageSchema.index({ content: "text" });
 
 module.exports = mongoose.model("Message", MessageSchema);

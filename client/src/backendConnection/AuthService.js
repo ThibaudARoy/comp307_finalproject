@@ -47,8 +47,7 @@ export const getUserInfo = async () => {
 
 export const queryUsersByEmail = async (email) => {
     try {
-        const baseURL = "http://localhost:3000/"; 
-        const response = await axios.get(`${baseURL}api/users/${email}/user`, {
+        const response = await axios.get(`/api/users/${email}/user`, {
           headers: { Authorization: `${localStorage.getItem("token")}` },
         });
       return response.data;

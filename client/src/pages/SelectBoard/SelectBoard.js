@@ -13,7 +13,7 @@ import { logoutUser, getUserInfo } from "../../backendConnection/AuthService";
 import { getUserBoards } from "../../backendConnection/BoardsService";
 import { io } from "socket.io-client";
 import SearchBar from "../../components/SearchBar/SearchBar";
-const ENDPOINT = "http://localhost:5000";
+import { ENDPOINT } from "../../backendConnection/Url";
 
 function SelectBoard() {
   const navigate = useNavigate();
@@ -64,6 +64,7 @@ function SelectBoard() {
         window.location.reload();
       });
 
+      // Connect to socket
       const socket = io.connect(ENDPOINT, {
         withCredentials: true,
         extraHeaders: {
@@ -78,6 +79,7 @@ function SelectBoard() {
   
       setSocket(socket);
   
+      // socket events
       socket.on("newBoard", (newBoard) => {
         console.log("new board " + newBoard);
         if (

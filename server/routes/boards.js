@@ -4,6 +4,7 @@ const Board = require("../models/Board");
 const { isAuthenticated } = require("../middleware/auth");
 const User = require("../models/User");
 
+// Create a board
 router.post("/boards", isAuthenticated(), async (req, res) => {
   try {
     const newBoard = new Board({
@@ -29,6 +30,7 @@ router.post("/boards", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get all boards for a user
 router.get("/boards", isAuthenticated(), async (req, res) => {
   try {
     const boards = await Board.find({ members: req.user._id });
@@ -38,6 +40,7 @@ router.get("/boards", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Delete a board
 router.delete("/boards/:boardId", isAuthenticated(), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
@@ -64,6 +67,7 @@ router.delete("/boards/:boardId", isAuthenticated(), async (req, res) => {
   }
 });
 
+// Get a board
 router.get("/boards/:boardId", isAuthenticated(), async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);

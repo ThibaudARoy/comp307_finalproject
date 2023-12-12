@@ -43,6 +43,8 @@ app.use("/api/", channelRouter);
 
 const PORT = process.env.PORT || 5000;
 
+
+// Setup sockets
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: "http://localhost:3000",
@@ -57,6 +59,7 @@ const wrapMiddlewareForSocketIo = (middleware) => (socket, next) =>
   middleware(socket.request, socket.request.res, next);
 io.use(wrapMiddlewareForSocketIo(passport.initialize()));
 
+// Authenticate socket connections
 io.use((socket, next) => {
   passport.authenticate("jwt", { session: false }, (err, user) => {
     if (err || !user) {
@@ -67,6 +70,7 @@ io.use((socket, next) => {
   })(socket.handshake, {}, next);
 });
 
+// Socket events
 io.on("connection", (socket) => {
   console.log(`User connected ${socket.user._id}`);
   socket.on("setup", (message) => {
@@ -77,7 +81,7 @@ io.on("connection", (socket) => {
     socket.join(channelId);
     console.log(`User joined channel ${channelId}`);
   });
-
+  
   socket.on("joinBoard", (boardId) => {
     socket.join(boardId);
     console.log(`User joined board ${boardId}`);
@@ -112,7 +116,6 @@ io.on("connection", (socket) => {
 
   socket.on("newMemberServ", async ({ memberId, boardId }) => {
     const board = await Board.findById(boardId);
-    //console.log("board " + board);
     io.emit("newMember", { memberId, board });
   });
 

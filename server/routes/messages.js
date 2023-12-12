@@ -4,6 +4,7 @@ const Message = require("../models/Message");
 const Channel = require("../models/Channel");
 const { isAuthenticated } = require("../middleware/auth");
 
+// Create a message
 router.post(
   "/boards/:boardId/channels/:channelId/messages",
   isAuthenticated(),
@@ -46,6 +47,7 @@ router.post(
   }
 );
 
+// Get all messages for a channel
 router.get(
   "/boards/:boardId/channels/:channelId/messages",
   isAuthenticated(),
@@ -76,6 +78,7 @@ router.get(
   }
 );
 
+// Delete a message
 router.delete(
   "/boards/:boardId/channels/:channelId/messages/:messageId",
   isAuthenticated(),
@@ -117,6 +120,7 @@ router.delete(
   }
 );
 
+// Update a message
 router.patch(
   "/boards/:boardId/channels/:channelId/messages/:messageId",
   isAuthenticated(),

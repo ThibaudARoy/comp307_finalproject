@@ -9,8 +9,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
 import { isAuthorized } from "../../backendConnection/isAuthorized";
-
-const ENDPOINT = "http://localhost:5000";
+import { ENDPOINT } from "../../backendConnection/Url";
 
 function Board() {
   const { boardId } = useParams();
@@ -40,6 +39,7 @@ function Board() {
   }, [boardId]);
 
   useEffect(() => {
+    // Connect to socket
     const socket = io.connect(ENDPOINT, {
       withCredentials: true,
       extraHeaders: {

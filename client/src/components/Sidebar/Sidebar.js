@@ -98,20 +98,17 @@ function Sidebar(props) {
   };
 
   const handleDeleteChannel = () => {
-    console.log("channel to delete: " +channelToDelete._id);
     axios
       .delete(`/api/boards/${props.boardId}/channels/${channelToDelete._id}`, {
         headers: { Authorization: `${localStorage.getItem("token")}` },
       })
       .then((response) => {
-        console.log("channels before: " + channels);
         setChannels(
           channels.filter((channel) => channel.name !== channelToDelete.name)
         );
         socket.emit("deleteChannel", {channelToDelete: channelToDelete._id, boardId: props.boardId});
         setChannelToDelete(null);
         props.onChannelClick(null);
-        console.log("channels after: " + channels)
       })
       .catch((error) => {
         isAuthorized(error.response.data);
@@ -140,7 +137,6 @@ function Sidebar(props) {
   useEffect(() => {
     if (socket) {
       const newChannelHandler = (newChannel) => {
-        console.log("new channel " + newChannel);
         setChannels((prevChannels) => [...prevChannels, newChannel]);
         setNewChannel('');
         handleClose();
@@ -153,8 +149,6 @@ function Sidebar(props) {
       };
 
       const deleteChannelHandler = (channelDel) => {
-        console.log("delete channel " + channelDel);
-        console.log("channels: " + channels);
         setChannels(
           channels.filter((channel) => channel._id !== channelDel)
         );
@@ -208,7 +202,6 @@ function Sidebar(props) {
                 <button
                   className="delete-button"
                   onClick={() => {
-                    //console.log(channel);
                     handleConfirmDelete(channel);
                   }}
                 >

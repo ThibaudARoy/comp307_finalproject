@@ -6,10 +6,7 @@ import ParticlesBackground from "../ParticlesBackground/ParticlesBackground";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  isEmailValidForLogin,
-  isPasswordValidForLogin,
-} from "../../inputValidation/Validation";
+import {isEmailValidForLogin, isPasswordValidForLogin} from "../../inputValidation/AuthValidation";
 import { loginUser } from "../../backendConnection/AuthService";
 
 function Login() {
@@ -73,7 +70,7 @@ function Login() {
           alt="logo"
         />
         <h1>Sign in to SOCS Boards</h1>
-        {loginError && <p className="error-message">{loginError}</p>}
+        {loginError && <p className="logError">{loginError}</p>}
         <form onSubmit={handleSubmit}>
           <div className="inputs">
             <h5 className={getH5ClassName(emailValid)}>
